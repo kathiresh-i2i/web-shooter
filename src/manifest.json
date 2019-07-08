@@ -2,7 +2,7 @@
   "name": "Web shooter",
   "version": "1.0",
   "description": "Build an Extension!",
-  "permissions": ["activeTab", "declarativeContent", "storage", "http://*/*", "https://*/*"],
+  "permissions": ["activeTab", "declarativeContent", "storage", "desktopCapture", "http://*/*", "https://*/*"],
   "options_page": "options.html",
   "devtools_page": "devtools.html",
   "background": {

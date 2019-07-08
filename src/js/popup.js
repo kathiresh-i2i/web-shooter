@@ -23,7 +23,10 @@
 const reportBugBtn = document.getElementById('reportBug-btn');
 
 reportBugBtn.onclick = () => {
-  chrome.runtime.sendMessage({ key: 'networkHar' }, (response) => {
+  // chrome.runtime.sendMessage({ key: 'networkHar' }, (response) => {
+  //   console.log('Response from background: ', response);
+  // });
+  chrome.runtime.sendMessage({ key: 'screenshot' }, (response) => {
     console.log('Response from background: ', response);
   });
 };
