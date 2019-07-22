@@ -145,10 +145,10 @@ async function stopRecording() {
       xmlHttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           alert(obj.key);
-          window.open(`http://localhost:3000/view/${obj.key}`, '_blank');
+          window.open(`http://web-shooter-preview.s3-website-us-east-1.amazonaws.com/view/${obj.key}`, '_blank');
         }
       };
-      xmlHttp.open("POST", ' https://23hq4whw41.execute-api.us-east-1.amazonaws.com/test'); // false for synchronous request
+      xmlHttp.open("POST", ' http://ec2-3-95-132-124.compute-1.amazonaws.com:3000/upload'); // false for synchronous request
       xmlHttp.setRequestHeader("Content-type", "application/json");
       xmlHttp.send(JSON.stringify(obj));
 
@@ -224,4 +224,3 @@ chrome.runtime.onConnect.addListener(port => {
         console.log("Unhandled port connection");
     }
   });
-});
