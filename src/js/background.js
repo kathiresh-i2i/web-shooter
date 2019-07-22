@@ -133,6 +133,7 @@ async function stopRecording() {
       const video = await getVideoDataUrl();
       var obj = {};
       networkLog.recordingStartedTime = recordingStartedTime;
+      networkLog.entries = networkLog.entries.filter(entry => entry._resourceType === 'xhr');
       obj.networkLog = JSON.stringify(networkLog);
       obj.consoleLog = JSON.stringify(consoleLog);
       obj.video = video;
