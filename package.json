@@ -19,5 +19,8 @@
     "pump": "^3.0.0",
     "run-sequence": "^2.2.1",
     "uglify-es": "^3.3.9"
+  },
+  "dependencies": {
+    "ts-ebml": "^2.0.2"
   }
 }

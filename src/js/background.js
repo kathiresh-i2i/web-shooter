@@ -4,7 +4,7 @@
 
 "use strict";
 
-function WebRequest () {};
+function WebRequest() { };
 const constants = {
   START_CONSOLE_RECORDING: "START_CONSOLE_RECORDING",
   STOP_CONSOLE_RECORDING: "STOP_CONSOLE_RECORDING"
@@ -18,8 +18,8 @@ let ports = {};
 let networkLog = null;
 let tabId = null;
 let recordingStartedTime = null;
-var req;
-var startTime=0;
+var req = new Map();
+var startTime = 0;
 
 var requests = [];
 var requestsMap = {};
@@ -27,6 +27,7 @@ var pages = {};
 var loading = false;
 var intervalId;
 var iconIndex = 0;
+var customName = 'test';
 
 function startRecording(id) {
   tabId = id;
@@ -56,16 +57,16 @@ const onMediaSelected = id => {
     }
   };
   navigator.webkitGetUserMedia({
-      audio: options,
-      video: {
-        mandatory: {
-          chromeMediaSource: "desktop",
-          chromeMediaSourceId: id,
-          maxWidth: 1280,
-          maxHeight: 720
-        }
+    audio: options,
+    video: {
+      mandatory: {
+        chromeMediaSource: "desktop",
+        chromeMediaSourceId: id,
+        maxWidth: 1280,
+        maxHeight: 720
       }
-    },
+    }
+  },
     onVideoStreamSuccess,
     onVideoStreamFailure
   );
@@ -135,56 +136,134 @@ const getVideoDataUrl = async () => {
 
 function updateIcon() {
   var iconName = loading ?
-          './assets/images/cloud-upload64-' + ((iconIndex % 2)+1) + '.png' : './assets/images/bug16.png';
-    chrome.browserAction.setIcon({path: iconName});
+    './assets/images/cloud-upload64-' + ((iconIndex % 2) + 1) + '.png' : './assets/images/bug16.png';
+  chrome.browserAction.setIcon({ path: iconName });
 }
 
-async function stopRecording() {
 
-  await stopVideoRecording();
-  loading = true;
-  intervalId = setInterval(function() {
-    iconIndex++;
-    updateIcon();
-  }, 500);
+
+function convertMapToObject(map_var){
+	var objectlist=[];
+	map_var.forEach(function(i,k){
+		console.log(k);
+		//var temp=new RequestObj();
+		//RequestObj.requestid=k;
+		//RequestObj.webReq=i;
+		objectlist.push({'requestid':k,'webReq':i});
+	});
+	return objectlist;
+}
+
+function launchPreview(videoURL, jsonURL) {
+  chrome.windows.create(
+    {
+      url: 'display.html?mp4=' + videoURL + '&json=' + jsonURL + '&customname=' + encodeURIComponent(customName), type: "popup", width: screen.width, height: screen.height
+    });
+  }
+
+
+  async function stopRecording() {
+
+   
+    // saveToLocalStorage();
+  
+
+  // intervalId = setInterval(function() {
+  //   iconIndex++;
+  //   updateIcon();
+  // }, 500);
   setTimeout(
     async () => {
       const networkLog = await stopNetworkRecording();
       const consoleLog = await stopConsoleRecording(tabId);
       const video = await getVideoDataUrl();
-      var obj = {};
-      networkLog.recordingStartedTime = recordingStartedTime;
-      obj.networkLog = JSON.stringify(networkLog);
-      obj.consoleLog = JSON.stringify(consoleLog);
-      obj.video = video;
-      obj.key = (new Date).getTime();
-      obj.recordingStartedTime = recordingStartedTime;
-      recordingStartedTime = null;
-      console.log('obj', obj);
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          loading = false;
-          updateIcon();
-          clearInterval(intervalId)
-          alert(obj.key);
-          window.open(`http://web-shooter-preview.s3-website-us-east-1.amazonaws.com/view/${obj.key}`, '_blank');
-        }
-      };
-      xmlHttp.open("POST", ' http://ec2-3-95-132-124.compute-1.amazonaws.com:3000/upload'); // false for synchronous request
-      xmlHttp.setRequestHeader("Content-type", "application/json");
-      xmlHttp.send(JSON.stringify(obj));
+
+      await stopVideoRecording();
+      loading = true;
+    
+      //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
+      var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
+      var recordedobjectURL = window.URL.createObjectURL(superBuffer);
+      
+      var recorded_json = JSON.stringify(convertMapToObject(req));
+      var blob = new Blob([recorded_json], { type: "application/json" });
+      var recordedJsonURL = window.URL.createObjectURL(blob);
+      launchPreview(recordedobjectURL, recordedJsonURL);
+      // Commented as of now for local preview
+      // saveToLocalStorage();
+      // var obj = {};
+      // networkLog.recordingStartedTime = recordingStartedTime;
+      // obj.networkLog = JSON.stringify(networkLog);
+      // obj.consoleLog = JSON.stringify(consoleLog);
+      // obj.video = video;
+      // obj.key = (new Date).getTime();
+      // obj.recordingStartedTime = recordingStartedTime;
+      // recordingStartedTime = null;
+      // console.log('obj', obj);
+      // var xmlHttp = new XMLHttpRequest();
+      // xmlHttp.onreadystatechange = function () {
+      //   if (this.readyState == 4 && this.status == 200) {
+      //     loading = false;
+      //     updateIcon();
+      //     clearInterval(intervalId)
+      //     alert(obj.key);
+      //     window.open(`http://web-shooter-preview.s3-website-us-east-1.amazonaws.com/view/${obj.key}`, '_blank');
+      //   }
+      // };
+      // xmlHttp.open("POST", ' http://ec2-3-95-132-124.compute-1.amazonaws.com:3000/upload'); // false for synchronous request
+      // xmlHttp.setRequestHeader("Content-type", "application/json");
+      // xmlHttp.send(JSON.stringify(obj));
 
     }, 2000);
 }
+
+function saveToLocalStorage()
+{
+  //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
+  var superBuffer = new Blob(recordedVideoBlobs, {type: 'video/webm'});
+  var reader = new window.FileReader();
+  reader.readAsDataURL(superBuffer); 
+  reader.onloadend = function() {
+                var base64data = reader.result;                
+                //console.log(base64data );
+	            function videoObj () {};
+                var vidObj=new videoObj();
+                vidObj.video=base64data;
+                //vidObj.abc='test';
+                var recorded_json=JSON.stringify(convertMapToObject(req));
+                vidObj.json=recorded_json;
+                vidObj.friendlyName=customName;
+                
+                var tempmap={};
+                tempmap[videoName]=vidObj;
+                chrome.storage.local.set(tempmap, function() {
+                        // Notify that we saved.
+                        console.log('video Saved saved');
+                });
+  }
+  
+}
+
+function gatherEverything() {
+  //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
+  console.log(recordedBlobs);
+  var superBuffer = new Blob(recordedBlobs, { type: 'video/webm' });
+  var recordedobjectURL = window.URL.createObjectURL(superBuffer);
+  var recorded_json = JSON.stringify(convertMapToObject(req));
+  var blob = new Blob([recorded_json], { type: "application/json" });
+  var recordedJsonURL = window.URL.createObjectURL(blob);
+  launchPreview(recordedobjectURL, recordedJsonURL);
+  // saveToLocalStorage();
+}
+
 
 // CONSOLE RECORDING START
 const startConsoleRecording = tabId => {
   // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(
     tabId, {
-      action: constants.START_CONSOLE_RECORDING
-    },
+    action: constants.START_CONSOLE_RECORDING
+  },
     response => {
       console.log(response);
     }
@@ -196,8 +275,8 @@ const stopConsoleRecording = async (tabId) => {
   return new Promise((res, rej) => {
     chrome.tabs.sendMessage(
       tabId, {
-        action: constants.STOP_CONSOLE_RECORDING
-      },
+      action: constants.STOP_CONSOLE_RECORDING
+    },
       response => {
         res(response);
       }
@@ -257,9 +336,9 @@ chrome.runtime.onConnect.addListener(port => {
 });
 
 function startNetworkRecording(tabid) {
-    chrome.debugger.attach({ //debug at current tab
-      tabId: tabid
-    }, "1.0", onAttach.bind(null, tabid));
+  chrome.debugger.attach({ //debug at current tab
+    tabId: tabid
+  }, "1.0", onAttach.bind(null, tabid));
 }
 
 function onAttach(tabId) {
@@ -269,7 +348,86 @@ function onAttach(tabId) {
   chrome.debugger.sendCommand({
     tabId: tabId
   }, "Network.clearBrowserCache");
-  chrome.debugger.onEvent.addListener(allEventHandler);
+  // chrome.debugger.onEvent.addListener(allEventHandler);
+  
+  addEventListenters(tabId);
+}
+
+function addWebReq(details)
+{
+	if(!req.get(details.requestId))
+	{	
+		var temp=new WebRequest();
+		if(details.requestBody) temp.requestBody=details.requestBody;
+		if(details.method) temp.method=details.method;
+		if(details.url) temp.url=details.url;
+		temp.requesttime=(new Date().valueOf()-startTime)/1000;
+		if(details.responseHeaders) temp.responseHeaders=details.responseHeaders;
+		if(details.statusCode) temp.statusCode=details.statusCode;
+		if(details.statusLine) temp.statusLine=details.statusLine;
+		req.set(details.requestId,temp);
+	}
+	else
+	{
+		if(details.requestBody)
+			req.get(details.requestId).requestBody=details.requestBody;
+		if(details.requestHeaders)
+			req.get(details.requestId).requestHeaders=details.requestHeaders;
+		if(details.responseHeaders)
+			req.get(details.requestId).responseHeaders=details.responseHeaders;
+		if(details.statusCode)
+		{
+			req.get(details.requestId).statusCode=details.statusCode;
+			req.get(details.requestId).responseTime=(new Date().valueOf()-startTime)/1000;
+		}
+		if(details.statusLine)
+			req.get(details.requestId).statusLine=details.statusLine;
+  }
+  
+};
+
+ 
+function addEventListenters(tabid)
+{
+  startTime=new Date().valueOf();
+
+	chrome.webRequest.onBeforeRequest.addListener(addWebReq,
+	{
+		urls:["<all_urls>"],
+		tabId:tabid,
+		types:["main_frame","sub_frame","xmlhttprequest"]
+	}
+	,
+	['requestBody']
+	);
+	chrome.webRequest.onBeforeSendHeaders.addListener(addWebReq,
+	{
+		urls:["<all_urls>"],
+		tabId:tabid,
+		types:["main_frame","sub_frame","xmlhttprequest"]
+
+	}
+	,
+	['requestHeaders']
+);
+chrome.webRequest.onHeadersReceived.addListener(addWebReq,
+	{
+		urls:["<all_urls>"],
+		tabId:tabid,
+		types:["main_frame","sub_frame","xmlhttprequest"]
+	}
+	,
+	['responseHeaders']
+);
+chrome.webRequest.onHeadersReceived.addListener(addWebReq,
+	{
+		urls:["<all_urls>"],
+		tabId:tabid,
+		types:["main_frame","sub_frame","xmlhttprequest"]
+	}
+	,
+	['responseBody']
+);
 }
 
 function allEventHandler(debuggeeId, message, params) {
@@ -281,6 +439,7 @@ function allEventHandler(debuggeeId, message, params) {
     requestsMap[params.requestId] = request;
     requests.push(request);
   }
+
   switch (message) {
     case "Network.responseReceived":
       request.received = new Date().toISOString();
@@ -305,7 +464,8 @@ function allEventHandler(debuggeeId, message, params) {
           body: {
             base64Encoded: false,
             body: params.redirectResponse.statusText
-          }
+          },
+          responseTime: 1.56
         };
         request = {
           created: new Date().toISOString()
@@ -316,6 +476,7 @@ function allEventHandler(debuggeeId, message, params) {
       request.request = params.request;
       request.initiator = params.initiator;
       request.type = params.type;
+      request.requestTime = 1.24;
       request.documentUrl = params.documentURL;
       if (request.documentUrl) {
         pages[request.documentUrl] = true;
@@ -327,12 +488,12 @@ function allEventHandler(debuggeeId, message, params) {
       chrome.debugger.sendCommand({
         tabId: debuggeeId.tabId
       }, "Network.getResponseBody", {
-          "requestId": params.requestId
-        }, function (response) {
-          if (response) {
-            request.response.body = response;
-          }
-        });
+        "requestId": params.requestId
+      }, function (response) {
+        if (response) {
+          request.response.body = response;
+        }
+      });
       break;
   }
 }
