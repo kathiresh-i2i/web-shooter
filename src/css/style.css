@@ -1,3 +1,77 @@
+.navbar{
+	display:block;
+}
+.card{
+	width:300px;
+	height:350px;
+	overflow-y:auto;
+}
+.card-block{
+	text-align: center;
+	padding-top:5%;
+}
+.form{
+	padding-left:10%;
+	padding-top:5%;
+	font-size: 14px;
+	display:block;
+}
+.textbox{
+	width:90%;
+	font-size: 14px;
+	line-height: 1;
+}
+.hidebutton{
+	display: none;
+}
+.TextBoxName{
+	padding-right:5%;
+}
+.selectOption{
+	width:90%;
+}
+.bottomBar{
+	cursor: pointer;
+	float: bottom;
+	bottom: 0px;
+	position: absolute;
+	width:150px;
+	margin-bottom: 0;
+    border-bottom-right-radius: 0rem; 
+    border-bottom-left-radius: .25rem; 
+}
+.topBar{
+	cursor: pointer;
+	float: top;
+	top: 0px;
+	position: relative;
+}
+.pointer{
+	cursor: pointer;
+}
+.buttongp{
+	padding-top:10px;
+	padding-bottom:0px;
+}
+.list-group-item{
+	padding-left:0.75rem;
+	padding-right:0.75rem;
+}
+.actionButton{
+	margin-bottom:0px;
+	margin-right:10px;
+	line-height: 1.5;
+}
+.buttonIcons{
+	line-height: 1.0;
+}
+.videoName{
+	font-size: 14px;
+}
+.setright{
+	right: 0px;
+}
+
 .primary-btn {
   background-color: #f43b45;
   border: none;
@@ -6,4 +80,9 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
+}
+
+.bg-primary {
+  background-color: #F37B56 !important;
+  color: white;
 }
