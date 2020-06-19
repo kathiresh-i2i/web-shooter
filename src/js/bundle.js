@@ -110,14 +110,11 @@ window.getJson = getJson;
     MasterElement.type="m";
     MasterElement.isEnd=true;
     elements.push(MasterElement);
-    console.log('=======eeeee', elements);
-    
     return elements;
   }
 
   function downloadMpeg(recordedBlobs,name){
   var blob = new Blob([recordedBlobs], {type: 'video/webm'});
-  //var blob = new Blob([recordedBlobs], {type: 'video/x-matroska'});
   var url = window.URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.style.display = 'none';

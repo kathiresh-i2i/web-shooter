@@ -27,7 +27,7 @@ var pages = {};
 var loading = false;
 var intervalId;
 var iconIndex = 0;
-var customName = 'test';
+var customName = 'web_shooter';
 
 function startRecording(id) {
   tabId = id;
@@ -142,16 +142,16 @@ function updateIcon() {
 
 
 
-function convertMapToObject(map_var){
-	var objectlist=[];
-	map_var.forEach(function(i,k){
-		console.log(k);
-		//var temp=new RequestObj();
-		//RequestObj.requestid=k;
-		//RequestObj.webReq=i;
-		objectlist.push({'requestid':k,'webReq':i});
-	});
-	return objectlist;
+function convertMapToObject(map_var) {
+  var objectlist = [];
+  map_var.forEach(function (i, k) {
+    console.log(k);
+    //var temp=new RequestObj();
+    //RequestObj.requestid=k;
+    //RequestObj.webReq=i;
+    objectlist.push({ 'requestid': k, 'webReq': i });
+  });
+  return objectlist;
 }
 
 function launchPreview(videoURL, jsonURL) {
@@ -159,14 +159,14 @@ function launchPreview(videoURL, jsonURL) {
     {
       url: 'display.html?mp4=' + videoURL + '&json=' + jsonURL + '&customname=' + encodeURIComponent(customName), type: "popup", width: screen.width, height: screen.height
     });
-  }
+}
 
 
-  async function stopRecording() {
+async function stopRecording() {
 
-   
-    // saveToLocalStorage();
-  
+
+  // saveToLocalStorage();
+
 
   // intervalId = setInterval(function() {
   //   iconIndex++;
@@ -175,17 +175,22 @@ function launchPreview(videoURL, jsonURL) {
   setTimeout(
     async () => {
       const networkLog = await stopNetworkRecording();
+      console.log('====networkLog', networkLog);
+
       const consoleLog = await stopConsoleRecording(tabId);
       const video = await getVideoDataUrl();
 
       await stopVideoRecording();
       loading = true;
-    
+
       //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
       var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
       var recordedobjectURL = window.URL.createObjectURL(superBuffer);
+      console.log('=====req', req);
       
-      var recorded_json = JSON.stringify(convertMapToObject(req));
+      var recorded_json = JSON.stringify(convertMapToObject(getRequestByTypes(req)));
+      console.log('=====recorded_json', recorded_json);
+
       var blob = new Blob([recorded_json], { type: "application/json" });
       var recordedJsonURL = window.URL.createObjectURL(blob);
       launchPreview(recordedobjectURL, recordedJsonURL);
@@ -217,31 +222,44 @@ function launchPreview(videoURL, jsonURL) {
     }, 2000);
 }
 
-function saveToLocalStorage()
-{
-  //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
-  var superBuffer = new Blob(recordedVideoBlobs, {type: 'video/webm'});
-  var reader = new window.FileReader();
-  reader.readAsDataURL(superBuffer); 
-  reader.onloadend = function() {
-                var base64data = reader.result;                
-                //console.log(base64data );
-	            function videoObj () {};
-                var vidObj=new videoObj();
-                vidObj.video=base64data;
-                //vidObj.abc='test';
-                var recorded_json=JSON.stringify(convertMapToObject(req));
-                vidObj.json=recorded_json;
-                vidObj.friendlyName=customName;
-                
-                var tempmap={};
-                tempmap[videoName]=vidObj;
-                chrome.storage.local.set(tempmap, function() {
-                        // Notify that we saved.
-                        console.log('video Saved saved');
-                });
-  }
+function getRequestByTypes() {
+  // var filteredReq = requests.filter(obj => obj.type === 'XHR');
+  // console.log('==filteredReq===', filteredReq);
   
+  // return filteredReq;
+  var acceptedTypes = ['XHR']
+  req.forEach((value, key, set) => {
+    if(value.type && acceptedTypes.indexOf(value.type) === -1){
+      set.delete(key);
+    }
+  });
+  return req;
+}
+
+function saveToLocalStorage() {
+  //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
+  var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
+  var reader = new window.FileReader();
+  reader.readAsDataURL(superBuffer);
+  reader.onloadend = function () {
+    var base64data = reader.result;
+    //console.log(base64data );
+    function videoObj() { };
+    var vidObj = new videoObj();
+    vidObj.video = base64data;
+    //vidObj.abc='test';
+    var recorded_json = JSON.stringify(convertMapToObject(req));
+    vidObj.json = recorded_json;
+    vidObj.friendlyName = customName;
+
+    var tempmap = {};
+    tempmap[videoName] = vidObj;
+    chrome.storage.local.set(tempmap, function () {
+      // Notify that we saved.
+      console.log('video Saved saved');
+    });
+  }
+
 }
 
 function gatherEverything() {
@@ -342,145 +360,123 @@ function startNetworkRecording(tabid) {
 }
 
 function onAttach(tabId) {
+  startTime = new Date().valueOf();
   chrome.debugger.sendCommand({
     tabId: tabId
   }, "Network.enable");
   chrome.debugger.sendCommand({
     tabId: tabId
   }, "Network.clearBrowserCache");
-  // chrome.debugger.onEvent.addListener(allEventHandler);
-  
-  addEventListenters(tabId);
+  chrome.debugger.onEvent.addListener(allEventHandler);
+  // addEventListenters(tabId);
 }
 
-function addWebReq(details)
-{
-	if(!req.get(details.requestId))
-	{	
-		var temp=new WebRequest();
-		if(details.requestBody) temp.requestBody=details.requestBody;
-		if(details.method) temp.method=details.method;
-		if(details.url) temp.url=details.url;
-		temp.requesttime=(new Date().valueOf()-startTime)/1000;
-		if(details.responseHeaders) temp.responseHeaders=details.responseHeaders;
-		if(details.statusCode) temp.statusCode=details.statusCode;
-		if(details.statusLine) temp.statusLine=details.statusLine;
-		req.set(details.requestId,temp);
-	}
-	else
-	{
-		if(details.requestBody)
-			req.get(details.requestId).requestBody=details.requestBody;
-		if(details.requestHeaders)
-			req.get(details.requestId).requestHeaders=details.requestHeaders;
-		if(details.responseHeaders)
-			req.get(details.requestId).responseHeaders=details.responseHeaders;
-		if(details.statusCode)
-		{
-			req.get(details.requestId).statusCode=details.statusCode;
-			req.get(details.requestId).responseTime=(new Date().valueOf()-startTime)/1000;
-		}
-		if(details.statusLine)
-			req.get(details.requestId).statusLine=details.statusLine;
+function addWebReq(details) {
+  if (!req.get(details.requestId)) {
+    var temp = new WebRequest();
+    if (details.requestBody) temp.requestBody = details.requestBody;
+    if (details.method) temp.method = details.method;
+    if (details.url) temp.url = details.url;
+    temp.requesttime = (new Date().valueOf() - startTime) / 1000;
+    if (details.responseHeaders) temp.responseHeaders = details.responseHeaders;
+    if (details.statusCode) temp.statusCode = details.statusCode;
+    if (details.statusLine) temp.statusLine = details.statusLine;
+    temp.responseBody = [{ 'www': 'eee' }]
+    req.set(details.requestId, temp);
   }
-  
+  else {
+    if (details.requestBody)
+      req.get(details.requestId).requestBody = details.requestBody;
+    if (details.requestHeaders)
+      req.get(details.requestId).requestHeaders = details.requestHeaders;
+    if (details.responseHeaders)
+      req.get(details.requestId).responseHeaders = details.responseHeaders;
+    if (details.statusCode) {
+      req.get(details.requestId).statusCode = details.statusCode;
+      req.get(details.requestId).responseTime = (new Date().valueOf() - startTime) / 1000;
+    }
+    if (details.statusLine)
+      req.get(details.requestId).statusLine = details.statusLine;
+    req.get(details.requestId).responseBody = [{ 'rrrr': 'ffff' }]
+  }
 };
 
- 
-function addEventListenters(tabid)
-{
-  startTime=new Date().valueOf();
 
-	chrome.webRequest.onBeforeRequest.addListener(addWebReq,
-	{
-		urls:["<all_urls>"],
-		tabId:tabid,
-		types:["main_frame","sub_frame","xmlhttprequest"]
-	}
-	,
-	['requestBody']
-	);
-	chrome.webRequest.onBeforeSendHeaders.addListener(addWebReq,
-	{
-		urls:["<all_urls>"],
-		tabId:tabid,
-		types:["main_frame","sub_frame","xmlhttprequest"]
+function addEventListenters(tabid) {
+  startTime = new Date().valueOf();
 
-	}
-	,
-	['requestHeaders']
-);
-chrome.webRequest.onHeadersReceived.addListener(addWebReq,
-	{
-		urls:["<all_urls>"],
-		tabId:tabid,
-		types:["main_frame","sub_frame","xmlhttprequest"]
-	}
-	,
-	['responseHeaders']
-);
-chrome.webRequest.onHeadersReceived.addListener(addWebReq,
-	{
-		urls:["<all_urls>"],
-		tabId:tabid,
-		types:["main_frame","sub_frame","xmlhttprequest"]
-	}
-	,
-	['responseBody']
-);
+  chrome.webRequest.onBeforeRequest.addListener(addWebReq,
+    {
+      urls: ["<all_urls>"],
+      tabId: tabid,
+      types: ["main_frame", "sub_frame", "xmlhttprequest"]
+    }
+    ,
+    ['requestBody']
+  );
+  chrome.webRequest.onBeforeSendHeaders.addListener(addWebReq,
+    {
+      urls: ["<all_urls>"],
+      tabId: tabid,
+      types: ["main_frame", "sub_frame", "xmlhttprequest"]
+
+    }
+    ,
+    ['requestHeaders']
+  );
+  chrome.webRequest.onHeadersReceived.addListener(addWebReq,
+    {
+      urls: ["<all_urls>"],
+      tabId: tabid,
+      types: ["main_frame", "sub_frame", "xmlhttprequest"]
+    }
+    ,
+    ['responseHeaders']
+  );
+  chrome.webRequest.onHeadersReceived.addListener(addWebReq,
+    {
+      urls: ["<all_urls>"],
+      tabId: tabid,
+      types: ["main_frame", "sub_frame", "xmlhttprequest"]
+    }
+    ,
+    ['responseBody']
+  );
 }
 
 function allEventHandler(debuggeeId, message, params) {
-  var request = requestsMap[params.requestId];
-  if (!request) {
-    request = {
-      startedDateTime: new Date().toISOString()
-    };
-    requestsMap[params.requestId] = request;
-    requests.push(request);
+  console.log('=====opppp=', params);
+
+  var networkJson;
+  if (!req.get(params.requestId)) {
+    networkJson = new WebRequest();
+  } else {
+    networkJson = req.get(params.requestId);
   }
 
   switch (message) {
     case "Network.responseReceived":
-      request.received = new Date().toISOString();
-      request.response = {
-        headers: params.response.headers,
-        serverIPAddress: params.response.remoteIPAddress,
-        status: params.response.status,
-        statusText: params.response.statusText
-      };
+      if (params.response.headers)
+        req.get(params.requestId).responseHeaders = formatHeaders(params.response.headers);
+      if (params.request)
+        req.get(params.requestId).requestHeaders = formatHeaders(params.request.headers);
+      if (params.response.status) {
+        req.get(params.requestId).statusCode = params.response.status;
+        req.get(params.requestId).responseTime = (new Date().valueOf() - startTime) / 1000;
+        req.get(params.requestId).statusLine = params.response.status;
+      }
+      if (params.type)
+        req.get(params.requestId).type = params.type;
       break;
     case "Network.requestWillBeSent":
-      if (params.redirectResponse && request.request) {
-        var location = params.redirectResponse.headers['Location'] || params.redirectResponse.headers['location'];
-        if (location && request.request.url.endsWith(location)) {
-          break;
-        }
-        request.response = {
-          headers: params.redirectResponse.headers,
-          serverIPAddress: params.redirectResponse.remoteIPAddress,
-          status: params.redirectResponse.status,
-          statusText: params.redirectResponse.statusText,
-          body: {
-            base64Encoded: false,
-            body: params.redirectResponse.statusText
-          },
-          responseTime: 1.56
-        };
-        request = {
-          created: new Date().toISOString()
-        };
-        requests.push(request);
-        requestsMap[params.requestId] = request;
-      }
-      request.request = params.request;
-      request.initiator = params.initiator;
-      request.type = params.type;
-      request.requestTime = 1.24;
-      request.documentUrl = params.documentURL;
-      if (request.documentUrl) {
-        pages[request.documentUrl] = true;
-      }
+      if (params.request)
+        networkJson.method = params.request.method;
+      if (params.documentURL) networkJson.url = params.request.url;
+      networkJson.requesttime = (new Date().valueOf() - startTime) / 1000;
+      if (params.request) networkJson.requestHeaders = formatHeaders(params.request.headers);
+      req.set(params.requestId, networkJson);
+      if (params.type)
+        req.get(params.requestId).type = params.type;
       break;
     case "Network.dataReceived":
       break;
@@ -491,9 +487,21 @@ function allEventHandler(debuggeeId, message, params) {
         "requestId": params.requestId
       }, function (response) {
         if (response) {
-          request.response.body = response;
+          req.get(params.requestId).responseBody = response.body;
         }
       });
       break;
   }
+}
+
+function formatHeaders(headers) {
+  var headerList = [];
+  var headerJson = {};
+  Object.keys(headers).forEach(function (key) {
+    headerJson = {};
+    headerJson.name = key;
+    headerJson.value = headers[key];
+    headerList.push(headerJson);
+  });
+  return headerList;
 }
