@@ -29,9 +29,9 @@ var intervalId;
 var iconIndex = 0;
 var customName = 'web_shooter';
 
-function startRecording(id) {
+function startRecording(id, name) {
   tabId = id;
-
+  customName = name;
   startScreenRecording(id);
   startConsoleRecording(id);
   startNetworkRecording(id);
@@ -154,10 +154,10 @@ function convertMapToObject(map_var) {
   return objectlist;
 }
 
-function launchPreview(videoURL, jsonURL) {
+function launchPreview(videoURL, jsonURL, consoleURL) {
   chrome.windows.create(
     {
-      url: 'display.html?mp4=' + videoURL + '&json=' + jsonURL + '&customname=' + encodeURIComponent(customName), type: "popup", width: screen.width, height: screen.height
+      url: 'display.html?mp4=' + videoURL + '&json=' + jsonURL + '&console=' + consoleURL + '&customname=' + encodeURIComponent(customName), type: "popup", width: screen.width, height: screen.height
     });
 }
 
@@ -174,10 +174,11 @@ async function stopRecording() {
   // }, 500);
   setTimeout(
     async () => {
+      var recordedConsoleURL = ''
       const networkLog = await stopNetworkRecording();
       console.log('====networkLog', networkLog);
 
-      const consoleLog = await stopConsoleRecording(tabId);
+      const consoleMessages = await stopConsoleRecording(tabId) || [];
       const video = await getVideoDataUrl();
 
       await stopVideoRecording();
@@ -186,14 +187,19 @@ async function stopRecording() {
       //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
       var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
       var recordedobjectURL = window.URL.createObjectURL(superBuffer);
-      console.log('=====req', req);
-      
+
       var recorded_json = JSON.stringify(convertMapToObject(getRequestByTypes(req)));
-      console.log('=====recorded_json', recorded_json);
 
       var blob = new Blob([recorded_json], { type: "application/json" });
       var recordedJsonURL = window.URL.createObjectURL(blob);
-      launchPreview(recordedobjectURL, recordedJsonURL);
+
+      if (consoleMessages && consoleMessages.logs) {
+        var aa = JSON.stringify(consoleMessages.logs);
+        var consoleBlob = new Blob([aa], { type: "application/json" });
+        recordedConsoleURL = window.URL.createObjectURL(consoleBlob)
+      }
+
+      launchPreview(recordedobjectURL, recordedJsonURL, recordedConsoleURL);
       // Commented as of now for local preview
       // saveToLocalStorage();
       // var obj = {};
@@ -225,11 +231,11 @@ async function stopRecording() {
 function getRequestByTypes() {
   // var filteredReq = requests.filter(obj => obj.type === 'XHR');
   // console.log('==filteredReq===', filteredReq);
-  
+
   // return filteredReq;
   var acceptedTypes = ['XHR']
   req.forEach((value, key, set) => {
-    if(value.type && acceptedTypes.indexOf(value.type) === -1){
+    if (value.type && acceptedTypes.indexOf(value.type) === -1) {
       set.delete(key);
     }
   });
@@ -457,16 +463,17 @@ function allEventHandler(debuggeeId, message, params) {
   switch (message) {
     case "Network.responseReceived":
       if (params.response.headers)
-        req.get(params.requestId).responseHeaders = formatHeaders(params.response.headers);
+        networkJson.responseHeaders = formatHeaders(params.response.headers);
       if (params.request)
-        req.get(params.requestId).requestHeaders = formatHeaders(params.request.headers);
+        networkJson.requestHeaders = formatHeaders(params.request.headers);
       if (params.response.status) {
-        req.get(params.requestId).statusCode = params.response.status;
-        req.get(params.requestId).responseTime = (new Date().valueOf() - startTime) / 1000;
-        req.get(params.requestId).statusLine = params.response.status;
+        networkJson.statusCode = params.response.status;
+        networkJson.responseTime = (new Date().valueOf() - startTime) / 1000;
+        networkJson.statusLine = params.response.status;
       }
       if (params.type)
-        req.get(params.requestId).type = params.type;
+      networkJson.type = params.type;
+      req.set(params.requestId,networkJson);
       break;
     case "Network.requestWillBeSent":
       if (params.request)
@@ -477,6 +484,8 @@ function allEventHandler(debuggeeId, message, params) {
       req.set(params.requestId, networkJson);
       if (params.type)
         req.get(params.requestId).type = params.type;
+        networkJson.responseHeaders = {}
+        req.set(params.requestId,networkJson);
       break;
     case "Network.dataReceived":
       break;

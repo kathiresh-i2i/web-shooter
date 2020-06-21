@@ -7,9 +7,10 @@
 const startRecordingBtn = document.getElementById("startRecordingBtn");
 
 startRecordingBtn.onclick = () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const { id: currentTabId } = tabs[0];
-    chrome.extension.getBackgroundPage().startRecording(currentTabId);
+    var recordName = document.querySelector('input#recName').value;
+    chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName);
   });
 };
 
@@ -21,3 +22,10 @@ const stopRecordingBtn = document.getElementById("stopRecordingBtn");
 //     chrome.extension.getBackgroundPage().stopRecording(currentTabId);
 //   });
 // };
+document.querySelector('.uploadBut').addEventListener('click', function () {
+
+  chrome.windows.create(
+    {
+      url: 'display.html?uploadVideo=true', type: "popup", width: screen.width, height: screen.height
+    });
+});

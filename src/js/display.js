@@ -67,16 +67,17 @@ function uploadfile(files) {
   fetch(fileURL)
     .then((res) => res.arrayBuffer())
     .then((buf) => {
-      console.log('===buf==', buf);
-
       var jsonString = getJson(buf);
-      console.log('============', jsonString);
-      if (jsonString)
-        convertStringToObject(jsonString.data);
+      var converted = JSON.parse(jsonString.data);
+
+      if (converted.network)
+        convertStringToObject(converted.network);
       else {
         noJsonFound = true;
         document.querySelector('#Timeline').innerHTML = '';
       }
+
+      appendConsoleMessages(converted.console);
     });
   document.getElementById('drop-zone').className = 'upload-drop-zone hideit';
 }
@@ -207,7 +208,12 @@ function init() {
 
   videoEle = document.querySelector('video')
   videoEle.addEventListener('timeupdate', playJsonFile, false);
-
+  fetch(params.console)
+    .then((res) => res.text())
+    .then((json) => {
+      console.log('==json=', json);
+      appendConsoleMessages(json);
+    });
 }
 window.onload = init;
 
@@ -230,7 +236,7 @@ function downloadHandler() {
     var name = 'ReproNowGeneratedVideo';
     if (params.customname)
       name = params.customname;
-    chrome.tabs.create({ url: 'download.html?mp4=' + params.mp4 + '&json=' + params.json + '&customname=WebShooter' });
+    chrome.tabs.create({ url: 'download.html?mp4=' + params.mp4 + '&json=' + params.json + '&console=' + params.console + '&customname=' + params.customname });
   }
 }
 function uploadHandler() {
@@ -597,6 +603,24 @@ function convertStringToObject(stringjson) {
     $('[data-toggle="tooltip"]').tooltip();
   })
 }
+
+function appendConsoleMessages(consoleMessages) {
+  var parentNode = document.getElementById('consoleMessges');
+  var consoleList = JSON.parse(JSON.parse(consoleMessages));
+  if(consoleList.length) {
+    consoleList.forEach(function (messages) {
+      var consoleNode = document.createElement('pre');
+      consoleNode.innerHTML = messages.type + ': ' + messages.message;
+      parentNode.appendChild(consoleNode);
+    });
+  } else {
+    parentNode.removeChild(parentNode.childNodes[0]);
+    var noConsole = document.createElement('div');
+    noConsole.textContent = 'No console messages!'
+    parentNode.appendChild(noConsole);
+  }
+}
+
 function copyToClipboard(text, el) {
   var copyTest = document.queryCommandSupported('copy');
   var elOriginalText = el.attr('data-original-title');

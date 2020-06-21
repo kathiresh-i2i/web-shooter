@@ -23,12 +23,12 @@ window.getJson = getJson;
     enc = new TextEncoder("utf-8");
     dec = new TextDecoder("utf-8");
   }
-  function mergeAndDownload(name,videoBuffer,jsonString)
+  function mergeAndDownload(name,videoBuffer,jsonString, consoleMessage)
   {
     init();
     var ebmlElms = decoder.decode(videoBuffer);
     console.log(ebmlElms);
-    ebmlElms=createArray(ebmlElms,name,jsonString);
+    ebmlElms=createArray(ebmlElms,name,jsonString, consoleMessage);
     var arry=encoder.encode(ebmlElms);
     var decodedVal = decoder.decode(arry);
     console.log(decodedVal);
@@ -57,7 +57,7 @@ window.getJson = getJson;
     }
     return null;
   }
-  function createArray(elements,name,jsonString)
+  function createArray(elements,name,jsonString, consoleMessage)
   {
     //var elements=[];
     var MasterElement={};
@@ -90,7 +90,11 @@ window.getJson = getJson;
     childElement.name="FileData";
     childElement.type="b";
     //childElement.data=new Buffer("blah blah blah");
-    childElement.data=new Buffer(jsonString);
+    var data = {
+      network: jsonString,
+      console: consoleMessage
+    }
+    childElement.data=new Buffer(JSON.stringify(data));
     elements.push(childElement);
 
     childElement={};

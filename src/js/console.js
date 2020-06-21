@@ -1,4 +1,5 @@
 if (!console.stdlog) {console.stdlog = console.log.bind(console);}
+if (!console.stdInfo) {console.stdInfo = console.info.bind(console);}
 if (!console.stdDebug) {console.stdDebug = console.debug.bind(console);}
 if (!console.stdError) {console.stdError = console.error.bind(console);}
 if (!console.stdWarn) {console.stdWarn = console.warn.bind(console);}
@@ -30,6 +31,13 @@ console.log = function() {
   consoleLogs.push({ dateTime: new Date(), type: 'log', message: formattedMessages(Array.from(arguments)) });
   localStorage.setItem("consoleLogs", JSON.stringify(consoleLogs));
   console.stdlog.apply(console, arguments);
+};
+
+console.info = function() {
+  const consoleLogs = getConsoleLogs();
+  consoleLogs.push({ dateTime: new Date(), type: 'info', message: formattedMessages(Array.from(arguments)) });
+  localStorage.setItem("consoleLogs", JSON.stringify(consoleLogs));
+  console.stdInfo.apply(console, arguments);
 };
 
 console.debug = function() {
