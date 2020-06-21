@@ -18,6 +18,7 @@ let ports = {};
 let networkLog = null;
 let tabId = null;
 let recordingStartedTime = null;
+let isEnableMask = false;
 var req = new Map();
 var startTime = 0;
 
@@ -29,8 +30,9 @@ var intervalId;
 var iconIndex = 0;
 var customName = 'web_shooter';
 
-function startRecording(id, name) {
+function startRecording(id, name, isMask) {
   tabId = id;
+  isEnableMask = isMask;
   customName = name;
   startScreenRecording(id);
   startConsoleRecording(id);
@@ -187,8 +189,8 @@ async function stopRecording() {
       //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
       var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
       var recordedobjectURL = window.URL.createObjectURL(superBuffer);
-
-      var recorded_json = JSON.stringify(convertMapToObject(getRequestByTypes(req)));
+      var obj = convertMapToObject(getRequestByTypes(req));
+      var recorded_json = JSON.stringify(obj);
 
       var blob = new Blob([recorded_json], { type: "application/json" });
       var recordedJsonURL = window.URL.createObjectURL(blob);
@@ -199,6 +201,7 @@ async function stopRecording() {
         recordedConsoleURL = window.URL.createObjectURL(consoleBlob)
       }
 
+      req.clear();
       launchPreview(recordedobjectURL, recordedJsonURL, recordedConsoleURL);
       // Commented as of now for local preview
       // saveToLocalStorage();
@@ -237,6 +240,9 @@ function getRequestByTypes() {
   req.forEach((value, key, set) => {
     if (value.type && acceptedTypes.indexOf(value.type) === -1) {
       set.delete(key);
+    }
+    else{
+      set.set(key, filterJson(value, isEnableMask));
     }
   });
   return req;
@@ -324,7 +330,7 @@ async function stopNetworkRecording() {
   chrome.debugger.detach({ tabId: tabId });
   requestsMap = {};
   var body = {
-    entries: requests.filter(obj => obj.type === 'XHR'),
+    entries: filterJson(requests, isEnableMask),
     pages: Object.keys(pages)
   };
   requests = [];

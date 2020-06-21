@@ -10,7 +10,9 @@ startRecordingBtn.onclick = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const { id: currentTabId } = tabs[0];
     var recordName = document.querySelector('input#recName').value;
-    chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName);
+    var cb = document.getElementById('isEnableDataMask');
+    console.log(".......MASK ENABLED.....",cb.checked);
+    chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName, cb.checked);
   });
 };
 
