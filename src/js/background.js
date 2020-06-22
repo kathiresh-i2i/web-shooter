@@ -4,7 +4,7 @@
 
 'use strict';
 
-function WebRequest() {}
+function WebRequest() { }
 const constants = {
   START_CONSOLE_RECORDING: 'START_CONSOLE_RECORDING',
   STOP_CONSOLE_RECORDING: 'STOP_CONSOLE_RECORDING',
@@ -187,7 +187,7 @@ async function stopRecording() {
 
     await stopVideoRecording();
     loading = true;
-
+   
     //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
     var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
     var recordedobjectURL = window.URL.createObjectURL(superBuffer);
@@ -237,7 +237,7 @@ function getRequestByTypes() {
   // console.log('==filteredReq===', filteredReq);
 
   // return filteredReq;
-  var acceptedTypes = ['XHR'];
+  var acceptedTypes = ['XHR', 'Fetch'];
   req.forEach((value, key, set) => {
     if (value.type && acceptedTypes.indexOf(value.type) === -1) {
       set.delete(key);
@@ -256,7 +256,7 @@ function saveToLocalStorage() {
   reader.onloadend = function () {
     var base64data = reader.result;
     //console.log(base64data );
-    function videoObj() {}
+    function videoObj() { }
     var vidObj = new videoObj();
     vidObj.video = base64data;
     //vidObj.abc='test';
@@ -484,6 +484,8 @@ function allEventHandler(debuggeeId, message, params) {
       break;
     case 'Network.requestWillBeSent':
       if (params.request) networkJson.method = params.request.method;
+      if (params.request && params.request.postData)
+        networkJson.requestBody = params.request.postData;
       if (params.request && params.request.postData) networkJson.requestBody = params.request.postData;
       if (params.documentURL) networkJson.url = params.request.url;
       networkJson.requesttime = (new Date().valueOf() - startTime) / 1000;

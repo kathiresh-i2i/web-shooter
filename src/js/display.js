@@ -339,17 +339,11 @@ function displayRequest(webrequest) {
     tabcontent.appendChild(createTabData('Cookie_' + randId, formatHeaders(hasCookie), name));
   }
 
-  if (webrequest.requestBody && webrequest.requestBody.formData) {
-    //var ab2 = document.createElement("div");
-    //ab2.textContent = formatFormdata(webrequest.requestBody.formData);
-    //requestInfo.appendChild(formatFormdata(webrequest.requestBody.formData));
-    //accordion.appendChild(createAccordianCard('Body',formatFormdata(webrequest.requestBody.formData)));
-    var name = "WebReqBody";
+  if (webrequest.requestBody) {
+    var name = "nopadding";
     added = name;
-    tablist.appendChild(createtabheader('Body_' + randId, 'Body', name));
-    tabcontent.appendChild(createTabData('Body_' + randId, formatFormdata(webrequest.requestBody.formData), name));
-    curltext += getCurlBody(webrequest.requestBody.formData);
-    rawtext += getRawBody(webrequest.requestBody.formData);
+    tablist.appendChild(createtabheader('WebReqBody_' + randId, 'Body', name));
+    tabcontent.appendChild(createTabData('WebReqBody_' + randId, formatBody(webrequest.requestBody), name));
   }
   if (added) {
     requestInfo.appendChild(tablist);
