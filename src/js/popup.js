@@ -12,22 +12,45 @@ startRecordingBtn.onclick = () => {
     var recordName = document.querySelector('input#recName').value;
     var cb = document.getElementById('isEnableDataMask');
     console.log(".......MASK ENABLED.....",cb.checked);
+    chrome.runtime.sendMessage({action: "startStopwatch"});
     chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName, cb.checked);
   });
+  let timeRange = document.getElementById("myRange").value;
+  timeRange = timeRange < Number('15') ? 120 : Number(timeRange);
+  chrome.storage.local.set({ isRecording: true, timerRange: timeRange  });
+  startRecordingBtn.classList.add('hidebutton');
 };
 
-const stopRecordingBtn = document.getElementById("stopRecordingBtn");
+const stop = document.getElementById("stop");
 
-// stopRecordingBtn.onclick = () => {
-//   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-//     const { id: currentTabId } = tabs[0];
-//     chrome.extension.getBackgroundPage().stopRecording(currentTabId);
-//   });
-// };
 document.querySelector('.uploadBut').addEventListener('click', function () {
 
   chrome.windows.create(
     {
       url: 'display.html?uploadVideo=true', type: "popup", width: screen.width, height: screen.height
     });
+});
+
+stop.onclick = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    const { id: currentTabId } = tabs[0];
+    chrome.extension.getBackgroundPage().stopRecording(true);
+  });
+  stop.classList.add('hidebutton');
+  startRecordingBtn.classList.remove("hidebutton");
+  chrome.storage.local.set({ isRecording: false });
+};
+
+chrome.storage.local.get('isRecording', (data) => {
+  if (data.isRecording) {
+    startRecordingBtn.classList.add('hidebutton');
+    stop.classList.remove("hidebutton");
+  }
+});
+
+$(document).ready(function(){
+  $("#result b").html($("#myRange").val());
+  $("#myRange").change(function(){
+    $("#result b").html($(this).val());
+  });
 });

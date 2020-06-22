@@ -4,14 +4,11 @@
   "description": "Build an Extension!",
   "permissions": [
     "activeTab",
-    "declarativeContent",
 
     "unlimitedStorage",
     "storage",
     "desktopCapture",
     "<all_urls>",
-    "clipboardWrite",
-    "clipboardRead",
     "tabs",
     "webRequest",
     "webRequestBlocking",

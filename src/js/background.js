@@ -29,14 +29,56 @@ var loading = false;
 var intervalId;
 var iconIndex = 0;
 var customName = 'web_shooter';
+var timer_var = null;
+var callCount = 0;
+
+chrome.runtime.onInstalled.addListener(function () {
+  chrome.storage.local.set({ timer: 0 });
+});
 
 function startRecording(id, name, isMask) {
   tabId = id;
   isEnableMask = isMask;
   customName = name;
   startScreenRecording(id);
-  startConsoleRecording(id);
-  startNetworkRecording(id);
+}
+
+const secondsToTime = (timeInSeconds) => {
+  var pad = function (num, size) { return ('000' + num).slice(size * -1); },
+    time = parseFloat(timeInSeconds).toFixed(3),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60);
+
+  return pad(minutes, 1) + ':' + pad(seconds, 2);
+}
+
+const timer_int = () => {
+  chrome.storage.local.get(["timer", "timerRange"], function (ret) {
+    var seconds = ret.timer;
+    if (++callCount === (Number(ret.timerRange))) {
+      mediaRecorder.stop();
+      mediaRecorder.onstop = () => {
+        console.info("Recording has ended");
+      };
+      mediaRecorder.ondataavailable = event => {
+        if (event.data && event.data.size > 0) {
+          recordedVideoBlobs.push(event.data);
+        }
+      };
+      stopRecording();
+    } else {
+      seconds++;
+      chrome.storage.local.set({ timer: seconds });
+      chrome.browserAction.setBadgeText({ text: secondsToTime(seconds) });
+    }
+  });
+}
+
+const resetTimer = () => {
+  clearInterval(timer_var);
+  callCount = 0;
+  chrome.browserAction.setBadgeText({ text: '' });
+  chrome.storage.local.set({ timer: 0, timerRange: 0 });
 }
 
 // VIDEO RECORDING START
@@ -46,7 +88,12 @@ const startScreenRecording = (tabId) => {
 
 const onMediaSelected = (id) => {
   if (!id) {
-    alert('Permission denied for recording');
+    chrome.storage.local.set({ isRecording: false });
+    alert("Permission denied for recording");
+  } else {
+    timer_var = setInterval(timer_int, 1000);
+    startConsoleRecording(tabId);
+    startNetworkRecording(tabId);
   }
   recordingStartedTime = new Date();
   const options = {
@@ -110,7 +157,9 @@ const stopVideoRecording = async () => {
         mediaRecorder.stop();
       }
       if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
+        stream.getTracks().forEach(track => track.stop());
+      } else {
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
       }
       resolve();
     }
@@ -170,13 +219,18 @@ function launchPreview(videoURL, jsonURL, consoleURL) {
   });
 }
 
-async function stopRecording() {
+
+async function stopRecording(userClickStop = false) {
+
+
   // saveToLocalStorage();
 
   // intervalId = setInterval(function() {
   //   iconIndex++;
   //   updateIcon();
   // }, 500);
+  resetTimer();
+  chrome.storage.local.set({ isRecording: false });
   setTimeout(async () => {
     var recordedConsoleURL = '';
     const networkLog = await stopNetworkRecording();
@@ -184,7 +238,17 @@ async function stopRecording() {
 
     const consoleMessages = (await stopConsoleRecording(tabId)) || [];
     const video = await getVideoDataUrl();
-
+    if (userClickStop) {
+      mediaRecorder.stop();
+      mediaRecorder.onstop = () => {
+        console.info("Recording has ended");
+      };
+      mediaRecorder.ondataavailable = event => {
+        if (event.data && event.data.size > 0) {
+          recordedVideoBlobs.push(event.data);
+        }
+      };
+    }
     await stopVideoRecording();
     loading = true;
    
