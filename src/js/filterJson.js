@@ -1,4 +1,4 @@
-const keys = ['responseBody'];
+const keys = ['responseBody', 'requestBody'];
 const blacklist = ['email', 'password', 'job']
 const maskData = maskJson(blacklist);
 
@@ -9,12 +9,10 @@ function filterJson(requests, isEnableMask) {
     } else {
             for (let key of Object.keys(requests)) {
                 if (_.includes(keys, key)) {
-
-                    // if (key === "request" && requests[key].hasPostData) {
-                    //     console.log('...TYPEOF postData', typeof req[key].postData)
-                    //     const obj = JSON.parse(req[key].postData);
-                    //     requests[key].postData = maskData(obj);
-                    // }
+                    if (key === "requestBody") {
+                         const obj = JSON.parse(requests[key]);
+                        requests[key] = maskData(obj);
+                    }
                     if (key === "responseBody") {
                         let obj = requests[key];
                         obj = JSON.parse(obj);
