@@ -195,15 +195,14 @@ function updateIcon() {
 }
 
 function convertMapToObject(map_var) {
-  var objectlist = [];
+  var requestJson;
+  var reqList = []
   map_var.forEach(function (i, k) {
-    console.log(k);
-    //var temp=new RequestObj();
-    //RequestObj.requestid=k;
-    //RequestObj.webReq=i;
-    objectlist.push({ requestid: k, webReq: i });
+    requestJson = i;
+    requestJson.requestid = k
+    reqList.push(requestJson);
   });
-  return objectlist;
+  return reqList;
 }
 
 function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
@@ -313,7 +312,7 @@ function getRequestByTypes() {
   // console.log('==filteredReq===', filteredReq);
 
   // return filteredReq;
-  var acceptedTypes = ['XHR', 'Fetch'];
+  var acceptedTypes = ['XHR', 'Fetch']
   req.forEach((value, key, set) => {
     if (value.type && acceptedTypes.indexOf(value.type) === -1) {
       set.delete(key);
@@ -537,38 +536,42 @@ function addEventListenters(tabid) {
 }
 
 function allEventHandler(debuggeeId, message, params) {
+  console.log('====message', message);
+
   console.log('=====opppp=', params);
 
   var networkJson;
   if (!req.get(params.requestId)) {
-    networkJson = new WebRequest();
+    networkJson = {};
   } else {
     networkJson = req.get(params.requestId);
   }
 
   switch (message) {
     case 'Network.responseReceived':
-      if (params.response.headers) networkJson.responseHeaders = formatHeaders(params.response.headers);
-      if (params.request) networkJson.requestHeaders = formatHeaders(params.request.headers);
+      if (params.response.headers) networkJson.responseHeaders = params.response.headers;
+      if (params.request) networkJson.requestHeaders = params.request.headers;
       if (params.response.status) {
         networkJson.statusCode = params.response.status;
         networkJson.responseTime = (new Date().valueOf() - startTime) / 1000;
         networkJson.statusLine = params.response.status;
       }
-      if (params.type) networkJson.type = params.type;
+      if (params.type)
+        networkJson.type = params.type;
       req.set(params.requestId, networkJson);
       break;
-    case 'Network.requestWillBeSent':
-      if (params.request) networkJson.method = params.request.method;
+    case "Network.requestWillBeSent":
+      if (params.request)
+        networkJson.method = params.request.method;
       if (params.request && params.request.postData)
         networkJson.requestBody = params.request.postData;
-      if (params.request && params.request.postData) networkJson.requestBody = params.request.postData;
       if (params.documentURL) networkJson.url = params.request.url;
       networkJson.requesttime = (new Date().valueOf() - startTime) / 1000;
-      if (params.request) networkJson.requestHeaders = formatHeaders(params.request.headers);
+      if (params.request) networkJson.requestHeaders = params.request.headers;
       req.set(params.requestId, networkJson);
-      if (params.type) req.get(params.requestId).type = params.type;
-      networkJson.responseHeaders = {};
+      if (params.type)
+        req.get(params.requestId).type = params.type;
+      networkJson.responseHeaders = {}
       req.set(params.requestId, networkJson);
       break;
     case 'Network.dataReceived':

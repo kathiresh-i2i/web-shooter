@@ -581,19 +581,19 @@ function convertStringToObject(stringjson) {
     req.set(i.requestid, i.webReq);
     //displayRequest(i.webReq);
     //displayResponse(i.webReq);
-    if (i.webReq.requesttime) {
+    if (i.requesttime) {
       var temp = new Timeline();
-      temp.time = i.webReq.requesttime;
-      temp.url = i.webReq.url;
-      temp.method = i.webReq.method;
+      temp.time = i.requesttime;
+      temp.url = i.url;
+      temp.method = i.method;
       temp.isRequest = true;
       seq_timeline.push(temp);
     }
-    if (i.webReq.responseTime) {
+    if (i.responseTime) {
       var temp = new Timeline();
-      temp.time = i.webReq.responseTime;
-      temp.url = i.webReq.url;
-      temp.statusCode = i.webReq.statusCode;
+      temp.time = i.responseTime;
+      temp.url = i.url;
+      temp.statusCode = i.statusCode;
       temp.isRequest = false;
       seq_timeline.push(temp);
     }
