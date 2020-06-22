@@ -69,7 +69,8 @@ function uploadfile(files) {
     .then((buf) => {
       var jsonString = getJson(buf);
       var converted = JSON.parse(jsonString.data);
-
+     console.log('====converted====', converted);
+     
       if (converted.network)
         convertStringToObject(converted.network);
       else {
@@ -78,6 +79,7 @@ function uploadfile(files) {
       }
 
       appendConsoleMessages(converted.console);
+      appendBrowserDetail(converted.browser);
     });
   document.getElementById('drop-zone').className = 'upload-drop-zone hideit';
 }
@@ -208,11 +210,19 @@ function init() {
 
   videoEle = document.querySelector('video')
   videoEle.addEventListener('timeupdate', playJsonFile, false);
+
   fetch(params.console)
     .then((res) => res.text())
     .then((json) => {
-      console.log('==json=', json);
+      console.log('==console json=', json);
       appendConsoleMessages(json);
+    });
+
+  fetch(params.browser)
+    .then((res) => res.text())
+    .then((json) => {
+      console.log('=browserDetailsURL=json=', json);
+      appendBrowserDetail(json);
     });
 }
 window.onload = init;
@@ -236,7 +246,7 @@ function downloadHandler() {
     var name = 'ReproNowGeneratedVideo';
     if (params.customname)
       name = params.customname;
-    chrome.tabs.create({ url: 'download.html?mp4=' + params.mp4 + '&json=' + params.json + '&console=' + params.console + '&customname=' + params.customname });
+    chrome.tabs.create({ url: 'download.html?mp4=' + params.mp4 + '&json=' + params.json + '&console=' + params.console + '&browser=' + params.browser + '&customname=' + params.customname });
   }
 }
 function uploadHandler() {
@@ -600,8 +610,10 @@ function convertStringToObject(stringjson) {
 
 function appendConsoleMessages(consoleMessages) {
   var parentNode = document.getElementById('consoleMessges');
-  var consoleList = JSON.parse(JSON.parse(consoleMessages));
-  if(consoleList.length) {
+  var consoleList = JSON.parse(consoleMessages);
+  console.log('=consoleList=', consoleList);
+  
+  if (consoleList.length) {
     consoleList.forEach(function (messages) {
       var consoleNode = document.createElement('pre');
       consoleNode.innerHTML = messages.type + ': ' + messages.message;
@@ -612,6 +624,20 @@ function appendConsoleMessages(consoleMessages) {
     var noConsole = document.createElement('div');
     noConsole.textContent = 'No console messages!'
     parentNode.appendChild(noConsole);
+  }
+}
+
+function appendBrowserDetail(browserDetail) {
+  console.log('=====browserDetailbrowserDetail==', browserDetail);
+  
+  var parentNode = document.getElementById('browserDetail');
+  var parsedJson = JSON.parse(browserDetail);
+  if (parsedJson) {
+    Object.keys(parsedJson).forEach(function (key) {
+      var detailNode = document.createElement('div');
+      detailNode.textContent = key + ': ' + parsedJson[key];
+      parentNode.appendChild(detailNode);
+    });
   }
 }
 

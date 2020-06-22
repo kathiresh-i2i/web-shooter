@@ -14,7 +14,8 @@
     "webRequestBlocking",
     "http://*/*",
     "https://*/*",
-    "debugger"
+    "debugger",
+    "geolocation"
   ],
   "content_scripts": [{
     "matches": ["<all_urls>"],

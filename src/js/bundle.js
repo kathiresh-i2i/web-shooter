@@ -23,12 +23,12 @@ window.getJson = getJson;
     enc = new TextEncoder("utf-8");
     dec = new TextDecoder("utf-8");
   }
-  function mergeAndDownload(name,videoBuffer,jsonString, consoleMessage)
+  function mergeAndDownload(name,videoBuffer,jsonString, consoleMessage, browserInfo)
   {
     init();
     var ebmlElms = decoder.decode(videoBuffer);
     console.log(ebmlElms);
-    ebmlElms=createArray(ebmlElms,name,jsonString, consoleMessage);
+    ebmlElms=createArray(ebmlElms,name,jsonString, consoleMessage, browserInfo);
     var arry=encoder.encode(ebmlElms);
     var decodedVal = decoder.decode(arry);
     console.log(decodedVal);
@@ -57,7 +57,7 @@ window.getJson = getJson;
     }
     return null;
   }
-  function createArray(elements,name,jsonString, consoleMessage)
+  function createArray(elements,name,jsonString, consoleMessage, browserInfo)
   {
     //var elements=[];
     var MasterElement={};
@@ -92,7 +92,8 @@ window.getJson = getJson;
     //childElement.data=new Buffer("blah blah blah");
     var data = {
       network: jsonString,
-      console: consoleMessage
+      console: consoleMessage,
+      browser: browserInfo
     }
     childElement.data=new Buffer(JSON.stringify(data));
     elements.push(childElement);

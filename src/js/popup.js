@@ -8,17 +8,20 @@ const startRecordingBtn = document.getElementById("startRecordingBtn");
 
 startRecordingBtn.onclick = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const { id: currentTabId } = tabs[0];
+    console.log('===tabs', tabs);
+    
+    const { id: currentTabId, url } = tabs[0];
     var recordName = document.querySelector('input#recName').value;
     var cb = document.getElementById('isEnableDataMask');
     console.log(".......MASK ENABLED.....",cb.checked);
     chrome.runtime.sendMessage({action: "startStopwatch"});
-    chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName, cb.checked);
+    chrome.extension.getBackgroundPage().startRecording(currentTabId, recordName, cb.checked, url);
   });
   let timeRange = document.getElementById("myRange").value;
   timeRange = timeRange < Number('15') ? 120 : Number(timeRange);
   chrome.storage.local.set({ isRecording: true, timerRange: timeRange  });
   startRecordingBtn.classList.add('hidebutton');
+  window.close();
 };
 
 const stop = document.getElementById("stop");

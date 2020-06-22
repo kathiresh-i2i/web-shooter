@@ -27,12 +27,13 @@
             <input type="text" class="form-control textbox" id="recName" value="Capture_Network">
           </div>
           <div class="form-group">
-            <label for="recName" class="TextBoxName" >Enable Mask Data</label>
-            <input type="checkbox" id="isEnableDataMask">
+            <label for="recName" class="TextBoxName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
+            <input type="range" min="15" max="180" class="form-control textbox" value="120" id="myRange">
           </div>
           <div class="form-group">
-            <label for="recName" class="TextBoxName">Time Range (15 - 180 seconds)</label><span id="result"><b></b></span>
-            <input type="range" min="15" max="180" class="form-control textbox" value="120" id="myRange">
+            <div>
+            <label for="recName" class="TextBoxName" >Enable Mask Data</label>
+            <input type="checkbox" id="isEnableDataMask"></div>
           </div>
           <!--  <div class="form-group selectOption">
             <label for="SelectedOption" class="TextBoxName" >Option</label>

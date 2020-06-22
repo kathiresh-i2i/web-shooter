@@ -35,12 +35,16 @@ var callCount = 0;
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.set({ timer: 0 });
 });
+var currentBrowserURL = '';
+var browserDetails = {};
 
-function startRecording(id, name, isMask) {
+function startRecording(id, name, isMask, currentURL) {
   tabId = id;
   isEnableMask = isMask;
   customName = name;
+  currentBrowserURL = currentURL;
   startScreenRecording(id);
+  getBrowserDetails();
 }
 
 const secondsToTime = (timeInSeconds) => {
@@ -202,7 +206,7 @@ function convertMapToObject(map_var) {
   return objectlist;
 }
 
-function launchPreview(videoURL, jsonURL, consoleURL) {
+function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
   chrome.windows.create({
     url:
       'display.html?mp4=' +
@@ -211,6 +215,8 @@ function launchPreview(videoURL, jsonURL, consoleURL) {
       jsonURL +
       '&console=' +
       consoleURL +
+      '&browser=' +
+      browserDetailsURL +
       '&customname=' +
       encodeURIComponent(customName),
     type: 'popup',
@@ -233,8 +239,8 @@ async function stopRecording(userClickStop = false) {
   chrome.storage.local.set({ isRecording: false });
   setTimeout(async () => {
     var recordedConsoleURL = '';
+    var browserDetailsURL = '';
     const networkLog = await stopNetworkRecording();
-    console.log('====networkLog', networkLog);
 
     const consoleMessages = (await stopConsoleRecording(tabId)) || [];
     const video = await getVideoDataUrl();
@@ -251,7 +257,7 @@ async function stopRecording(userClickStop = false) {
     }
     await stopVideoRecording();
     loading = true;
-   
+
     //var superBuffer = new Blob(recordedBlobs, {type: 'video/mpeg'});
     var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
     var recordedobjectURL = window.URL.createObjectURL(superBuffer);
@@ -262,13 +268,19 @@ async function stopRecording(userClickStop = false) {
     var recordedJsonURL = window.URL.createObjectURL(blob);
 
     if (consoleMessages && consoleMessages.logs) {
-      var aa = JSON.stringify(consoleMessages.logs);
-      var consoleBlob = new Blob([aa], { type: 'application/json' });
+      var consoleStr = consoleMessages.logs;
+
+      var consoleBlob = new Blob([consoleStr], { type: 'application/json' });
       recordedConsoleURL = window.URL.createObjectURL(consoleBlob);
     }
 
+    var browserDetailsStr = JSON.stringify(browserDetails);
+
+    var browserDetailsBlob = new Blob([browserDetailsStr], { type: 'application/json' });
+    browserDetailsURL = window.URL.createObjectURL(browserDetailsBlob);
+
     req.clear();
-    launchPreview(recordedobjectURL, recordedJsonURL, recordedConsoleURL);
+    launchPreview(recordedobjectURL, recordedJsonURL, recordedConsoleURL, browserDetailsURL);
     // Commented as of now for local preview
     // saveToLocalStorage();
     // var obj = {};
@@ -293,7 +305,7 @@ async function stopRecording(userClickStop = false) {
     // xmlHttp.open("POST", ' http://ec2-3-95-132-124.compute-1.amazonaws.com:3000/upload'); // false for synchronous request
     // xmlHttp.setRequestHeader("Content-type", "application/json");
     // xmlHttp.send(JSON.stringify(obj));
-  }, 2000);
+  }, 1000);
 }
 
 function getRequestByTypes() {
@@ -590,4 +602,34 @@ function formatHeaders(headers) {
     headerList.push(headerJson);
   });
   return headerList;
+}
+
+function getBrowserDetails() {
+  if (navigator) {
+    browserDetails['Url'] = currentBrowserURL;
+    browserDetails['Recording Time'] = getCurrentTime();
+    browserDetails.Version = navigator.appVersion;
+    browserDetails['User Agent'] = navigator.userAgent;
+    browserDetails.Language = navigator.language;
+    browserDetails['Device Memory'] = navigator.deviceMemory ? navigator.deviceMemory + 'GB' : '';
+    browserDetails['Cookie Enabled'] = navigator.cookieEnabled;
+    browserDetails.TimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    navigator.geolocation.getCurrentPosition(setLocation);
+  }
+}
+
+function setLocation(position) {
+  console.log('====position', position);
+  if (position) {
+    browserDetails.Location = 'Latitude: ' + position.coords.latitude + ', ' + 'Longitude: ' + position.coords.longitude
+  } else {
+    browserDetails.location = '';
+  }
+}
+
+function getCurrentTime() {
+  var today = new Date();
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  return date + ' ' + time;
 }

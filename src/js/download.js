@@ -11,7 +11,7 @@ if (location.search) {
   }
 }
 
-function passToFFmpegv2(json, consoleMessage, video, nameOfVideo) {
+function passToFFmpegv2(json, consoleMessage, browserInfo, video, nameOfVideo) {
 
   nameOfVideo = decodeURIComponent(nameOfVideo).split(' ').join('_');
   //var videoArrayBuffer=dataURLtoBlob(video);
@@ -21,7 +21,7 @@ function passToFFmpegv2(json, consoleMessage, video, nameOfVideo) {
       var videoDownloadSuccess = new Promise(
         function (resolve, reject) {
           try {
-            mergeAndDownload(nameOfVideo, buf, json, consoleMessage);
+            mergeAndDownload(nameOfVideo, buf, json, consoleMessage, browserInfo);
             return resolve();
           }
           catch (e) {
@@ -61,12 +61,21 @@ onload = async function () {
       });
 
     var consoleMessages =
-    await fetch(params.console)
-      .then((res) => res.text())
-      .then((json) => {
-        return json;
-      });
-    passToFFmpegv2(networkRequest, consoleMessages, params.mp4, params.customname);
+      await fetch(params.console)
+        .then((res) => res.text())
+        .then((json) => {
+          return json;
+        });
+
+    var browserInfo =
+      await fetch(params.browser)
+        .then((res) => res.text())
+        .then((json) => {
+          return json;
+        });
+
+
+    passToFFmpegv2(networkRequest, consoleMessages, browserInfo, params.mp4, params.customname);
   }
   if (params.vidobjurl && params.vidFileName) {
     downloadVid(params.vidobjurl, params.vidFileName);
