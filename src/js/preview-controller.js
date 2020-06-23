@@ -24,8 +24,10 @@ angular.module('webshooter').controller('PreviewController', [
         .then((json) => {
           if (json.length) {
             $scope.consoleLogs = json;
+            console.log('====console==', json);
+            
             var wrapper = document.getElementById("console");
-            var tree = jsonTree.create(JSON.parse($scope.consoleLogs), wrapper);
+            var tree = jsonTree.create($scope.consoleLogs, wrapper);
             tree.expand();
             tree.expand(function (node) {
               return node.childNodes.length < 2;
@@ -39,6 +41,7 @@ angular.module('webshooter').controller('PreviewController', [
         .then((json) => {
           if (json) {
             $scope.network = json;
+            console.log('====network==', json);
             var wrapper = document.getElementById("network");
             var tree = jsonTree.create(json, wrapper);
             tree.expand();
@@ -63,16 +66,16 @@ angular.module('webshooter').controller('PreviewController', [
     function showRequest() {
       matchedReq = '';
       // currentTime = videoEle.currentTime;
-      $scope.network.forEach(function (network) {
-        if (network.requesttime <= videoEle.currentTime) {
-          if ((network.requesttime > currentTime) || currentTime === 0) {
-            if (matchedReq !== network.requestid) {
-              currentTime = network.requesttime;
-              matchedReq = network.requestid;
-            }
-          }
-        }
-      });
+      // $scope.network.forEach(function (network) {
+      //   if (network.requesttime <= videoEle.currentTime) {
+      //     if ((network.requesttime > currentTime) || currentTime === 0) {
+      //       if (matchedReq !== network.requestid) {
+      //         currentTime = network.requesttime;
+      //         matchedReq = network.requestid;
+      //       }
+      //     }
+      //   }
+      // });
     }
     videoEle.onseeked = (event) => {
       currentTime = 0;

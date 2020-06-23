@@ -9,16 +9,22 @@
   <link href="jsonTree.css" rel="stylesheet" />
   <link href="app.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
-
   <!-- Bootstrap -->
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="preview.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="bower_components/angular/angular-csp.css" type="text/css" /> -->
 </head>
 
 <body ng-app="webshooter" ng-csp>
-  <div class="container">
-    <div ng-view></div>
-  </div>
+  <div>
+  		<div ng-view class="height-100vh"></div>
+  	</div> 
   <script src="angular.min.js"></script>
   <script src="angular-route.min.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="bootstrap.min.js"></script>
   <script src="jsonTree.js"></script>
   <script src="app.js"></script>
   <script src="preview-controller.js"></script>
