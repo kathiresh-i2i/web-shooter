@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
   <script src="./jquery-3.2.1.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <style>
@@ -27,13 +27,12 @@
             <input type="text" class="form-control textbox" id="recName" value="Capture_Network">
           </div>
           <div class="form-group">
-            <label for="recName" class="TextBoxName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
-            <input type="range" min="15" max="180" class="form-control textbox" value="120" id="myRange">
+            <label for="range" class="TextBoxName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
+            <input name="range" type="range" min="15" max="180" class="textbox slider" value="120" id="myRange" style="padding:0">
           </div>
-          <div class="form-group">
-            <div>
-            <label for="recName" class="TextBoxName" >Enable Mask Data</label>
-            <input type="checkbox" id="isEnableDataMask"></div>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="isEnableDataMask">
+            <label class="TextBoxName custom-control-label p-t-2" for="isEnableDataMask">Mask</label>
           </div>
           <!--  <div class="form-group selectOption">
             <label for="SelectedOption" class="TextBoxName" >Option</label>

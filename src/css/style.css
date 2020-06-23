@@ -8,7 +8,7 @@
 }
 .card-block{
 	text-align: center;
-	/* padding-top:5%; */
+	padding-top:5%;
 }
 .form{
 	padding-left:10%;
@@ -85,4 +85,47 @@
 .bg-primary {
   background-color: #F37B56 !important;
   color: white;
+}
+
+.slider {
+	-webkit-appearance: none;
+	height: 12px;
+	border-radius: 5px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+.slider:hover {
+	opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #61a846;
+	cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #61a846;
+	cursor: pointer;
+}
+.p-t-2 {
+  padding-top: 2px;
+}
+.custom-control-input:checked~.custom-control-label::before {
+  color: #fff;
+  border-color: #61a846;
+  background-color: #61a846;
+}
+.custom-control-input:focus~.custom-control-label::before {
+  box-shadow: none;
 }
