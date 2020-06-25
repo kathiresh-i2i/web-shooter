@@ -1,6 +1,6 @@
 <div class="container-fluid h-100">
   <div class="row justify-content-center h-100">
-    <div class="col-2 sidebar">
+    <!-- <div class="col-2 sidebar">
       <img class="logo"
         src="https://www.ideas2it.com/wp-content/themes/ideas2it-theme/dist/assets/images/logo_web_white.png"
         alt="Ideas2IT-Logo">
@@ -66,34 +66,67 @@
           </svg><span>
             Contact us
           </span></button></div>
-    </div>
-    <div class="col-lg-10 col-xl-10 content-wrapper">
+    </div> -->
+    <div class="col-lg-12 col-xl-12 content-wrapper">
       <div class="content-header">
         <span>
-          QA Eats Bug :: Demo Session
+          QA Eats Bug :: Demo Session ---- {{test}}
         </span></div>
-      <div id="container">
-        <div class="row justify-content-center h-100">
-          <div class="splitpanel col-6" id="left_panel">
+      <div id="container" class="custom-container">
+        <div class="row justify-content-center height-400">
+          <div class="splitpanel col-6 height-400" id="left_panel">
             <div class="embed-responsive embed-responsive-16by9">
               <video id="vid" controls src="{{videoSrc}}"></video>
             </div>
           </div>
-          <div class="splitpanel col-6" id="right_panel">Panel 22</div>
-        </div>
-        <div class="row justify-content-center h-100">
-          <div class="splitpanel col-4 h-100" id="btLft_panel">Panel 3</div>
-          <div class="splitpanel col-4 h-100" id="btCen_panel">
-            <div id="network">
+          <div class="splitpanel col-6" id="right_panel">
+            <div class="header">Timeline</div>
+            <div class="content">
+              <div class="card timeline-card" ng-repeat="x in networkList" ng-class="$even ? 'timeline-even' : 'timeline-odd'">
+                <div class="card-body" id="timeline_{{x.requestid}}">
+                  {{x.method }} - {{x.url}}
+                </div>
+              </div>
             </div>
           </div>
-          <div class="splitpanel col-4 h-100" id="btRgt_panel"><P><div id="console">
-          </div></P></div>
+        </div>
+        <div class="row justify-content-center h-100 height-400">
+          <div class="splitpanel col-6 h-100" id="btLft_panel">
+            <div class="header">Request</div>
+            <div class="content" id="network">
+            </div>
+          </div>
+          <div class="splitpanel col-6 h-100" id="right_panel">
+            <div class="header">Response</div>
+            <div class="content" id="network1">
+            </div>
+          </div>
+        </div>
+        <div class="row h-100 height-400">
+          <div class="splitpanel col-6 h-100" id="btLft_panel">
+            <div class="header">Console</div>
+            <div class="content" id="console">
+            </div>
+          </div>
+          <div class="splitpanel col-6 h-100" id="right_panel">
+            <div class="header">Browser Info</div>
+            <div class="content" id="bb">
+              sdfdfdsf
+              sdfsdfsdf
+              dsffdsf
+              dfdsfds
+              ffsdfdsf
+              ffsdfdsfds
+              ffsdfdsfdf
+              dsf
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- <div id="network">
 </div>

@@ -22,6 +22,10 @@ startRecordingBtn.onclick = () => {
   chrome.storage.local.set({ isRecording: true, timerRange: timeRange  });
   startRecordingBtn.classList.add('hidebutton');
   window.close();
+    // No tabs or host permissions needed!
+    // chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, function (tab) {
+    //   // Tab opened.
+    // });
 };
 
 const stop = document.getElementById("stop");

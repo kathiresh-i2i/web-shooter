@@ -25,7 +25,8 @@ body {
 }
 .content-wrapper {
   padding: 0px;
-  background: #242a36;
+  /* background: #242a36; */
+  background: #ffffff;
   color: #f4faff;
 }
 .content-header {
@@ -107,4 +108,60 @@ button {
 
 .height-100vh {
   height: 100vh;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.height-400 {
+  height: 400px !important;
+}
+
+.custom-container {
+  overflow: auto;
+}
+
+.splitpanel {
+  padding: 0px;
+}
+
+.splitpanel .content {
+  padding: 10px;
+}
+
+.content {
+  overflow: auto;
+  height: 400px !important;
+}
+
+.header {
+  background: grey;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.timeline-card {
+  color: grey;
+  cursor: pointer;
+  margin: 5px 0px 5px 0px;
+  box-shadow: 0 2px 5px 0;
+}
+
+.timeline-odd {
+  width: 70%;
+  float: right;
+}
+
+.timeline-even {
+  width: 70%;
+}
+
+.timeline-card .card-body {
+  padding: 10px;
+}
+
+.timeline-card:hover {
+  transform: scale(1);
+  box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.3);
 }

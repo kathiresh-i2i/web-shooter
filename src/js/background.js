@@ -206,9 +206,9 @@ function convertMapToObject(map_var) {
 }
 
 function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
-  chrome.windows.create({
+  chrome.tabs.create({
     url:
-      'display.html?mp4=' +
+      'index.html?mp4=' +
       videoURL +
       '&json=' +
       jsonURL +
@@ -217,10 +217,7 @@ function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
       '&browser=' +
       browserDetailsURL +
       '&customname=' +
-      encodeURIComponent(customName),
-    type: 'popup',
-    width: screen.width,
-    height: screen.height,
+      encodeURIComponent(customName)
   });
 }
 
