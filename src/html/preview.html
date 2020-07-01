@@ -73,24 +73,24 @@
           QA Eats Bug :: Demo Session ---- {{test}}
         </span></div>
       <div id="container" class="custom-container">
-        <div class="row justify-content-center height-400">
+        <div class="row justify-content-center height-400 no-margin">
           <div class="splitpanel col-6 height-400" id="left_panel">
-            <div class="embed-responsive embed-responsive-16by9">
-              <video id="vid" controls src="{{videoSrc}}"></video>
-            </div>
+            <div class="header">Video</div>
+            <video id="vid" controls src="{{videoSrc}}" class="width-100"></video>
           </div>
           <div class="splitpanel col-6" id="right_panel">
             <div class="header">Timeline</div>
             <div class="content">
-              <div class="card timeline-card" ng-repeat="x in networkList" ng-class="$even ? 'timeline-even' : 'timeline-odd'">
+              <div class="card timeline-card" ng-repeat="x in networkList"
+                ng-class="$even ? 'timeline-even' : 'timeline-odd'">
                 <div class="card-body" id="timeline_{{x.requestid}}">
-                  {{x.method }} - {{x.url}}
+                  <span class="badge badge-secondary">{{x.requesttime}}</span> {{x.method }} - {{x.url}}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row justify-content-center h-100 height-400">
+        <div class="row justify-content-center h-100 height-400 no-margin">
           <div class="splitpanel col-6 h-100" id="btLft_panel">
             <div class="header">Request</div>
             <div class="content" id="network">
@@ -102,7 +102,7 @@
             </div>
           </div>
         </div>
-        <div class="row h-100 height-400">
+        <div class="row h-100 height-400 ">
           <div class="splitpanel col-6 h-100" id="btLft_panel">
             <div class="header">Console</div>
             <div class="content" id="console">

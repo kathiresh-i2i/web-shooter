@@ -53,7 +53,7 @@ body {
   border-left: 2px solid #1a202c;
 }
 
-#btLft_panel {
+/* #btLft_panel {
   color: #fff;
   border-top: 2px solid #1a202c;
 }
@@ -63,13 +63,13 @@ body {
   border-top: 2px solid #1a202c;
   border-left: 2px solid #1a202c;
   border-right: 2px solid #1a202c;
-}
+} */
 
-#btRgt_panel {
+/* #btRgt_panel {
   position: relative;
   border-top: 2px solid #1a202c;
   color: #fff;
-}
+} */
 
 tbody tr td,
 .sidebar-heading,
@@ -132,7 +132,7 @@ button {
 
 .content {
   overflow: auto;
-  height: 400px !important;
+  height: 355px !important;
 }
 
 .header {
@@ -164,4 +164,12 @@ button {
 .timeline-card:hover {
   transform: scale(1);
   box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.width-100 {
+  width: 100%;
 }
