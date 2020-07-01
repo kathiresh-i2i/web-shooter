@@ -49,57 +49,60 @@ angular.module('webshooter').controller('PreviewController', [
 
       var data1 = [
         {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":1.793,
+           "method":"GET",
+           "url":"https://reqres.in/api/unknown/23",
+           "requesttime":2.128,
            "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
+              "Content-Type":"application/json",
+              "Referer":"https://reqres.in/",
               "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
            },
-           "type":"Fetch",
+           "type":"XHR",
            "responseHeaders":{
               "access-control-allow-origin":"*",
-              "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943bfca7ddf1-SIN",
-              "cf-request-id":"0381baf9780000ddf1e11d7200000001",
-              "content-length":"51",
+              "age":"114",
+              "cache-control":"max-age=14400",
+              "cf-cache-status":"HIT",
+              "cf-ray":"5abf25f78bb16c02-SJC",
+              "cf-request-id":"03ab560eb200006c02131b5200000001",
+              "content-length":"2",
               "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-hBl3nfOn3ybVMC8CCx4e4iQkRsc\"",
+              "date":"Wed, 01 Jul 2020 09:37:25 GMT",
+              "etag":"W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\"",
               "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
               "server":"cloudflare",
-              "status":"201",
+              "status":"404",
+              "vary":"Accept-Encoding",
               "via":"1.1 vegur",
               "x-powered-by":"Express"
            },
-           "statusCode":201,
-           "responseTime":2.271,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"910\",\"createdAt\":\"2020-06-23T07:43:36.598Z\"}",
-           "requestid":"86834.213"
+           "statusCode":404,
+           "responseTime":2.648,
+           "statusLine":404,
+           "responseBody":"{}",
+           "requestid":"91825.737",
+           "$$hashKey":"object:3"
         },
         {
            "method":"POST",
            "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
            "url":"https://reqres.in/api/users",
-           "requesttime":1.96,
+           "requesttime":6.368,
            "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
+              "Content-Type":"application/json",
+              "Referer":"https://reqres.in/",
               "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
            },
-           "type":"Fetch",
+           "type":"XHR",
            "responseHeaders":{
               "access-control-allow-origin":"*",
               "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943d0eafddf1-SIN",
-              "cf-request-id":"0381bafa240000ddf1e11df200000001",
-              "content-length":"51",
+              "cf-ray":"5abf26121b326c02-SJC",
+              "cf-request-id":"03ab561f5100006c021320e200000001",
+              "content-length":"84",
               "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-FkeY6hbpRH+hXywZlR2TwA2Z7hE\"",
+              "date":"Wed, 01 Jul 2020 09:37:30 GMT",
+              "etag":"W/\"54-JVFvLRkF1KtupsuBxHbhnAaV0Lo\"",
               "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
               "server":"cloudflare",
               "status":"201",
@@ -107,205 +110,114 @@ angular.module('webshooter').controller('PreviewController', [
               "x-powered-by":"Express"
            },
            "statusCode":201,
-           "responseTime":2.624,
+           "responseTime":7.085,
            "statusLine":201,
-           "responseBody":"{\"id\":\"650\",\"createdAt\":\"2020-06-23T07:43:36.757Z\"}",
-           "requestid":"86834.214"
+           "responseBody":"{\"name\":\"morpheus\",\"job\":\"leader\",\"id\":\"927\",\"createdAt\":\"2020-07-01T09:37:30.208Z\"}",
+           "requestid":"91825.741",
+           "$$hashKey":"object:4"
         },
         {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":1.793,
+           "method":"GET",
+           "url":"https://reqres.in/api/users?delay=3",
+           "requesttime":9.319,
            "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
+              "Content-Type":"application/json",
+              "Referer":"https://reqres.in/",
               "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
            },
-           "type":"Fetch",
+           "type":"XHR",
            "responseHeaders":{
               "access-control-allow-origin":"*",
               "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943bfca7ddf1-SIN",
-              "cf-request-id":"0381baf9780000ddf1e11d7200000001",
-              "content-length":"51",
+              "cf-ray":"5abf26244fa86c02-SJC",
+              "cf-request-id":"03ab562aaf00006c0213251200000001",
+              "content-encoding":"br",
               "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-hBl3nfOn3ybVMC8CCx4e4iQkRsc\"",
+              "date":"Wed, 01 Jul 2020 09:37:36 GMT",
+              "etag":"W/\"4c5-znzuruTKwnH4068T7ikF88YcCME\"",
               "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
               "server":"cloudflare",
-              "status":"201",
+              "status":"200",
               "via":"1.1 vegur",
               "x-powered-by":"Express"
            },
-           "statusCode":201,
-           "responseTime":2.271,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"910\",\"createdAt\":\"2020-06-23T07:43:36.598Z\"}",
-           "requestid":"86834.213"
+           "statusCode":200,
+           "responseTime":12.882,
+           "statusLine":200,
+           "responseBody":"{\"page\":1,\"per_page\":6,\"total\":12,\"total_pages\":2,\"data\":[{\"id\":1,\"email\":\"george.bluth@reqres.in\",\"first_name\":\"George\",\"last_name\":\"Bluth\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg\"},{\"id\":2,\"email\":\"janet.weaver@reqres.in\",\"first_name\":\"Janet\",\"last_name\":\"Weaver\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"},{\"id\":3,\"email\":\"emma.wong@reqres.in\",\"first_name\":\"Emma\",\"last_name\":\"Wong\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/olegpogodaev/128.jpg\"},{\"id\":4,\"email\":\"eve.holt@reqres.in\",\"first_name\":\"Eve\",\"last_name\":\"Holt\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg\"},{\"id\":5,\"email\":\"charles.morris@reqres.in\",\"first_name\":\"Charles\",\"last_name\":\"Morris\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg\"},{\"id\":6,\"email\":\"tracey.ramos@reqres.in\",\"first_name\":\"Tracey\",\"last_name\":\"Ramos\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg\"}],\"ad\":{\"company\":\"StatusCode Weekly\",\"url\":\"http://statuscode.org/\",\"text\":\"A weekly newsletter focusing on software development, infrastructure, the server, performance, and the stack end of things.\"}}",
+           "requestid":"91825.745",
+           "$$hashKey":"object:5"
         },
         {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":1.96,
+           "method":"GET",
+           "url":"https://reqres.in/api/users/23",
+           "requesttime":13.484,
            "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
+              "Content-Type":"application/json",
+              "Referer":"https://reqres.in/",
               "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
            },
-           "type":"Fetch",
+           "type":"XHR",
            "responseHeaders":{
               "access-control-allow-origin":"*",
-              "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943d0eafddf1-SIN",
-              "cf-request-id":"0381bafa240000ddf1e11df200000001",
-              "content-length":"51",
+              "cache-control":"max-age=14400",
+              "cf-cache-status":"EXPIRED",
+              "cf-ray":"5abf263e3d9f6c02-SJC",
+              "cf-request-id":"03ab563ae100006c021329e200000001",
+              "content-length":"2",
               "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-FkeY6hbpRH+hXywZlR2TwA2Z7hE\"",
+              "date":"Wed, 01 Jul 2020 09:37:37 GMT",
+              "etag":"W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\"",
               "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
               "server":"cloudflare",
-              "status":"201",
+              "status":"404",
+              "vary":"Accept-Encoding",
               "via":"1.1 vegur",
               "x-powered-by":"Express"
            },
-           "statusCode":201,
-           "responseTime":2.624,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"650\",\"createdAt\":\"2020-06-23T07:43:36.757Z\"}",
-           "requestid":"86834.214"
+           "statusCode":404,
+           "responseTime":14.148,
+           "statusLine":404,
+           "responseBody":"{}",
+           "requestid":"91825.749",
+           "$$hashKey":"object:6"
         },
         {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":3.793,
+           "method":"PUT",
+           "requestBody":"{\"name\":\"morpheus\",\"job\":\"zion resident\"}",
+           "url":"https://reqres.in/api/users/2",
+           "requesttime":15.952,
            "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
+              "Content-Type":"application/json",
+              "Referer":"https://reqres.in/",
               "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
            },
-           "type":"Fetch",
+           "type":"XHR",
            "responseHeaders":{
               "access-control-allow-origin":"*",
               "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943bfca7ddf1-SIN",
-              "cf-request-id":"0381baf9780000ddf1e11d7200000001",
-              "content-length":"51",
+              "cf-ray":"5abf264da9766c02-SJC",
+              "cf-request-id":"03ab56448700006c02132ba200000001",
+              "content-encoding":"br",
               "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-hBl3nfOn3ybVMC8CCx4e4iQkRsc\"",
+              "date":"Wed, 01 Jul 2020 09:37:39 GMT",
+              "etag":"W/\"50-hyDtI74VMV3KPET9bpEsmJxeif0\"",
               "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
               "server":"cloudflare",
-              "status":"201",
+              "status":"200",
+              "vary":"Accept-Encoding",
               "via":"1.1 vegur",
               "x-powered-by":"Express"
            },
-           "statusCode":201,
-           "responseTime":2.271,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"910\",\"createdAt\":\"2020-06-23T07:43:36.598Z\"}",
-           "requestid":"86834.213"
-        },
-        {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":5.96,
-           "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
-              "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
-           },
-           "type":"Fetch",
-           "responseHeaders":{
-              "access-control-allow-origin":"*",
-              "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943d0eafddf1-SIN",
-              "cf-request-id":"0381bafa240000ddf1e11df200000001",
-              "content-length":"51",
-              "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-FkeY6hbpRH+hXywZlR2TwA2Z7hE\"",
-              "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
-              "server":"cloudflare",
-              "status":"201",
-              "via":"1.1 vegur",
-              "x-powered-by":"Express"
-           },
-           "statusCode":201,
-           "responseTime":2.624,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"650\",\"createdAt\":\"2020-06-23T07:43:36.757Z\"}",
-           "requestid":"86834.214"
-        },
-        {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":9.793,
-           "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
-              "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
-           },
-           "type":"Fetch",
-           "responseHeaders":{
-              "access-control-allow-origin":"*",
-              "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943bfca7ddf1-SIN",
-              "cf-request-id":"0381baf9780000ddf1e11d7200000001",
-              "content-length":"51",
-              "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-hBl3nfOn3ybVMC8CCx4e4iQkRsc\"",
-              "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
-              "server":"cloudflare",
-              "status":"201",
-              "via":"1.1 vegur",
-              "x-powered-by":"Express"
-           },
-           "statusCode":201,
-           "responseTime":2.271,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"910\",\"createdAt\":\"2020-06-23T07:43:36.598Z\"}",
-           "requestid":"86834.213"
-        },
-        {
-           "method":"POST",
-           "requestBody":"{\"name\":\"morpheus\",\"job\":\"leader\"}",
-           "url":"https://reqres.in/api/users",
-           "requesttime":11.96,
-           "requestHeaders":{
-              "Content-Type":"text/plain;charset=UTF-8",
-              "Referer":"",
-              "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
-           },
-           "type":"Fetch",
-           "responseHeaders":{
-              "access-control-allow-origin":"*",
-              "cf-cache-status":"DYNAMIC",
-              "cf-ray":"5a7c943d0eafddf1-SIN",
-              "cf-request-id":"0381bafa240000ddf1e11df200000001",
-              "content-length":"51",
-              "content-type":"application/json; charset=utf-8",
-              "date":"Tue, 23 Jun 2020 07:43:36 GMT",
-              "etag":"W/\"33-FkeY6hbpRH+hXywZlR2TwA2Z7hE\"",
-              "expect-ct":"max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
-              "server":"cloudflare",
-              "status":"201",
-              "via":"1.1 vegur",
-              "x-powered-by":"Express"
-           },
-           "statusCode":201,
-           "responseTime":2.624,
-           "statusLine":201,
-           "responseBody":"{\"id\":\"650\",\"createdAt\":\"2020-06-23T07:43:36.757Z\"}",
-           "requestid":"86834.214"
+           "statusCode":200,
+           "responseTime":16.687,
+           "statusLine":200,
+           "responseBody":"{\"name\":\"morpheus\",\"job\":\"zion resident\",\"updatedAt\":\"2020-07-01T09:37:39.733Z\"}",
+           "requestid":"91825.753",
+           "$$hashKey":"object:7"
         }
      ];
-      $scope.networkList = data1;
+      // $scope.networkList = data1;
       var wrapper = document.getElementById("network");
       var wrapper1 = document.getElementById("network1");
       // var wrapper2 = document.getElementById("network2");
@@ -327,10 +239,10 @@ angular.module('webshooter').controller('PreviewController', [
       fetch(params.json)
         .then((res) => res.json())
         .then((json) => {
+          $scope.networkList = json;
+          $scope.$apply();
           if (json) {
-            $scope.network = JSON.parse(json);
-            console.log('====network==', JSON.stringify(json));
-
+            console.log('====$scope.network==', JSON.stringify($scope.networkList));
             var wrapper = document.getElementById("network");
             var wrapper1 = document.getElementById("network1");
             var tree = jsonTree.create(json, wrapper);
@@ -352,9 +264,14 @@ angular.module('webshooter').controller('PreviewController', [
     var videoEle = {};
     var currentTime = 0
     videoEle = document.querySelector('video')
+    var count = 0;
     videoEle.ontimeupdate = function () {
       currentTime = 0
-      if($scope.network) {
+      if(count  === 0) {
+        console.log('===== $scope.network',  $scope.networkList);
+        count++;
+      }
+      if($scope.networkList) {
         showRequest();
 
       }
@@ -363,17 +280,14 @@ angular.module('webshooter').controller('PreviewController', [
     var matchedReq;
     function showRequest() {
       matchedReq = '';
-      currentTime = videoEle.currentTime;
-      console.log('===== $scope.network',  $scope.network);
-      
-      $scope.network.forEach(function (network) {
+      $scope.networkList.forEach(function (network) {
         if (network.requesttime <= videoEle.currentTime) {
           if ((network.requesttime > currentTime) || currentTime === 0) {
             if (matchedReq !== network.requestid) {
               currentTime = network.requesttime;
               matchedReq = network.requestid;
               console.log('=====matchedReq', matchedReq);
-              document.getElementById('timeline_'+matchedReq.requestid).style.background = 'green';
+              document.getElementById('timeline_'+matchedReq).classList.add('timeline-background');
             }
           }
         }
@@ -381,11 +295,17 @@ angular.module('webshooter').controller('PreviewController', [
     }
     videoEle.onseeked = (event) => {
       currentTime = 0;
+      document.querySelectorAll('.card-body').forEach(element => {
+        element.classList.remove('timeline-background');
+      });
       showRequest();
     };
 
     videoEle.onseeking = (event) => {
       console.log('===============Video is seeking a new position==========');
+      document.querySelectorAll('.card-body').forEach(element => {
+        element.classList.remove('timeline-background');
+      });
     };
 
 
@@ -395,6 +315,14 @@ angular.module('webshooter').controller('PreviewController', [
       chrome.tabs.create({ url: 'download.html?mp4=' + params.mp4 + '&json=' + params.json + '&console=' + params.console + '&customname=' + 'kkkk' });
     }
 
+    $scope.trackVideoToRequest = function(request) {
+      console.log('==request=', request);
+      document.querySelectorAll('.card-body').forEach(element => {
+        element.classList.remove('timeline-background');
+      });
+      document.getElementById('timeline_'+request.requestid).classList.add('timeline-background');
+      videoEle.currentTime = request.requesttime;
+    }
 
   },
 ]);

@@ -170,6 +170,11 @@ button {
   margin: 0;
 }
 
-.width-100 {
+.video-section {
+  height: 100%;
   width: 100%;
+}
+
+.timeline-background {
+  background: #ececdc;
 }

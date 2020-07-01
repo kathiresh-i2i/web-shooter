@@ -76,13 +76,16 @@
         <div class="row justify-content-center height-400 no-margin">
           <div class="splitpanel col-6 height-400" id="left_panel">
             <div class="header">Video</div>
-            <video id="vid" controls src="{{videoSrc}}" class="width-100"></video>
+            <div class="content">
+            <video id="vid" controls src="{{videoSrc}}" class="
+            video-section"></video>
+          </div>
           </div>
           <div class="splitpanel col-6" id="right_panel">
             <div class="header">Timeline</div>
             <div class="content">
               <div class="card timeline-card" ng-repeat="x in networkList"
-                ng-class="$even ? 'timeline-even' : 'timeline-odd'">
+                ng-class="$even ? 'timeline-even' : 'timeline-odd'" ng-click="trackVideoToRequest(x);">
                 <div class="card-body" id="timeline_{{x.requestid}}">
                   <span class="badge badge-secondary">{{x.requesttime}}</span> {{x.method }} - {{x.url}}
                 </div>
@@ -102,7 +105,7 @@
             </div>
           </div>
         </div>
-        <div class="row h-100 height-400 ">
+        <div class="row h-100 height-400 no-margin">
           <div class="splitpanel col-6 h-100" id="btLft_panel">
             <div class="header">Console</div>
             <div class="content" id="console">
@@ -111,14 +114,7 @@
           <div class="splitpanel col-6 h-100" id="right_panel">
             <div class="header">Browser Info</div>
             <div class="content" id="bb">
-              sdfdfdsf
-              sdfsdfsdf
-              dsffdsf
-              dfdsfds
-              ffsdfdsf
-              ffsdfdsfds
-              ffsdfdsfdf
-              dsf
+              
             </div>
           </div>
         </div>
