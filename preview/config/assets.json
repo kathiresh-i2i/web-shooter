@@ -1,0 +1,33 @@
+{
+    "core": {
+        "css": {
+            "dest": "dist/css/",
+            "src": [
+                "assets/css/admin.css"
+               
+            ]
+        },
+        "js": {
+            "dest": "dist/js/",
+            "src": [
+                "node_modules/angular/angular.min.js"
+            ]
+        }
+    },
+    "main": {
+        "css": {
+            "dest": "dist/css/",
+            "src": [
+                
+            ]
+        },
+        "js": {
+           "dest": "dist/js/",
+            "src": [
+                "src/preview.js",
+                "src/preview.component.js",
+                "src/preview.module.js"
+             ]
+        }
+    }
+}

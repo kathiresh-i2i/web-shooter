@@ -220,13 +220,14 @@ angular.module('webshooter').controller('PreviewController', [
       // $scope.networkList = data1;
       var wrapper = document.getElementById("network");
       var wrapper1 = document.getElementById("network1");
+      debugger;
       // var wrapper2 = document.getElementById("network2");
       var tree = jsonTree.create(data1, wrapper);
       tree.expand();
       tree.expand(function (node) {
         return node.childNodes.length < 2;
       });
-      var tree1 = jsonTree.create(data1, wrapper1);
+      var tree1 = jsonTreee.create(data1, wrapper1);
       tree1.expand();
       tree1.expand(function (node) {
         return node.childNodes.length < 2;

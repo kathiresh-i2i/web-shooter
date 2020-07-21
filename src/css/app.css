@@ -7,6 +7,15 @@
  *
  * Sun 27 2014 20:15:00 GMT+0400
  */
+ html{
+   font-family: 'Roboto';
+ }
+
+ body{
+   font-family: 'Roboto';
+   font-size: 14px;
+   font-style: normal;
+ }
 
  .global-error {
   position: fixed;
@@ -182,10 +191,10 @@
   font-size: 11px;
 }
 
-#wrapper {
+/* #wrapper {
   position: relative;
   padding: 70px 20px 0;
-}
+} */
 
 .overlay {
   position: fixed;
