@@ -1,8 +1,17 @@
 import * as angular from 'angular';
 import { PreviewComponent } from './preview.component';
-export const MODULE_NAME = "preview";
+import { LAYOUT_MODULE } from './layout/layout.module';
 
-const MODULE_DEPENDENCIES: Array<string> = [];
-export const PopupModule = angular.module('popup', MODULE_DEPENDENCIES)
+import { PreviewCotroller } from './preview.controller';
+import { FileOnChangeDirective } from './directives/filemodel.directive';
+import { VideoControlsDirective } from './directives/videoControl.directive';
+  
+export const MODULE_NAME = "display";
+
+const MODULE_DEPENDENCIES: Array<string> = [LAYOUT_MODULE];
+export const PreviewModule = angular.module(MODULE_NAME, MODULE_DEPENDENCIES)
+.directive('fileOnChange', FileOnChangeDirective)
+.directive('videoControl', VideoControlsDirective)
+.controller('PrevieController', PreviewCotroller)
 .component('preview', PreviewComponent)
 .name;

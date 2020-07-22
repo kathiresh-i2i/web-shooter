@@ -1,0 +1,42 @@
+#browsefile {
+    opacity: 0;
+    position: absolute;
+}
+
+.notice {
+  padding: 15px;
+  width: 85%;
+  background-color: #fafafa;
+  border-left: 6px solid #7f7f84;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+          box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+}
+.notice:nth-child(even){
+  margin-left: 20px;
+}
+.notice-sm {
+  padding: 10px;
+  font-size: 80%;
+}
+.notice-200{
+  border-left: 6px solid green;
+}
+.notice-404{
+  border-left: 6px solid red;
+}
+.notice-201{
+  border-left: 6px solid orangered;
+}
+.notice-304{
+  border-left: 6px solid orange;
+}
+
+.timeline {
+  overflow-y: scroll;
+}
+
+.m-h-310{
+  min-height:310px
+}

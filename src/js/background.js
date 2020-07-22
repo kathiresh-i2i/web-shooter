@@ -206,19 +206,22 @@ function convertMapToObject(map_var) {
 }
 
 function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
-  chrome.tabs.create({
-    url:
-      'index.html?mp4=' +
-      videoURL +
-      '&json=' +
-      jsonURL +
-      '&console=' +
-      consoleURL +
-      '&browser=' +
-      browserDetailsURL +
-      '&customname=' +
-      encodeURIComponent(customName)
-  });
+  // chrome.tabs.create({
+  //   url:
+  //     'index.html?mp4=' +
+  //     videoURL +
+  //     '&json=' +
+  //     jsonURL +
+  //     '&console=' +
+  //     consoleURL +
+  //     '&browser=' +
+  //     browserDetailsURL +
+  //     '&customname=' +
+  //     encodeURIComponent(customName)
+  // });
+
+  chrome.tabs.create({ url: 'download.html?mp4=' +videoURL + '&json=' + jsonURL + '&console=' + consoleURL + '&customname=' + 'kkkk' });
+
 }
 
 

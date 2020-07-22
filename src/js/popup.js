@@ -34,8 +34,12 @@ document.querySelector('.uploadBut').addEventListener('click', function () {
 
   chrome.windows.create(
     {
-      url: 'display.html?uploadVideo=true', type: "popup", width: screen.width, height: screen.height
+      url: 'preview/index.html?uploadVideo=true', type: "popup", width: screen.width, height: screen.height
     });
+  // chrome.windows.create(
+  //   {
+  //     url: '../preview/dist/index.html?uploadVideo=true', type: "popup", width: screen.width, height: screen.height
+  //   });
 });
 
 stop.onclick = () => {

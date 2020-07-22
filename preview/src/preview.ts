@@ -1,7 +1,7 @@
 import * as angular from 'angular';
-import { MODULE_NAME } from './preview.module';
+import { TEMPLATE_MODULE_NAME } from './template.module';
 angular
     .bootstrap(
         document,
-        [MODULE_NAME]
+        [TEMPLATE_MODULE_NAME]
     );

@@ -1,85 +1,44 @@
 const gulp = require('gulp');
-const ngAnnotate = require('gulp-ng-annotate');
-const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
-const plugins = require('gulp-load-plugins')();
-const debug = require('gulp-debug')
-const inject = require('gulp-inject');
-const rename = require('gulp-rename');
-const cssmin = require('gulp-cssmin');
-const clean = require('gulp-clean');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const tsify = require('tsify');
+const sourcemaps = require('gulp-sourcemaps');
+const buffer = require('vinyl-buffer');
 const rm = require('gulp-rimraf');
-const babel = require('gulp-babel');
-const runSeq = require('run-sequence');
+const uglify = require('gulp-uglify');
+const streamify = require('gulp-streamify')
+const plugins = require('gulp-load-plugins')();
+const ngHtml2Js = require("gulp-ng-html2js");
+const ngHtml2JsBrowserify = require('browserify-ng-html2js')
+const templateCache = require('gulp-angular-templatecache');
+const browserSync = require('browser-sync');
 
-const ts = require('gulp-typescript');
-const tsProject = ts.createProject('tsconfig.json');
-const _ = require('lazy.js');
-const sources = require('./config/assets.json');
-const dirPath = require("path").join(__dirname, "/");
-console.log('....DIR pATH', dirPath);
-
-const destPath = 'dist';
+const asssetsPath = require('./config/assets.json');
 const paths = {
-    pages: ['src/**/*.html'],
-    js: ['src/**/*.js']
+    pages: ['src/*.html']
 };
 
-const htmlPath = dirPath + "src/";
+const destPath = 'dist';
 
-const core = sources.core;
-const main = sources.main;
+const vendors = ['angular', 'ts-ebml'];
 
 
-const css = _(core.css.src).concat(main.css.src).toArray();
-const js = _(core.js.src).concat(main.js.src).toArray();
+const core = asssetsPath.core;
+const main = asssetsPath.main;
+
+
+gulp.task('clean', function () {
+    return gulp.src(['src/**/*.js', 'dist']).pipe(rm());
+    // return gulp.src([paths.js, 'dist/*']).pipe(rm())
+});
 
 gulp.task('copy-html', function () {
     return gulp.src(paths.pages)
         .pipe(gulp.dest(destPath));
 });
 
-gulp.task('compile-to-js', function () {
-    return tsProject.src()
-        .pipe(tsProject())
-        .js.pipe(gulp.dest('src'));
-});
-
-
-
-gulp.task('copy-js', function () {
-    return gulp.src(paths.js)
-        .pipe(gulp.dest(destPath));
-});
-
-gulp.task('dev_inject', function () {
-    gulp.src(htmlPath + 'index.html')
-        .pipe(plugins.debug())
-        .pipe(plugins.inject(gulp.src(css, {
-            read: false
-        })))
-        .pipe(plugins.inject(gulp.src(js, {
-            read: false
-        })))
-        .pipe(gulp.dest(destPath));
-});
-
-gulp.task('prod_inject', function () {
-    console.log('......destPath..........',destPath);
-    gulp.src(destPath + '/index.html')
-        .pipe(plugins.debug())
-        .pipe(plugins.inject(gulp.src(["dist/css/lib.min.css", "dist/css/app.min.css"], {
-            read: false,
-            //cwd: __dirname + '/dist'
-        }), { }))
-        .pipe(plugins.inject(gulp.src(["dist/js/lib.min.js", "dist/js/app.min.js"], {
-            read: false
-        })))
-        .pipe(gulp.dest(destPath));
-});
-
 gulp.task('cssmin', function () {
-    gulp.src(main.css.src)
+    return gulp.src(main.css.src)
         .pipe(plugins.concat('app.css'))
         .pipe(plugins.cssmin())
         .pipe(plugins.rename({
@@ -88,24 +47,8 @@ gulp.task('cssmin', function () {
         .pipe(gulp.dest(main.css.dest));
 });
 
-
-gulp.task('jsmin', function () {
-    gulp.src(main.js.src)
-        .pipe(plugins.ngAnnotate())
-        // .pipe(babel({
-        //     presets: ['es2015']
-        //  }))
-        .pipe(plugins.uglify())
-        .pipe(plugins.concat('app.js'))
-        .pipe(plugins.rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest(main.js.dest));
-});
-
-
 gulp.task('assetsCssMin', function () {
-    gulp.src(core.css.src)
+    return gulp.src(core.css.src)
         .pipe(plugins.debug())
         .pipe(plugins.concat('lib.css'))
         .pipe(plugins.cssmin())
@@ -115,12 +58,25 @@ gulp.task('assetsCssMin', function () {
         .pipe(gulp.dest(core.css.dest));
 });
 
+gulp.task('prod_inject', function () {
+    const injectOptions = { ignorePath: 'dist/', addPrefix: '.', addRootSlash: false }
+    return gulp.src('src/index.html')
+        .pipe(plugins.debug())
+        .pipe(plugins.inject(gulp.src(["dist/css/lib.min.css", "dist/css/app.min.css"], {
+            read: false,
+            allowEmpty: true,
+        }), injectOptions))
+        .pipe(plugins.inject(gulp.src(["dist/js/lib.min.js", "dist/js/vendor.min.js","dist/js/app.min.js"], {
+            read: false,
+            allowEmpty: true
+        }), injectOptions))
+        .pipe(gulp.dest(destPath));
+});
+
+
 gulp.task('assetsJsMin', function () {
-    gulp.src(core.js.src)
+    return gulp.src(core.js.src)
         .pipe(plugins.ngAnnotate())
-        // .pipe(babel({
-        //     presets: ['es2015']
-        //  }))
         .pipe(plugins.uglify())
         .pipe(plugins.concat('lib.js'))
         .pipe(plugins.rename({
@@ -129,17 +85,99 @@ gulp.task('assetsJsMin', function () {
         .pipe(gulp.dest(core.js.dest));
 });
 
-gulp.task('clean', function () {
-    return gulp.src('dist/*').pipe(rm());
+gulp.task('build:vendor', () => {
+    const b = browserify({
+        debug: true
+    });
+
+    // require all libs specified in vendors array
+    vendors.forEach(lib => {
+        b.require(lib);
+    });
+
+    return b.bundle()
+        .pipe(source('vendor.js'))
+
+        .pipe(plugins.rename({
+            suffix: '.min'
+        }))
+        .pipe(streamify(uglify()))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('dist/js/'))
+        ;
 });
 
 
-gulp.task('build', function (cb) {
-    runSeq('clean', ['compile-to-js', 'assetsCssMin', 'assetsJsMin', 'cssmin', 'jsmin', 'copy-html', 'prod_inject'], cb)
+gulp.task('build:app', function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/preview.ts'],
+        cache: {},
+        packageCache: {}
+    })
+        .external(vendors)
+        .plugin(tsify)
+        .transform('babelify', {
+            presets: ['es2015'],
+            extensions: ['.ts']
+        })
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(plugins.rename({
+            suffix: '.min'
+        }))
+      //  .pipe(streamify(uglify()))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('dist/js/'));
 });
 
+gulp.task('templates:build', function () {
+    const headerTpl = `
+    import * as angular from 'angular';
+    import { MODULE_NAME } from './preview.module';
 
-gulp.task('default', ['build', 'prod_inject']);
+    const MODULE_DEPENDENCIES: Array<string> = [MODULE_NAME];
+    export const TEMPLATE_MODULE_NAME ="<%= module %>";
+    export const TemplateModule = angular.module("<%= module %>"<%= standalone %>,MODULE_DEPENDENCIES).run(["$templateCache", function($templateCache) {
+    `
+    return gulp.src('src/**/*.component.html')
+        .pipe(plugins.htmlmin({
+            empty: true,
+            spare: true,
+            removeComments: true,
+            collapseWhitespace: true,
+        }))
+        .pipe(templateCache(
+            {   
+                templateHeader: headerTpl,
+                templateFooter: '}]).name;' 
+            }
+        ))
+        .pipe(plugins.concat("template.module.ts"))
+        .pipe(gulp.dest('src/'));
+
+});
+
+gulp.task('move', function () {
+    return gulp.src('dist/**/*')
+        .pipe(gulp.dest('../dist/preview/'))
+});
+
+gulp.task('build', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin','templates:build', 'build:app', 'build:vendor',  'prod_inject', 'move'));
 
 
+gulp.task('default', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin', 'build:app', 'build:vendor', 'templates:build', 'prod_inject', 'move', 'clean'));
 
+ 
+gulp.task('serve', function() {
+    browserSync({
+      server: {
+        baseDir: 'dist/'
+      }
+    });
+  });

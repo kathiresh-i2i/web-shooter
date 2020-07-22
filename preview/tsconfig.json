@@ -2,7 +2,14 @@
     
     "compilerOptions": {
         "module": "commonjs",
-        "noImplicitAny": true,
-        "target": "es2015"
-    }
+        "target": "es2015",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "rootDir": "src",
+        "noEmitOnError": true,
+        "typeRoots": [ "node_modules/@types" ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }
