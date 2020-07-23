@@ -101,7 +101,7 @@ gulp.task('build:vendor', () => {
         .pipe(plugins.rename({
             suffix: '.min'
         }))
-        .pipe(streamify(uglify()))
+       // .pipe(streamify(uglify()))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(sourcemaps.write('./'))
@@ -171,7 +171,7 @@ gulp.task('move', function () {
 gulp.task('build', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin','templates:build', 'build:app', 'build:vendor',  'prod_inject', 'move'));
 
 
-gulp.task('default', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin', 'build:app', 'build:vendor', 'templates:build', 'prod_inject', 'move', 'clean'));
+gulp.task('default', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin', 'templates:build','build:app', 'build:vendor',  'prod_inject', 'move', 'clean'));
 
  
 gulp.task('serve', function() {

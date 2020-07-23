@@ -14,7 +14,7 @@ export const VideoControlsDirective = ($parse) => (<angular.IDirective>{
    link: function (scope: IScope, element, attrs, ngModelCtrl) {
 
       element.bind('timeupdate', function (e) {
-         scope.videoTime = (<HTMLVideoElement>e.srcElement).currentTime;
+         scope.videoTime = (<HTMLVideoElement>e.currentTarget).currentTime;
          scope.onTimeUpdate({currentTime: scope.videoTime});
          scope.$apply();
       });

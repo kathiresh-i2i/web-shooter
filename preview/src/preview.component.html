@@ -1,58 +1,71 @@
- 
-  <!-- Begin Page Content -->
-  <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-3">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" >
-          <input type="file" id="browsefile"  accept=".mkv,.webm" ng-model="$ctrl.file" 
-           ng-change="$ctrl.onFileChange()" file-on-change />
-          <i class="fas fa-upload fa-sm text-white-50" ></i> Upload </button>
-        </button>
-
-        <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
-    </div>
-    
-
- <!-- Content Row -->
-
- <div class="row">
-  <!-- Area Video -->
-  <div class="col-xl-7 col-lg-7">
-    <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
-      <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">VIDEO</h6>
-      </div> -->
-      <!-- Card Body -->
-      <div class="card-body embed-responsive embed-responsive-16by9">
-           <video id="vid" controls src="{{$ctrl.videoSrc}}" class="embed-responsive-item" video-control video-time="$ctrl.playTime" on-time-update="$ctrl.onTimeineSelect({currentTime: $ctrl.playTime})"></video>
-
-         </div>
-     </div>
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+      <input type="file" id="browsefile" accept=".mkv,.webm" ng-model="$ctrl.file" ng-change="$ctrl.onFileChange()"
+        file-on-change style="display:none;" />
+      <i class="fas fa-upload fa-sm text-white-50"></i> Upload
+    </button>
   </div>
 
-  <!-- Area Timeline -->
-  <div class="col-xl-5 col-lg-5">
-    <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
-      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Timeline</h6>
-      </div>
-      <!-- Card Body -->
-      <div class="card-body">
-        <div class="timeline m-h-310">
-              <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"  ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" col-sm-offset-6 ng-click="$ctrl.renderNetworkData(x);">
-                <div ng-show="x.isRequest">
-                  <strong>{{x.method }}</strong>  {{x.method }} - {{x.url}}
-                </div>
-                <div ng-show="!x.isRequest">
-                 <strong>{{x.statusCode}}</strong>  {{x.method }} - {{x.url}}
-                </div>
-            </div>
+
+  <!-- Content Row -->
+
+  <div class="row">
+    <!-- Area Video -->
+    <div class="col-xl-7 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <!-- <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">VIDEO</h6>
+      </div> -->
+        <!-- Card Body -->
+        <div class="card-body embed-responsive embed-responsive-16by9">
+          <video id="vid" controls src="{{$ctrl.videoSrc}}" class="embed-responsive-item" video-control
+            video-time="$ctrl.playTime" on-time-update="$ctrl.onTimeineSelect({currentTime: $ctrl.playTime})"></video>
+
         </div>
-        <!-- <div class="mt-4 text-center small">
+      </div>
+    </div>
+
+    <!-- Area Timeline -->
+    <div class="col-xl-5 col-lg-5">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Timeline</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+          <div class="timeline">
+            <!-- Collapsable Card Example -->
+            <!-- <div class="timelist card shadow notice-{{x.statusCode}} mb-4"  ng-repeat="x in $ctrl.networkList">
+               <a href="#collapseCardExample_{{x.time}}" class="d-block card-header" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                <span class="col"><strong>{{x.method}}</strong></span>
+                <span class="col">{{x.url}}</span>
+                <span class="col">{{x.statusCode}}</span>
+               </a>
+               <div class="collapse hide" id="collapseCardExample_{{x.time}}">
+                <div class="card-body">
+                  This is a collapsable card example using Bootstrap's built in collapse functionality. <strong>Click on the card header</strong> to see the card body collapse and expand!
+                </div>
+              </div>
+            </div> -->
+
+            <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
+              ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" ng-click="$ctrl.renderNetworkData(x);">
+              <div ng-show="x.isRequest">
+                <strong>{{x.method }}</strong> {{x.url}}
+              </div>
+              <div ng-show="!x.isRequest">
+                <strong>{{x.statusCode}}</strong> {{x.method }} - {{x.url}}
+              </div>
+            </div>
+          </div>
+          <!-- <div class="mt-4 text-center small">
           <span class="mr-2">
             <i class="fas fa-circle text-primary"></i> Direct
           </span>
@@ -63,54 +76,59 @@
             <i class="fas fa-circle text-info"></i> Referral
           </span>
         </div> -->
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-
-  <!-- Request Info -->
-  <div class="col-xl-6 col-lg-7">
-    <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
-      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Request</h6>
-      </div>
-      <!-- Card Body -->
-      <div class="card-body m-h-310">
-        <div class="content" id="request">
-
-        </div>
-     </div>
-  </div>
-  </div>
-  <!--  Response Body -->
-  <div class="col-xl-6 col-lg-5">
-    <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
-      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Response</h6>
-      </div>
-      <!-- Card Body -->
-      <div class="card-body m-h-310">
-        <div class="pt-4 pb-2">
-          <div class="content" id="response">
-
-        </div>
-        <div class="mt-4 text-center small">
-          <span class="mr-2">
-            <i class="fas fa-circle text-primary"></i> Direct
-          </span>
-          <span class="mr-2">
-            <i class="fas fa-circle text-success"></i> Social
-          </span>
-          <span class="mr-2">
-            <i class="fas fa-circle text-info"></i> Referral
-          </span>
         </div>
       </div>
     </div>
   </div>
+  <div class="row">
+
+    <!-- Request Info -->
+    <div class="col-lg-4">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Request</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+          <div class="content" id="request">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  Response Body -->
+    <div class="col-lg-4">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Response</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+          <div class="pt-4 pb-2">
+            <div class="content" id="response">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!--  Console -->
+     <div class="col-lg-4">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Console</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+          <div class="pt-4 pb-2">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
 </div>
-</div>
-<!-- /.container-fluid -->

@@ -35,8 +35,9 @@
 
 .timeline {
   overflow-y: scroll;
+  max-height: 330px;
 }
 
-.m-h-310{
-  min-height:310px
+.m-h-370{
+  min-height:370px
 }
