@@ -5,9 +5,8 @@
             "src": [
                 "assets/css/admin.css",
                 "assets/css/jsonTree.css",
-                "assets/css/app.css"
-
-               
+                "assets/css/app.css",
+                "assets/css/jsontree-app.css"
             ]
         },
         "js": {
@@ -17,7 +16,8 @@
                 "node_modules/@popperjs/core/dist/umd/popper.js",
                 "node_modules/bootstrap/dist/js/bootstrap.min.js",
                 "assets/js/require.js",
-                "assets/js/jsonTree.js"
+                "assets/js/jsonTree.js",
+                "assets/js/jsonTreeViewer.js"
             ]
         }
     },

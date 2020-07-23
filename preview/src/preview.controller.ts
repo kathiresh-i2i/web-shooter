@@ -1,18 +1,20 @@
 import * as ebml from 'ts-ebml';
 import angular = require('angular');
 
-
+declare var jsonTree: any;
 export class PreviewCotroller {
 
   public static $inject: string[] = ['$http'];
 
   file: File;
   videoSrc: any;
-  networkList:any;
-  playTime:any;
+  networkList: any;
+  playTime: any;
   private decoder: any;
-  private dec:any;
-  private req:any;
+  private dec: any;
+  private req: any;
+  private requestNode: any;
+  private responseNode: any;
 
   constructor(private $http: angular.IHttpService) {
     this.decoder = new ebml.Decoder()
@@ -20,14 +22,16 @@ export class PreviewCotroller {
   }
 
   $onInit() {
+    this.requestNode = document.getElementById("request");
+    this.responseNode = document.getElementById("response");
   }
 
-  $onChanges(changes){
-   console.log('....onChanges>...', changes);
+  $onChanges(changes) {
+    console.log('....onChanges>...', changes);
   }
 
-  $doCheck(){
-    console.log("...doCHECK....",this.playTime);
+  $doCheck() {
+    console.log("...doCHECK....", this.playTime);
   }
 
   onFileChange() {
@@ -38,27 +42,27 @@ export class PreviewCotroller {
     this.fetchUrlinfo(this.videoSrc);
 
   }
-  
-  onTimeineSelect(currentTime){
-     console.log('......CONTROLLER',this.playTime)
-     console.log("...controll cureenttimr", currentTime);
+
+  onTimeineSelect(currentTime) {
+    console.log('......CONTROLLER', this.playTime)
+    console.log("...controll cureenttimr", currentTime);
   }
 
-  private fetchUrlinfo (fileURL: any) {
-    this.$http.get(fileURL,{responseType:'arraybuffer'})
-    .then(res => res.data)
-    .then(buf => {
-       const obj = this.getJson(buf);
-      const dataObj = typeof obj.data === 'object' ? obj.data :  JSON.parse(obj.data);
-      this.networkList = this.convertStringToObject(dataObj.network);
-      console.log('..............BBB>.......',this.networkList);
+  private fetchUrlinfo(fileURL: any) {
+    this.$http.get(fileURL, { responseType: 'arraybuffer' })
+      .then(res => res.data)
+      .then(buf => {
+        const obj = this.getJson(buf);
+        const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
+        this.networkList = this.convertStringToObject(dataObj.network);
+        console.log('..............BBB>.......', this.networkList);
 
-    });
+      });
   }
 
 
-  private convertStringToObject(data:any){
-     this.req = new Map();
+  private convertStringToObject(data: any) {
+    this.req = new Map();
     const nwList = typeof data === 'object' ? data : JSON.parse(data);
     const seq_timeline = [] as any;
     nwList.forEach((i) => {
@@ -84,8 +88,8 @@ export class PreviewCotroller {
         temp.requestid = i.requestid;
         seq_timeline.push(temp);
       }
-     });
-     return this.sortTimelineArray(seq_timeline);
+    });
+    return this.sortTimelineArray(seq_timeline);
   }
 
   private getJson(buf) {
@@ -106,6 +110,27 @@ export class PreviewCotroller {
       return a.time - b.time;
     });
     return arrayTimeline;
+  }
+
+
+  renderNetworkData(data) {
+    if (data.isRequest) {
+      this.requestNode.innerHTML = '';
+      var tree = jsonTree.create(data, this.requestNode);
+      console.log('==tree', tree);
+      tree.expand();
+      tree.expand(function (node) {
+        return node.childNodes.length < 2;
+      });
+    } else {
+      this.responseNode.innerHTML = '';
+      var tree = jsonTree.create(data, this.responseNode);
+      console.log('==tree', tree);
+      tree.expand();
+      tree.expand(function (node) {
+        return node.childNodes.length < 2;
+      });
+    }
   }
 
 }

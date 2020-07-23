@@ -43,7 +43,7 @@
       <!-- Card Body -->
       <div class="card-body">
         <div class="timeline m-h-310">
-              <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"  ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" col-sm-offset-6 >
+              <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"  ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" col-sm-offset-6 ng-click="$ctrl.renderNetworkData(x);">
                 <div ng-show="x.isRequest">
                   <strong>{{x.method }}</strong>  {{x.method }} - {{x.url}}
                 </div>
@@ -78,7 +78,7 @@
       </div>
       <!-- Card Body -->
       <div class="card-body m-h-310">
-        <div class="content" id="network">
+        <div class="content" id="request">
 
         </div>
      </div>
@@ -94,7 +94,7 @@
       <!-- Card Body -->
       <div class="card-body m-h-310">
         <div class="pt-4 pb-2">
-          <div class="content" id="network1">
+          <div class="content" id="response">
 
         </div>
         <div class="mt-4 text-center small">
