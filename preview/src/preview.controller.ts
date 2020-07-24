@@ -2,7 +2,7 @@ import * as ebml from 'ts-ebml';
 import angular = require('angular');
 
 declare var jsonTree: any;
-export class PreviewCotroller {
+export class PreviewController {
 
   public static $inject: string[] = ['$http'];
 

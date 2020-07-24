@@ -1,0 +1,22 @@
+{
+    "version": "3.0.3",
+    "extends": "./tsconfig",
+    "compilerOptions": {
+        "module": "amd",
+        "removeComments": true,
+        "baseUrl": "./",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "alwaysStrict": true,
+        "declaration": true,
+        "moduleResolution": "node"
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "./out/mask.d.ts",
+        "node_modules",
+        "**/*.test.ts"
+    ]
+}

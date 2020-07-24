@@ -1,0 +1,8 @@
+.history/
+node_modules/
+dist/
+package-lock.json
+.vscode/
+build/
+preview/build/
+src/template.module.ts

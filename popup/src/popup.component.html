@@ -1,0 +1,37 @@
+<div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="recordtab" data-toggle="tab" href="#record" role="tab" aria-controls="record" aria-selected="true">Record</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="capturetab" data-toggle="tab" href="#capture" role="tab" aria-controls="capture" aria-selected="false">Capture</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title text-center font-weight-bold text-primary text-uppercase">IDEAS2IT</h4>
+      <h6 class="card-subtitle  text-xs font-weight-bold text-primary text-uppercase mb-1 text-center">Web Shooter</h6>
+      <div class="tab-content mt-3">
+        <!-- BEGIN RECORD-->
+        <div class="tab-pane active recordtab" id="record" role="tabpanel" aria-labelledby="recordtab">
+
+        <record></record>
+        </div>
+        <!-- END RECORD-->
+        <div class="tab-pane" id="capture" role="tabpanel" aria-labelledby="capturetab">  
+          <capture></capture>
+        </div>
+       </div>
+       <div class="row mt-3">
+       <div class="col-8 offset-lg-2">
+        <a href="#" class="btn btn-primary bt-sm btn-block" ng-click="$ctrl.recordScreen()">Record</a>
+       </div>
+      </div>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+</div>

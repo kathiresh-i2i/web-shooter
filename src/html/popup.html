@@ -2,76 +2,92 @@
 <html>
 
 <head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="bootstrap.min.css">
-  <script src="./jquery-3.2.1.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="admin.css" />
+  <link rel="stylesheet" type="text/css" href="popup.css" />
+
   <style>
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <nav class="navbar navbar-inverse">
-      <!--div style="color:white;">ReproNow</div-->
-      <!--div class="navbar-brand" align="center"-->
-      <center>
-        <img src="./assets/images/logo.png" height="50" alt="">
-      </center>
-    </nav>
-    <div class="mainPage">
-
-      <form>
-           <div class="form">
-           <div class="form-group">
-            <label for="recName" class="TextBoxName" >Name </label>
-            <input type="text" class="form-control textbox" id="recName" value="Capture_Network">
+  <div class="container p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                  <a class="nav-link active" id="recordtab" data-toggle="tab" href="#record" role="tab" aria-controls="record" aria-selected="true">Record</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="capturetab" data-toggle="tab" href="#capture" role="tab" aria-controls="capture" aria-selected="false">Capture</a>
+              </li>
+            </ul>
           </div>
-          <div class="form-group">
-            <label for="recName" class="TextBoxName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
-            <input type="range" min="15" max="180" class="form-control textbox" value="120" id="myRange">
+          <div class="card-body">
+            <h4 class="card-title text-center font-weight-bold text-primary text-uppercase">IDEAS2IT</h4>
+            <h6 class="card-subtitle  text-xs font-weight-bold text-primary text-uppercase mb-1 text-center">Web Shooter</h6>
+
+            <div class="tab-content mt-3">
+              <!-- BEGIN RECORD-->
+              <div class="tab-pane active recordtab" id="record" role="tabpanel" aria-labelledby="recordtab">
+                <div class="card mt-3 tab-card">
+                  <div class="card-header tab-card-header">
+                    <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
+                      <li class="nav-item ">
+                          
+                          <a class="nav-link active show" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">One</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Two</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Three" aria-selected="false">Three</a>
+                      </li>
+                    </ul>
+                  </div>
+                   <div class="card-body tab-card-body">
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+                      <h5 class="card-title">Tab Card One</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>              
+                    </div>
+                    <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+                      <h5 class="card-title">Tab Card Two</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>              
+                    </div>
+                    <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+                      <h5 class="card-title">Tab Card Three</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>              
+                    </div>
+          
+                  </div>
+                </div>
+                </div>
+              </div>
+              <!-- END RECORD-->
+              <div class="tab-pane" id="capture" role="tabpanel" aria-labelledby="capturetab">  
+                Console
+              </div>
+             </div>
           </div>
-          <div class="form-group">
-            <div>
-            <label for="recName" class="TextBoxName" >Enable Mask Data</label>
-            <input type="checkbox" id="isEnableDataMask"></div>
+          <div class="card-footer text-muted">
+            2 days ago
           </div>
-          <!--  <div class="form-group selectOption">
-            <label for="SelectedOption" class="TextBoxName" >Option</label>
-            <select class="custom-select" id="SelectedOption">
-            <option selected value="ActiveAndNavigated">Capture network of active tab and navigated tabs</option>
-            <option value="OnlyActive">Capture network of most recent activated tab</option>
-            <option value="OnlySelected">Capture network of only current tab [URL bar won't be shown]</option>
-            <option value="AllTabs">Capture network of all tabs</option>
-          </select>
-          </div>-->
-
-
         </div>
-
-        <!-- <div class="bg-faded list-group-item list-group-item-action bottomBar historyBut"><div style="text-align: center;">History <i class="fa fa-history fa-2" aria-hidden="true"></i></div>
-        </div>
-        <div class="bg-faded list-group-item list-group-item-action bottomBar setright uploadBut"><div style="text-align: center;">Previewer <i class="fa fa-eye fa-2" aria-hidden="true"></i></div>
-        -->
-    </div>
-    </form>
-    <div class="card-block">
-      <button type="button" id="startRecordingBtn" class="btn btn-success">
-        <span class="fa fa-video-camera" aria-hidden="true"></span> Start Recording
-      </button>
-      <button type="button" id="stop" class="btn btn-danger hidebutton">
-        <span class="fa fa-video-camera" aria-hidden="true"></span> Stop Recording
-      </button>
-    </div>
-  </div>
-  <!-- <div class="secondPage"  style="display:none">
-        <div class="bg-faded list-group-item list-group-item-action topBar"><div style="text-align: center;"><i class="fa fa-undo fa-2" aria-hidden="true"></i> Back</div>
-        </div>
-        <div id="listgrp" class="list-group">
-      
-        </div>
-      </div> -->
       </div>
-      <div class="bg-faded list-group-item list-group-item-action bottomBar setright uploadBut"><div style="text-align: center;">Previewer <i class="fa fa-eye fa-2" aria-hidden="true"></i></div>
-     <script src="./popup.js"></script>
-  </body>
+    </div>
+
+  </div>
+  <!-- <script src="popper.min.js"></script> -->
+  <script src="jquery.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+
+</body>
+
 </html>

@@ -1,0 +1,35 @@
+{
+    "core": {
+        "css": {
+            "dest": "dist/css/",
+            "src": [
+                "assets/css/admin.css",
+                 "assets/css/app.css"
+             ]
+        },
+        "js": {
+            "dest": "dist/js/",
+            "src": [
+                "node_modules/jquery/dist/jquery.min.js",
+                "node_modules/@popperjs/core/dist/umd/popper.js",
+                "node_modules/bootstrap/dist/js/bootstrap.min.js"
+             ]
+        }
+    },
+    "main": {
+        "css": {
+            "dest": "dist/css/",
+            "src": [
+                "src/popup.css"
+            ]
+        },
+        "js": {
+           "dest": "dist/js/",
+            "src": [
+                "src/popup.js",
+                "src/popup.component.js",
+                "src/popup.module.js"
+             ]
+        }
+    }
+}
