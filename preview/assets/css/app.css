@@ -1,6 +1,6 @@
 #browsefile {
     opacity: 0;
-    position: absolute;
+    position: fixed;
 }
 
 .notice {
