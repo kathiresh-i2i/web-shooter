@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <script src="./jquery-3.2.1.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <nav class="navbar navbar-inverse">
+      <!--div style="color:white;">ReproNow</div-->
+      <!--div class="navbar-brand" align="center"-->
+      <center>
+        <img src="./assets/images/logo.png" height="50" alt="">
+      </center>
+    </nav>
+    <div class="mainPage">
+
+      <form>
+           <div class="form">
+           <div class="form-group">
+            <label for="recName" class="TextBoxName" >Name </label>
+            <input type="text" class="form-control textbox" id="recName" value="Capture_Network">
+          </div>
+          <div class="form-group">
+            <label for="recName" class="TextBoxName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
+            <input type="range" min="15" max="180" class="form-control textbox" value="120" id="myRange">
+          </div>
+          <div class="form-group">
+            <div>
+            <label for="recName" class="TextBoxName" >Enable Mask Data</label>
+            <input type="checkbox" id="isEnableDataMask"></div>
+          </div>
+          <!--  <div class="form-group selectOption">
+            <label for="SelectedOption" class="TextBoxName" >Option</label>
+            <select class="custom-select" id="SelectedOption">
+            <option selected value="ActiveAndNavigated">Capture network of active tab and navigated tabs</option>
+            <option value="OnlyActive">Capture network of most recent activated tab</option>
+            <option value="OnlySelected">Capture network of only current tab [URL bar won't be shown]</option>
+            <option value="AllTabs">Capture network of all tabs</option>
+          </select>
+          </div>-->
+
+
+        </div>
+
+        <!-- <div class="bg-faded list-group-item list-group-item-action bottomBar historyBut"><div style="text-align: center;">History <i class="fa fa-history fa-2" aria-hidden="true"></i></div>
+        </div>
+        <div class="bg-faded list-group-item list-group-item-action bottomBar setright uploadBut"><div style="text-align: center;">Previewer <i class="fa fa-eye fa-2" aria-hidden="true"></i></div>
+        -->
+    </div>
+    </form>
+    <div class="card-block">
+      <button type="button" id="startRecordingBtn" class="btn btn-success">
+        <span class="fa fa-video-camera" aria-hidden="true"></span> Start Recording
+      </button>
+      <button type="button" id="stop" class="btn btn-danger hidebutton">
+        <span class="fa fa-video-camera" aria-hidden="true"></span> Stop Recording
+      </button>
+    </div>
+  </div>
+  <!-- <div class="secondPage"  style="display:none">
+        <div class="bg-faded list-group-item list-group-item-action topBar"><div style="text-align: center;"><i class="fa fa-undo fa-2" aria-hidden="true"></i> Back</div>
+        </div>
+        <div id="listgrp" class="list-group">
+      
+        </div>
+      </div> -->
+      </div>
+      <div class="bg-faded list-group-item list-group-item-action bottomBar setright uploadBut"><div style="text-align: center;">Previewer <i class="fa fa-eye fa-2" aria-hidden="true"></i></div>
+     <script src="./popup.js"></script>
+  </body>
+</html>

@@ -55,7 +55,19 @@ export class PreviewCotroller {
         const obj = this.getJson(buf);
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
         this.networkList = this.convertStringToObject(dataObj.network);
-        console.log('..............BBB>.......', this.networkList);
+        const output= [];
+        this.networkList.forEach(function(item) {
+          var existing = output.filter(function(v, i) {
+            return v.requestid == item.requestid;
+          });
+          if (existing.length) {
+            var existingIndex = output.indexOf(existing[0]);
+            output[existingIndex] =  { ...output[existingIndex], ...item }  
+          } else {
+            output.push(item);
+          }
+        });        
+        this.networkList = output;
 
       });
   }
@@ -81,11 +93,13 @@ export class PreviewCotroller {
         temp.requestHeaders = i.webReq.requestHeaders;
         temp.statusCode = i.webReq.statusCode;
         temp.type = i.webReq.type;
+        temp.requestTime = i.webReq.requesttime;
         seq_timeline.push(temp);
       }
       if (i.webReq.responseTime) {
         const temp = {} as any;
         temp.time = i.webReq.responseTime;
+        temp.responseTime = i.webReq.responseTime;
         temp.url = i.webReq.url;
         temp.statusCode = i.webReq.statusCode;
         temp.responseTime = i.webReq.responseTime;
@@ -141,6 +155,22 @@ export class PreviewCotroller {
       });
     }
   }
+
+
+  groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+        //  const key = keyGetter(item);
+        //  const collection = map.get(key);
+        //  if (!collection) {
+        //      map.set(key, [item]);
+        //  } else {
+        //      collection.push(item);
+        //  }
+    });
+    return map;
+}
+
 
 }
 

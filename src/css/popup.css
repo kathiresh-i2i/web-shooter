@@ -1,0 +1,16 @@
+html{
+ min-height: auto;
+}
+
+body {
+    width: 400px;
+    color: #3b404e;
+    font-size: 12px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    letter-spacing: -.1px
+  }
+  
+  body.no-transition * {
+    transition: none!important
+  }

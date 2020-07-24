@@ -13,12 +13,13 @@
      -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
           box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
 }
-.notice:nth-child(even){
+/* .notice:nth-child(even){
   margin-left: 20px;
-}
+} */
 .notice-sm {
   padding: 10px;
   font-size: 80%;
+  width: 80%;
 }
 .notice-200{
   border-left: 6px solid green;

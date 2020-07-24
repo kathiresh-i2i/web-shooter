@@ -3,7 +3,10 @@
 
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-3">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <h1 class="h3 mb-0 text-gray-800">BUG-101</h1>
+    <!-- <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+      To JIRA
+     </div> -->
     <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
       <input type="file" id="browsefile" accept=".mkv,.webm" ng-model="$ctrl.file" ng-change="$ctrl.onFileChange()"
         file-on-change />
@@ -36,26 +39,39 @@
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Timeline</h6>
+          <!-- <h6 class="m-0 font-weight-bold text-primary">Timeline</h6> -->
+          <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="networklogstab" data-toggle="tab" href="#networklogs" role="tab" aria-controls="networklogs" aria-selected="true">Networks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="consolelogtab" data-toggle="tab" href="#consolelog" role="tab" aria-controls="consolelog" aria-selected="false">Console</a>
+            </li>
+          </ul>
         </div>
         <!-- Card Body -->
-        <div class="card-body m-h-370">
+        <div class="card-body pt-0 m-h-370">
           <div class="timeline">
-            <!-- Collapsable Card Example -->
-            <!-- <div class="timelist card shadow notice-{{x.statusCode}} mb-4"  ng-repeat="x in $ctrl.networkList">
-               <a href="#collapseCardExample_{{x.time}}" class="d-block card-header" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                <span class="col"><strong>{{x.method}}</strong></span>
-                <span class="col">{{x.url}}</span>
-                <span class="col">{{x.statusCode}}</span>
-               </a>
-               <div class="collapse hide" id="collapseCardExample_{{x.time}}">
-                <div class="card-body">
-                  This is a collapsable card example using Bootstrap's built in collapse functionality. <strong>Click on the card header</strong> to see the card body collapse and expand!
+            <!-- <h4 class="card-title">Bologna</h4>
+            <h6 class="card-subtitle mb-2">Emilia-Romagna Region, Italy</h6>
+             -->
+             <div class="tab-content mt-3">
+              <div class="tab-pane active" id="networklogs" role="tabpanel" aria-labelledby="networklogstab">
+                <div  id="anchor{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
+                ng-click="$ctrl.renderNetworkData(x);" ng-class="{'bg-gray-200 text-gray-800' : x.requestTime <= $ctrl.playTime  }">
+                 <div>    
+                   <strong>{{x.method}}</strong> {{x.url}} <strong>{{x.statusCode }}</strong>
                 </div>
               </div>
-            </div> -->
+              </div>
+               
+              <div class="tab-pane" id="consolelog" role="tabpanel" aria-labelledby="consolelogtab">  
+                Console
+              </div>
+             </div>
+        
 
-            <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
+            <!-- <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
               ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" ng-click="$ctrl.renderNetworkData(x);">
               <div ng-show="x.isRequest">
                 <strong>{{x.method }}</strong> {{x.url}}
@@ -63,7 +79,7 @@
               <div ng-show="!x.isRequest">
                 <strong>{{x.statusCode}}</strong> {{x.method }} - {{x.url}}
               </div>
-            </div>
+            </div> -->
           </div>
           <!-- <div class="mt-4 text-center small">
           <span class="mr-2">
@@ -83,7 +99,7 @@
   <div class="row">
 
     <!-- Request Info -->
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header d-flex flex-row align-items-center justify-content-between">
@@ -98,7 +114,7 @@
       </div>
     </div>
     <!--  Response Body -->
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header d-flex flex-row align-items-center justify-content-between">
@@ -110,21 +126,6 @@
             <div class="content" id="response">
 
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-     <!--  Console -->
-     <div class="col-lg-4">
-      <div class="card shadow mb-4">
-        <!-- Card Header - Dropdown -->
-        <div class="card-header d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Console</h6>
-        </div>
-        <!-- Card Body -->
-        <div class="card-body m-h-370">
-          <div class="pt-4 pb-2">
-           
           </div>
         </div>
       </div>
