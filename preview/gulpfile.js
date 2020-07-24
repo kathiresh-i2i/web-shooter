@@ -168,7 +168,12 @@ gulp.task('move', function () {
         .pipe(gulp.dest('../dist/preview/'))
 });
 
-gulp.task('build', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin','templates:build', 'build:app', 'build:vendor',  'prod_inject', 'move'));
+gulp.task('copy-images', function () {
+  return gulp.src('assets/images/*')
+      .pipe(gulp.dest('dist/images/'))
+});
+
+gulp.task('build', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin','templates:build', 'build:app', 'build:vendor',  'prod_inject', 'copy-images', 'move'));
 
 
 gulp.task('default', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin', 'templates:build','build:app', 'build:vendor',  'prod_inject', 'move', 'clean'));

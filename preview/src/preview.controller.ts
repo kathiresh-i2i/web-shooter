@@ -76,7 +76,11 @@ export class PreviewCotroller {
         temp.url = i.webReq.url;
         temp.method = i.webReq.method;
         temp.isRequest = true;
+        temp.requesttime = i.webReq.requesttime;
         temp.requestid = i.requestid;
+        temp.requestHeaders = i.webReq.requestHeaders;
+        temp.statusCode = i.webReq.statusCode;
+        temp.type = i.webReq.type;
         seq_timeline.push(temp);
       }
       if (i.webReq.responseTime) {
@@ -84,8 +88,11 @@ export class PreviewCotroller {
         temp.time = i.webReq.responseTime;
         temp.url = i.webReq.url;
         temp.statusCode = i.webReq.statusCode;
+        temp.responseTime = i.webReq.responseTime;
         temp.isRequest = false;
         temp.requestid = i.requestid;
+        temp.responseHeaders = i.webReq.responseHeaders;
+        temp.responseBody = i.webReq.responseBody;
         seq_timeline.push(temp);
       }
     });
@@ -115,6 +122,7 @@ export class PreviewCotroller {
 
   renderNetworkData(data) {
     if (data.isRequest) {
+      delete data.isRequest;
       this.requestNode.innerHTML = '';
       var tree = jsonTree.create(data, this.requestNode);
       console.log('==tree', tree);
@@ -123,6 +131,7 @@ export class PreviewCotroller {
         return node.childNodes.length < 2;
       });
     } else {
+      delete data.isRequest;
       this.responseNode.innerHTML = '';
       var tree = jsonTree.create(data, this.responseNode);
       console.log('==tree', tree);

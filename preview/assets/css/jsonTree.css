@@ -84,7 +84,7 @@
     display: block;
     width: 11px;
     height: 11px;
-    background-image: url('icons.svg');
+    background-image: url('../images/icons.svg');
 }
 .jsontree_node_expanded > .jsontree_label-wrapper > .jsontree_label > .jsontree_expand-button {
     background-position: 0 -11px;
