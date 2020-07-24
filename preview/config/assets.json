@@ -16,8 +16,8 @@
                 "node_modules/@popperjs/core/dist/umd/popper.js",
                 "node_modules/bootstrap/dist/js/bootstrap.min.js",
                 "assets/js/require.js",
-                "assets/js/jsonTree.js",
-                "assets/js/jsonTreeViewer.js"
+                "assets/js/jsonTreeApp.js",
+                "assets/js/jsonTree.js"
             ]
         }
     },
