@@ -4,26 +4,33 @@ import angular = require('angular');
 declare var jsonTree: any;
 export class PreviewController {
 
-  public static $inject: string[] = ['$http'];
+  public static $inject: string[] = ['$http', '$location'];
 
   file: File;
   videoSrc: any;
-  networkList: any;
+  networkData: any;
+  consoleData: any
+  browserInfoData: any;
   playTime: any;
+  selectedNetworkData: any;
   private decoder: any;
   private dec: any;
   private req: any;
-  private requestNode: any;
+  private requestBodyNode: any;
   private responseNode: any;
+  private routeInfo: any = {};
 
-  constructor(private $http: angular.IHttpService) {
+  constructor(private $http: angular.IHttpService,
+    private $location: angular.ILocationService) {
     this.decoder = new ebml.Decoder()
     this.dec = new TextDecoder("utf-8");
   }
 
   $onInit() {
-    this.requestNode = document.getElementById("request");
-    this.responseNode = document.getElementById("response");
+    this.getRouteInfo();
+    this.getJSON();
+    this.getConsoleData();
+    this.getBrowserData();
   }
 
   $onChanges(changes) {
@@ -32,6 +39,46 @@ export class PreviewController {
 
   $doCheck() {
     console.log("...doCHECK....", this.playTime);
+  }
+
+  getRouteInfo() {
+    if (this.$location) {
+      const url = new URL(this.$location.absUrl());
+      const search_params = url.searchParams;
+      this.routeInfo.mp4 = search_params.get('mp4');
+      this.routeInfo.json = search_params.get('json');
+      this.routeInfo.browser = search_params.get('browser');
+      this.routeInfo.console = search_params.get('console');
+      this.routeInfo.browser = search_params.get('browser') || '';
+      this.videoSrc = this.routeInfo.mp4;
+    }
+  }
+
+  getJSON() {
+    this.$http.get(this.routeInfo.json, { responseType: 'json' })
+      .then(res => res.data)
+      .then(data => {
+        console.log('============JSON-----', data);
+        this.networkData = data;
+      });
+  }
+
+  getConsoleData() {
+    this.$http.get(this.routeInfo.console, { responseType: 'json' })
+      .then(res => res.data)
+      .then(data => {
+        console.log('============Console-----', data);
+        this.consoleData = data;
+      });
+  }
+
+  getBrowserData() {
+    this.$http.get(this.routeInfo.browser, { responseType: 'json' })
+      .then(res => res.data)
+      .then(data => {
+        console.log('============Browser Info-----', data);
+        this.browserInfoData = data;
+      });
   }
 
   onFileChange() {
@@ -54,64 +101,65 @@ export class PreviewController {
       .then(buf => {
         const obj = this.getJson(buf);
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
-        this.networkList = this.convertStringToObject(dataObj.network);
-        const output= [];
-        this.networkList.forEach(function(item) {
-          var existing = output.filter(function(v, i) {
-            return v.requestid == item.requestid;
-          });
-          if (existing.length) {
-            var existingIndex = output.indexOf(existing[0]);
-            output[existingIndex] =  { ...output[existingIndex], ...item }  
-          } else {
-            output.push(item);
-          }
-        });        
-        this.networkList = output;
+        this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
+        //   this.networkList = this.convertStringToObject(dataObj.network);
+        //   const output= [];
+        //   this.networkList.forEach(function(item) {
+        //     var existing = output.filter(function(v, i) {
+        //       return v.requestid == item.requestid;
+        //     });
+        //     if (existing.length) {
+        //       var existingIndex = output.indexOf(existing[0]);
+        //       output[existingIndex] =  { ...output[existingIndex], ...item }  
+        //     } else {
+        //       output.push(item);
+        //     }
+        //   });        
+        //   this.networkList = output;
 
       });
   }
 
 
-  private convertStringToObject(data: any) {
-    this.req = new Map();
-    const nwList = typeof data === 'object' ? data : JSON.parse(data);
-    const seq_timeline = [] as any;
-    nwList.forEach((i) => {
-      //console.log(i);
-      this.req.set(i.requestid, i.webReq);
-      //displayRequest(i.webReq);
-      //displayResponse(i.webReq);
-      if (i.webReq.requesttime) {
-        const temp = {} as any;
-        temp.time = i.webReq.requesttime;
-        temp.url = i.webReq.url;
-        temp.method = i.webReq.method;
-        temp.isRequest = true;
-        temp.requesttime = i.webReq.requesttime;
-        temp.requestid = i.requestid;
-        temp.requestHeaders = i.webReq.requestHeaders;
-        temp.statusCode = i.webReq.statusCode;
-        temp.type = i.webReq.type;
-        temp.requestTime = i.webReq.requesttime;
-        seq_timeline.push(temp);
-      }
-      if (i.webReq.responseTime) {
-        const temp = {} as any;
-        temp.time = i.webReq.responseTime;
-        temp.responseTime = i.webReq.responseTime;
-        temp.url = i.webReq.url;
-        temp.statusCode = i.webReq.statusCode;
-        temp.responseTime = i.webReq.responseTime;
-        temp.isRequest = false;
-        temp.requestid = i.requestid;
-        temp.responseHeaders = i.webReq.responseHeaders;
-        temp.responseBody = i.webReq.responseBody;
-        seq_timeline.push(temp);
-      }
-    });
-    return this.sortTimelineArray(seq_timeline);
-  }
+  // private convertStringToObject(data: any) {
+  //   this.req = new Map();
+  //   const nwList = typeof data === 'object' ? data : JSON.parse(data);
+  //   const seq_timeline = [] as any;
+  //   nwList.forEach((i) => {
+  //     //console.log(i);
+  //     this.req.set(i.requestid, i.webReq);
+  //     //displayRequest(i.webReq);
+  //     //displayResponse(i.webReq);
+  //     if (i.webReq.requesttime) {
+  //       const temp = {} as any;
+  //       temp.time = i.webReq.requesttime;
+  //       temp.url = i.webReq.url;
+  //       temp.method = i.webReq.method;
+  //       temp.isRequest = true;
+  //       temp.requesttime = i.webReq.requesttime;
+  //       temp.requestid = i.requestid;
+  //       temp.requestHeaders = i.webReq.requestHeaders;
+  //       temp.statusCode = i.webReq.statusCode;
+  //       temp.type = i.webReq.type;
+  //       temp.requestTime = i.webReq.requesttime;
+  //       seq_timeline.push(temp);
+  //     }
+  //     if (i.webReq.responseTime) {
+  //       const temp = {} as any;
+  //       temp.time = i.webReq.responseTime;
+  //       temp.responseTime = i.webReq.responseTime;
+  //       temp.url = i.webReq.url;
+  //       temp.statusCode = i.webReq.statusCode;
+  //       temp.responseTime = i.webReq.responseTime;
+  //       temp.isRequest = false;
+  //       temp.requestid = i.requestid;
+  //       temp.responseHeaders = i.webReq.responseHeaders;
+  //       temp.responseBody = i.webReq.responseBody;
+  //       seq_timeline.push(temp);
+  //     }
+  //   });
+  //   return this.sortTimelineArray(seq_timeline);
+  // }
 
   private getJson(buf) {
     const ebmlElms = this.decoder.decode(buf);
@@ -135,41 +183,43 @@ export class PreviewController {
 
 
   renderNetworkData(data) {
-    if (data.isRequest) {
-      delete data.isRequest;
-      this.requestNode.innerHTML = '';
-      var tree = jsonTree.create(data, this.requestNode);
-      console.log('==tree', tree);
-      tree.expand();
-      tree.expand(function (node) {
-        return node.childNodes.length < 2;
-      });
-    } else {
-      delete data.isRequest;
-      this.responseNode.innerHTML = '';
-      var tree = jsonTree.create(data, this.responseNode);
-      console.log('==tree', tree);
-      tree.expand();
-      tree.expand(function (node) {
-        return node.childNodes.length < 2;
-      });
-    }
-  }
+    this.selectedNetworkData = data;
+    setTimeout(() => {
+      if (data.responseBody) {
+        this.responseNode = document.getElementById("response");
+        this.responseNode.innerHTML = '';
+        const tree = jsonTree.create(JSON.parse(data.responseBody), this.responseNode);
+        tree.expand();
+        tree.expand(function (node) {
+          return node.childNodes.length < 2;
+        });
+      }
+      if (data.requestBody) {
+        this.requestBodyNode = document.getElementById("requestBody");
+        this.requestBodyNode.innerHTML = '';
+        const tree = jsonTree.create(JSON.parse(data.requestBody), this.requestBodyNode);
+        tree.expand();
+        tree.expand(function (node) {
+          return node.childNodes.length < 2;
+        });
+      }
+    }, 100);
 
+  }
 
   groupBy(list, keyGetter) {
     const map = new Map();
     list.forEach((item) => {
-        //  const key = keyGetter(item);
-        //  const collection = map.get(key);
-        //  if (!collection) {
-        //      map.set(key, [item]);
-        //  } else {
-        //      collection.push(item);
-        //  }
+      //  const key = keyGetter(item);
+      //  const collection = map.get(key);
+      //  if (!collection) {
+      //      map.set(key, [item]);
+      //  } else {
+      //      collection.push(item);
+      //  }
     });
     return map;
-}
+  }
 
 
 }

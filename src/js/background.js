@@ -206,21 +206,21 @@ function convertMapToObject(map_var) {
 }
 
 function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
-  // chrome.tabs.create({
-  //   url:
-  //     'index.html?mp4=' +
-  //     videoURL +
-  //     '&json=' +
-  //     jsonURL +
-  //     '&console=' +
-  //     consoleURL +
-  //     '&browser=' +
-  //     browserDetailsURL +
-  //     '&customname=' +
-  //     encodeURIComponent(customName)
-  // });
+  chrome.tabs.create({
+    url:
+      'preview/index.html?mp4=' +
+      videoURL +
+      '&json=' +
+      jsonURL +
+      '&console=' +
+      consoleURL +
+      '&browser=' +
+      browserDetailsURL +
+      '&customname=' +
+      encodeURIComponent(customName)
+  });
 
-  chrome.tabs.create({ url: 'download.html?mp4=' +videoURL + '&json=' + jsonURL + '&console=' + consoleURL + '&customname=' + 'kkkk' });
+  // chrome.tabs.create({ url: 'download.html?mp4=' +videoURL + '&json=' + jsonURL + '&console=' + consoleURL + '&customname=' + 'kkkk' });
 
 }
 
@@ -261,6 +261,8 @@ async function stopRecording(userClickStop = false) {
     var superBuffer = new Blob(recordedVideoBlobs, { type: 'video/webm' });
     var recordedobjectURL = window.URL.createObjectURL(superBuffer);
     var obj = convertMapToObject(getRequestByTypes(req));
+    console.log('========obj=========', obj);
+    
     var recorded_json = JSON.stringify(obj);
 
     var blob = new Blob([recorded_json], { type: 'application/json' });

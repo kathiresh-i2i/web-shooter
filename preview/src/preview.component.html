@@ -42,10 +42,12 @@
           <!-- <h6 class="m-0 font-weight-bold text-primary">Timeline</h6> -->
           <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="networklogstab" data-toggle="tab" href="#networklogs" role="tab" aria-controls="networklogs" aria-selected="true">Networks</a>
+              <a class="nav-link active" id="networklogstab" data-toggle="tab" href="#networklogs" role="tab"
+                aria-controls="networklogs" aria-selected="true">Networks</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="consolelogtab" data-toggle="tab" href="#consolelog" role="tab" aria-controls="consolelog" aria-selected="false">Console</a>
+              <a class="nav-link" id="consolelogtab" data-toggle="tab" href="#consolelog" role="tab"
+                aria-controls="consolelog" aria-selected="false">Console</a>
             </li>
           </ul>
         </div>
@@ -55,23 +57,26 @@
             <!-- <h4 class="card-title">Bologna</h4>
             <h6 class="card-subtitle mb-2">Emilia-Romagna Region, Italy</h6>
              -->
-             <div class="tab-content mt-3">
+            <div class="tab-content mt-3">
               <div class="tab-pane active" id="networklogs" role="tabpanel" aria-labelledby="networklogstab">
-                <div  id="anchor{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
-                ng-click="$ctrl.renderNetworkData(x);" ng-class="{'bg-gray-200 text-gray-800' : x.requestTime <= $ctrl.playTime  }">
-                 <div>    
-                   <strong>{{x.method}}</strong> {{x.url}} <strong>{{x.statusCode }}</strong>
+                <div id="anchor{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}"
+                  ng-repeat="x in $ctrl.networkData" ng-click="$ctrl.renderNetworkData(x);"
+                  ng-class="{'bg-gray-200 text-gray-800' : x.requesttime <= $ctrl.playTime  }">
+                  <div>
+                    <strong>{{x.method}}</strong> {{x.url}} <strong>{{x.statusCode }}</strong>
+                  </div>
                 </div>
               </div>
-              </div>
-               
-              <div class="tab-pane" id="consolelog" role="tabpanel" aria-labelledby="consolelogtab">  
-                Console
-              </div>
-             </div>
-        
 
-            <!-- <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkList"
+              <div class="tab-pane" id="consolelog" role="tabpanel" aria-labelledby="consolelogtab">
+                <div ng-repeat="console in $ctrl.consoleData" class="p-10">
+                  {{console.type}}: {{console.message}}
+                </div>
+              </div>
+            </div>
+
+
+            <!-- <div class="notice notice-sm notice-{{x.statusCode}}" ng-repeat="x in $ctrl.networkData"
               ng-class="{ 'timeline-even' : $even,  'timeline-odd' : !$even, 'bg-secondary text-white' : x.time <= $ctrl.playTime }" ng-click="$ctrl.renderNetworkData(x);">
               <div ng-show="x.isRequest">
                 <strong>{{x.method }}</strong> {{x.url}}
@@ -107,8 +112,31 @@
         </div>
         <!-- Card Body -->
         <div class="card-body m-h-370">
-          <div class="content" id="request">
-
+          <div class="p-b-30">
+            {{$ctrl.selectedNetworkData.method}} {{$ctrl.selectedNetworkData.url}}
+            {{$ctrl.selectedNetworkData.statusCode}}
+          </div>
+          <div class="content" id="request-headers" ng-if="$ctrl.selectedNetworkData.requestHeaders">
+            <h6 class="m-0 font-weight-bold text-primary p-b-10">Request Headers</h6>
+            <ul class="list-group">
+              <li class="list-group-item line-height-20"
+                ng-repeat="(header, value) in $ctrl.selectedNetworkData.requestHeaders">
+                <span class="header-item">{{header}}</span>:
+                <span>{{value}}</span></li>
+            </ul>
+          </div>
+          <div class="content" id="response-headers" ng-if="$ctrl.selectedNetworkData.responseHeaders">
+            <h6 class="m-0 font-weight-bold text-primary p-t-b-10">Response Headers</h6>
+            <ul class="list-group">
+              <li class="list-group-item line-height-20"
+                ng-repeat="(header, value) in $ctrl.selectedNetworkData.responseHeaders">
+                <span class="header-item">{{header}}</span>:
+                <span>{{value}}</span></li>
+            </ul>
+          </div>
+          <div class="content" id="response-headers" ng-if="$ctrl.selectedNetworkData.requestBody">
+            <h6 class="m-0 font-weight-bold text-primary p-t-b-10">Request Body</h6>
+            <div id="requestBody"></div>
           </div>
         </div>
       </div>

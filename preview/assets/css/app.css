@@ -1,6 +1,6 @@
 #browsefile {
-    opacity: 0;
-    position: fixed;
+  opacity: 0;
+  position: fixed;
 }
 
 .notice {
@@ -9,9 +9,9 @@
   background-color: #fafafa;
   border-left: 6px solid #7f7f84;
   margin-bottom: 10px;
-  -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
-          box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 5px 8px -6px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 8px -6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 8px -6px rgba(0, 0, 0, 0.2);
 }
 /* .notice:nth-child(even){
   margin-left: 20px;
@@ -21,16 +21,16 @@
   font-size: 80%;
   width: 80%;
 }
-.notice-200{
+.notice-200 {
   border-left: 6px solid green;
 }
-.notice-404{
+.notice-404 {
   border-left: 6px solid red;
 }
-.notice-201{
+.notice-201 {
   border-left: 6px solid orangered;
 }
-.notice-304{
+.notice-304 {
   border-left: 6px solid orange;
 }
 
@@ -39,6 +39,31 @@
   max-height: 330px;
 }
 
-.m-h-370{
-  min-height:370px
+.m-h-370 {
+  min-height: 370px;
+}
+
+.p-b-10 {
+  padding-bottom: 10px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-b-30 {
+  padding-bottom: 30px;
+}
+
+.p-t-b-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.header-item {
+  color: grey;
+}
+
+.line-height-20 {
+  line-height: 20px;
 }

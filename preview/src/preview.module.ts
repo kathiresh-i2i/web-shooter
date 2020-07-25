@@ -2,7 +2,7 @@ import * as angular from 'angular';
 import { PreviewComponent } from './preview.component';
 import { LAYOUT_MODULE } from './layout/layout.module';
 
-import { PreviewCotroller } from './preview.controller';
+import { PreviewController } from './preview.controller';
 import { FileOnChangeDirective } from './directives/filemodel.directive';
 import { VideoControlsDirective } from './directives/videoControl.directive';
   
@@ -12,6 +12,6 @@ const MODULE_DEPENDENCIES: Array<string> = [LAYOUT_MODULE];
 export const PreviewModule = angular.module(MODULE_NAME, MODULE_DEPENDENCIES)
 .directive('fileOnChange', FileOnChangeDirective)
 .directive('videoControl', VideoControlsDirective)
-.controller('PrevieController', PreviewCotroller)
+.controller('PreviewController', PreviewController)
 .component('preview', PreviewComponent)
 .name;
