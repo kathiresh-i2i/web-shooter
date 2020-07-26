@@ -262,7 +262,7 @@ async function stopRecording(userClickStop = false) {
     var recordedobjectURL = window.URL.createObjectURL(superBuffer);
     var obj = convertMapToObject(getRequestByTypes(req));
     console.log('========obj=========', obj);
-    
+
     var recorded_json = JSON.stringify(obj);
 
     var blob = new Blob([recorded_json], { type: 'application/json' });
@@ -611,15 +611,26 @@ function formatHeaders(headers) {
 
 function getBrowserDetails() {
   if (navigator) {
-    browserDetails['Url'] = currentBrowserURL;
-    browserDetails['Recording Time'] = getCurrentTime();
-    browserDetails.Version = navigator.appVersion;
-    browserDetails['User Agent'] = navigator.userAgent;
-    browserDetails.Language = navigator.language;
-    browserDetails['Device Memory'] = navigator.deviceMemory ? navigator.deviceMemory + 'GB' : '';
-    browserDetails['Cookie Enabled'] = navigator.cookieEnabled;
+    browserDetails.platform = 'Mac';
+    // browserDetails['Url'] = currentBrowserURL;
+    browserDetails.recordingTime = getCurrentTime();
+    browserDetails.language = navigator.language;
+    browserDetails.deviceMemory = navigator.deviceMemory ? navigator.deviceMemory + 'GB' : '';
+    browserDetails.cookieEnabled = navigator.cookieEnabled;
     browserDetails.TimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    navigator.geolocation.getCurrentPosition(setLocation);
+    // navigator.geolocation.getCurrentPosition(setLocation);
+    getBrowserVersin();
+  }
+}
+
+function getBrowserVersin() {
+  console.log('====getBrowserVersin=====');
+  var browserName, browserVersion, browserVersinoOffset;
+  if ((browserVersinoOffset = navigator.userAgent.indexOf("Chrome")) != -1) {
+    console.log('===calling inside');
+    browserVersion = navigator.userAgent.substring(browserVersinoOffset + 7).split(' ')[0];
+    browserDetails.browserName = 'Chrome';
+    browserDetails.browserVersion = browserVersion;
   }
 }
 

@@ -51,6 +51,8 @@ export class PreviewController {
       this.routeInfo.console = search_params.get('console');
       this.routeInfo.browser = search_params.get('browser') || '';
       this.videoSrc = this.routeInfo.mp4;
+      console.log('==== this.routeInfo==',  this.routeInfo);
+      
     }
   }
 
@@ -230,3 +232,19 @@ export class PreviewController {
  * https://github.com/toddmotto/angular-1-5-components-app/blob/master/src/app/components/contact/contact-detail/contact-detail.controller.js
  * https://github.com/toddmotto/angularjs-styleguide
  */
+
+
+
+
+
+// Platform:	macOS 10.15.3
+// Browser:	Chrome 80.0.3987.163
+// Engine:	Blink
+// Screen:	1440 x 900
+// Window:	1440 x 797
+// Type:	Desktop
+// Vendor:	Apple
+// Locale:	en
+// Timezone:	Europe / Berlin
+// Bird:	v1.8.2
+
