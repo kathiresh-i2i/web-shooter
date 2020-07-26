@@ -51,8 +51,8 @@ export class PreviewController {
       this.routeInfo.console = search_params.get('console');
       this.routeInfo.browser = search_params.get('browser') || '';
       this.videoSrc = this.routeInfo.mp4;
-      console.log('==== this.routeInfo==',  this.routeInfo);
-      
+      console.log('==== this.routeInfo==', this.routeInfo);
+
     }
   }
 
@@ -223,7 +223,16 @@ export class PreviewController {
     return map;
   }
 
-
+  highlightTimeline(network: any) {
+    if (network.requesttime <= this.playTime) {
+      const timelineEle = document.getElementById('timeline_'+ network.requestid);
+      if(timelineEle) {
+        timelineEle.classList.add('bg-gray-200');
+        timelineEle.classList.add('text-gray-800');
+        timelineEle.scrollIntoView(false);
+      }
+    }
+  }
 }
 
 

@@ -3,7 +3,7 @@
 
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-3">
-    <h1 class="h3 mb-0 text-gray-800">BUG-101</h1>
+    <h1 class="h3 mb-0 text-gray-800">Video</h1>
     <!-- <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
       To JIRA
      </div> -->
@@ -59,9 +59,9 @@
              -->
             <div class="tab-content mt-3">
               <div class="tab-pane active" id="networklogs" role="tabpanel" aria-labelledby="networklogstab">
-                <div id="anchor{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}"
+                <div id="timeline_{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}"
                   ng-repeat="x in $ctrl.networkData" ng-click="$ctrl.renderNetworkData(x);"
-                  ng-class="{'bg-gray-200 text-gray-800' : x.requesttime <= $ctrl.playTime  }">
+                  ng-class="$ctrl.highlightTimeline(x);">
                   <div>
                     <strong>{{x.method}}</strong> {{x.url}} <strong>{{x.statusCode }}</strong>
                   </div>
