@@ -3,18 +3,22 @@
 
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-3">
-    <h1 class="h3 mb-0 text-gray-800">BUG 101</h1>
+    <div class="mb-0 text-gray-800 font-20">{{$ctrl.videoName}}</div>
     <!-- <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
       To JIRA
      </div> -->
-    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-      <input type="file" id="browsefile" accept=".mkv,.webm" ng-model="$ctrl.file" ng-change="$ctrl.onFileChange()"
-        file-on-change />
-      <i class="fas fa-upload fa-sm text-white-50"></i> Upload
-    </button>
+    <div>
+      <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+        ng-click="$ctrl.downloadVideo();">
+        <i class="fas fa-download fa-sm text-white-50"></i> Download
+      </button>
+      <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <input type="file" id="browsefile" accept=".mkv,.webm" ng-model="$ctrl.file" ng-change="$ctrl.onFileChange()"
+          file-on-change />
+        <i class="fas fa-upload fa-sm text-white-50"></i> Upload
+      </button>
+    </div>
   </div>
-
-
   <!-- Content Row -->
 
   <div class="row">

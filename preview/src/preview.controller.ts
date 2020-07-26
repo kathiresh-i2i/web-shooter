@@ -4,6 +4,7 @@ import { StorageService } from './services';
 
 
 declare var jsonTree: any;
+declare var passToFFmpegv2: any;
 export class PreviewController {
 
   public static $inject: string[] = ['$http', '$location', 'StorageService'];
@@ -15,6 +16,7 @@ export class PreviewController {
   browserInfoData: any;
   playTime: any;
   selectedNetworkData: any;
+  videoName: string;
   private decoder: any;
   private dec: any;
   private req: any;
@@ -63,6 +65,7 @@ export class PreviewController {
       this.routeInfo.browser = search_params.get('browser');
       this.routeInfo.console = search_params.get('console');
       this.routeInfo.browser = search_params.get('browser') || '';
+      this.videoName = search_params.get('name') || 'Recorded Video';
       this.videoSrc = this.routeInfo.mp4;
       console.log('==== this.routeInfo==', this.routeInfo);
 
@@ -110,13 +113,30 @@ export class PreviewController {
     console.log("...controll cureenttimr", currentTime);
   }
 
-  private fetchUrlinfo(fileURL: any) {
+ fetchUrlinfo(fileURL: any) {
     this.$http.get(fileURL, { responseType: 'arraybuffer' })
       .then(res => res.data)
       .then(buf => {
         const obj = this.getJson(buf);
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
         this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
+        this.consoleData = typeof dataObj.console === 'object' ? dataObj.console : JSON.parse(dataObj.console);
+        this.browserInfoData = typeof dataObj.browser === 'object' ? dataObj.browser : JSON.parse(dataObj.browser);
+        //   this.networkList = this.convertStringToObject(dataObj.network);
+        //   const output= [];
+        //   this.networkList.forEach(function(item) {
+        //     var existing = output.filter(function(v, i) {
+        //       return v.requestid == item.requestid;
+        //     });
+        //     if (existing.length) {
+        //       var existingIndex = output.indexOf(existing[0]);
+        //       output[existingIndex] =  { ...output[existingIndex], ...item }  
+        //     } else {
+        //       output.push(item);
+        //     }
+        //   });        
+        //   this.networkList = output;
+
       });
   }
 
@@ -223,13 +243,17 @@ export class PreviewController {
 
   highlightTimeline(network: any) {
     if (network.requesttime <= this.playTime) {
-      const timelineEle = document.getElementById('timeline_'+ network.requestid);
-      if(timelineEle) {
-        timelineEle.classList.add('bg-gray-200');
-        timelineEle.classList.add('text-gray-800');
-        timelineEle.scrollIntoView(false);
+      const timelineEle = document.getElementById('timeline_' + network.requestid);
+      if (timelineEle && !timelineEle.classList.contains('bg-gray-200')) {
+        timelineEle.classList.add('bg-gray-200', 'text-gray-800');
+        // timelineEle.scrollIntoView(false);
+        this.renderNetworkData(network);
       }
     }
+  }
+
+  downloadVideo() {
+    passToFFmpegv2(this.networkData, this.consoleData, this.browserInfoData, this.videoSrc, this.videoName)
   }
 }
 
@@ -239,19 +263,3 @@ export class PreviewController {
  * https://github.com/toddmotto/angular-1-5-components-app/blob/master/src/app/components/contact/contact-detail/contact-detail.controller.js
  * https://github.com/toddmotto/angularjs-styleguide
  */
-
-
-
-
-
-// Platform:	macOS 10.15.3
-// Browser:	Chrome 80.0.3987.163
-// Engine:	Blink
-// Screen:	1440 x 900
-// Window:	1440 x 797
-// Type:	Desktop
-// Vendor:	Apple
-// Locale:	en
-// Timezone:	Europe / Berlin
-// Bird:	v1.8.2
-

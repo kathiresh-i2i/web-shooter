@@ -216,7 +216,7 @@ function launchPreview(videoURL, jsonURL, consoleURL, browserDetailsURL) {
       consoleURL +
       '&browser=' +
       browserDetailsURL +
-      '&customname=' +
+      '&name=' +
       encodeURIComponent(customName)
   });
 

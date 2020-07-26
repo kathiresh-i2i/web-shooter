@@ -17,7 +17,9 @@
                 "node_modules/bootstrap/dist/js/bootstrap.min.js",
                 "assets/js/require.js",
                 "assets/js/jsonTreeApp.js",
-                "assets/js/jsonTree.js"
+                "assets/js/jsonTree.js",
+                "assets/js/download.js",
+                "assets/js/bundle.js"
             ]
         }
     },
