@@ -26,7 +26,7 @@ const files = [
 
 gulp.task('js', function (cb) {
   pump([
-    gulp.src('src/js/*.js'),
+    gulp.src('src/js/**/*.js'),
     // uglify(),
     gulp.dest('dist')
   ],
@@ -62,7 +62,7 @@ gulp.task('build', function (cb) {
 
 
 gulp.task('default', ['build'], function() {
-  gulp.watch('src/*/*', function() {
+  gulp.watch('src/**/*', function() {
      gulp.run('build');
   });
 });

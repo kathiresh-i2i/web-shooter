@@ -1,10 +1,12 @@
 import * as ebml from 'ts-ebml';
 import angular = require('angular');
+import { StorageService } from './services';
+
 
 declare var jsonTree: any;
 export class PreviewController {
 
-  public static $inject: string[] = ['$http', '$location'];
+  public static $inject: string[] = ['$http', '$location', 'StorageService'];
 
   file: File;
   videoSrc: any;
@@ -20,13 +22,24 @@ export class PreviewController {
   private responseNode: any;
   private routeInfo: any = {};
 
-  constructor(private $http: angular.IHttpService,
-    private $location: angular.ILocationService) {
+  constructor(
+    private $http: angular.IHttpService,
+    private $location: angular.ILocationService,
+    private storageService: StorageService
+          ) {
     this.decoder = new ebml.Decoder()
     this.dec = new TextDecoder("utf-8");
   }
 
   $onInit() {
+    // const recentFile = localStorage.getItem('selected-file');
+    //  console.log("RECENT FILRE",);
+    //  this.storageService.fetchRecentFiles(recentFile, (file:any) =>{
+    //    console.log(".....AAASRC...",file);
+    //    this.videoSrc = file.url;
+    //    console.log(".....AAASRC...",this.videoSrc);
+    //  });
+
     this.getRouteInfo();
     this.getJSON();
     this.getConsoleData();
@@ -104,21 +117,6 @@ export class PreviewController {
         const obj = this.getJson(buf);
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
         this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
-        //   this.networkList = this.convertStringToObject(dataObj.network);
-        //   const output= [];
-        //   this.networkList.forEach(function(item) {
-        //     var existing = output.filter(function(v, i) {
-        //       return v.requestid == item.requestid;
-        //     });
-        //     if (existing.length) {
-        //       var existingIndex = output.indexOf(existing[0]);
-        //       output[existingIndex] =  { ...output[existingIndex], ...item }  
-        //     } else {
-        //       output.push(item);
-        //     }
-        //   });        
-        //   this.networkList = output;
-
       });
   }
 

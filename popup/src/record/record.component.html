@@ -1,23 +1,23 @@
 <div class="card mt-3 tab-card">
-    <div class="card-header tab-card-header">
+     <div class="card-header tab-card-header">
         <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item ">
 
-                <a class="nav-link active show" id="one-tab" data-toggle="tab" href="#one" role="tab"
+                <a class="nav-link" ng-class="{'active show': $ctrl.recordOptions.type === 'tab' }" id="one-tab" ng-click="$ctrl.selectRecordtype('tab')" data-toggle="tab" href="#one" role="tab"
                     aria-controls="One" aria-selected="true">
                     <i class="fas fa-tablet" aria-hidden="true"></i>
                     <div>Browser Tab</div>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two"
+                <a class="nav-link" id="two-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'desktop' }"  ng-click="$ctrl.selectRecordtype('desktop')"   data-toggle="tab" href="#two" role="tab" aria-controls="Two"
                     aria-selected="false">
                     <i class="fas fa-desktop" aria-hidden="true"></i>
                     <div>DeskTop</div>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Three"
+                <a class="nav-link" id="three-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'webcam' }"  ng-click="$ctrl.selectRecordtype('webcam')"   data-toggle="tab" href="#three" role="tab" aria-controls="Three"
                     aria-selected="false">
                     <i class="fas fa-camera" aria-hidden="true"></i>
                     <div>WebCamOnly</div>
@@ -33,31 +33,31 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="microphone" value="option1">
+                                <input class="form-check-input" type="checkbox" ng-model="$ctrl.recordOptions.isMicEnabled" id="microphone" value="option1">
                                 <label class="form-check-label" for="microphone">Microphone</label>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect1">
+                            <!-- <div class="form-group">
+                                <select class="form-control">
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
                                   <option>4</option>
                                   <option>5</option>
                                 </select>
-                              </div>
+                              </div> -->
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="microphone" value="option1">
-                                <label class="form-check-label" for="microphone">Microphone</label>
+                                <input class="form-check-input" type="checkbox" ng-model="$ctrl.recordOptions.isCamEnabled" id="webCamp" value="option1">
+                                <label class="form-check-label" for="webCamp">Webcam</label>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="col">
+                            <!-- <div class="col">
                                 <div class="form-group">
                                     <select class="form-control" id="exampleFormControlSelect1">
                                       <option>1</option>
@@ -67,13 +67,19 @@
                                       <option>5</option>
                                     </select>
                                   </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
+                       <div class="row mt-3">
+                        <div class="col-12">
+                         <a href="#" class="btn btn-primary bt-sm btn-block col-4"   ng-click="$ctrl.startRecord()">Start Record</a>
+                         <a href="#" class="btn btn-danger bt-sm btn-block col-4"   ng-click="$ctrl.stopRecord()">Stop Record</a>
+                         </div>
+                       </div>
+                 
                 </form>
-
-
+               
 
             </div>
             <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
@@ -91,4 +97,5 @@
 
         </div>
     </div>
+
 </div>

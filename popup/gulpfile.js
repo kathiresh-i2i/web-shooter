@@ -178,7 +178,8 @@ gulp.task('build', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin','template
 
 gulp.task('default', gulp.series('assetsCssMin', 'cssmin', 'assetsJsMin', 'templates:build','build:app', 'build:vendor',  'prod_inject', 'move', 'clean'));
 
- 
+gulp.task('dev', gulp.series('templates:build', 'build:app',)) 
+
 gulp.task('serve', function() {
     browserSync({
       server: {
