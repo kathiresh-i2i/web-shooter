@@ -14,13 +14,11 @@ import * as angular from 'angular';
 
   $onInit() {
     console.log('......RECORD CONTROLLER')
+    this.isRecording= false;
     this.recordOptions = {type : 'tab'};
-        
-    chrome.storage.sync.get('isRecording', function(obj) {
-     this.isRecording = obj.isRecording === 'true';
-     console.log("............ this.isRecording..", this.isRecording)
+    
+    
 
- });
    }
 
   $onChanges(changes) {      
@@ -29,6 +27,14 @@ import * as angular from 'angular';
 
   $doCheck() {
     console.log(this.isRecording,"..RECORD CONTROLLER.doCHECK....");
+    chrome.storage.local.get('isRecording', function (obj) {
+      const _self = this;
+     if (obj.isRecording) {
+     console.log("...AAAAAAA>..",obj);
+     _self.isRecording = obj.isRecording;
+
+     }
+   });
   }
   
   selectRecordtype(type){

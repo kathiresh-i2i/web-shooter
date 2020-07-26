@@ -7,7 +7,6 @@ html{
      color: #3b404e;
      font-size: 12px;
      margin: 0;
-     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
      letter-spacing: -.1px
    }
    
@@ -20,7 +19,8 @@ html{
  /* Tabs Card */
  
  .tab-card {
-   border:1px solid #eee;
+  /* // border:1px solid #eee; */
+  border: none;;
  }
  
  .tab-card-header {
@@ -32,11 +32,11 @@ html{
    margin: 0px;
  }
  .tab-card-header > .nav-tabs > li {
-   margin-right: 2px;
+    /* margin-right: 2px; */
  }
  .tab-card-header > .nav-tabs > li > a {
    border: 0;
-   border-bottom:2px solid transparent;
+   border-bottom: none;
    margin-right: 0;
    color: #737373;
    padding: 2px 15px;
@@ -57,5 +57,4 @@ html{
  }
  
  .tab-card-body{
-   background-color: #f7f7f7;
  }
