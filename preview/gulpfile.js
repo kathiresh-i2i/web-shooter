@@ -20,7 +20,7 @@ const paths = {
 
 const destPath = 'dist';
 
-const vendors = ['angular', 'ts-ebml'];
+const vendors = ['angular', '@uirouter/angularjs', 'ts-ebml'];
 
 
 const core = asssetsPath.core;

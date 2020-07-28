@@ -34,18 +34,12 @@ export class PreviewController {
   }
 
   $onInit() {
-    // const recentFile = localStorage.getItem('selected-file');
-    //  console.log("RECENT FILRE",);
-    //  this.storageService.fetchRecentFiles(recentFile, (file:any) =>{
-    //    console.log(".....AAASRC...",file);
-    //    this.videoSrc = file.url;
-    //    console.log(".....AAASRC...",this.videoSrc);
-    //  });
-
     this.getRouteInfo();
-    this.getJSON();
-    this.getConsoleData();
-    this.getBrowserData();
+    if(this.videoSrc){
+      this.getJSON();
+      this.getConsoleData();
+      this.getBrowserData();
+    }
   }
 
   $onChanges(changes) {
