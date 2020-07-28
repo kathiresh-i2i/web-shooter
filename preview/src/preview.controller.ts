@@ -246,7 +246,9 @@ export class PreviewController {
       const timelineEle = document.getElementById('timeline_' + network.requestid);
       if (timelineEle && !timelineEle.classList.contains('bg-gray-200')) {
         timelineEle.classList.add('bg-gray-200', 'text-gray-800');
-        // timelineEle.scrollIntoView(false);
+        timelineEle.scrollIntoView({
+          behavior: 'smooth', block: 'nearest'
+          });
         this.renderNetworkData(network);
       }
     }

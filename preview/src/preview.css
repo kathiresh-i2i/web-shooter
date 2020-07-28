@@ -1,0 +1,9 @@
+.header-info-view {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.body-info-view {
+    max-height: 600px;
+    overflow: auto;
+}
