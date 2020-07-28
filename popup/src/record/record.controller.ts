@@ -15,10 +15,10 @@ import * as angular from 'angular';
   $onInit() {
     console.log('......RECORD CONTROLLER')
     this.isRecording= false;
-    this.recordOptions = {type : 'tab'};
-    
-    
-
+    this.recordOptions = {
+      type : 'tab',
+      fileName: 'Record Network'
+    };
    }
 
   $onChanges(changes) {      

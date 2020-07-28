@@ -49,7 +49,7 @@ export class PopupController {
 
       const { id: currentTabId, url } = tabs[0];
       chrome.runtime.sendMessage({ action: "startStopwatch" });
-      chrome.extension.getBackgroundPage().startRecording(currentTabId, data.fileName, data.isEnableDataMask, url);
+      chrome.extension.getBackgroundPage().startRecording(currentTabId, data.fileName || 'Record Network', data.isEnableDataMask, url);
     });
     let timeRange = data.duration
     timeRange = timeRange < Number('15') ? 120 : Number(timeRange);
