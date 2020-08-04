@@ -28,7 +28,7 @@ export class PreviewController {
     private $http: angular.IHttpService,
     private $location: angular.ILocationService,
     private storageService: StorageService
-          ) {
+  ) {
     this.decoder = new ebml.Decoder()
     this.dec = new TextDecoder("utf-8");
   }
@@ -90,6 +90,7 @@ export class PreviewController {
       .then(data => {
         console.log('============Browser Info-----', data);
         this.browserInfoData = data;
+        this.storageService.browserInfoValue = this.browserInfoData;
       });
   }
 
@@ -116,6 +117,7 @@ export class PreviewController {
         this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
         this.consoleData = typeof dataObj.console === 'object' ? dataObj.console : JSON.parse(dataObj.console);
         this.browserInfoData = typeof dataObj.browser === 'object' ? dataObj.browser : JSON.parse(dataObj.browser);
+        this.storageService.browserInfoValue = this.browserInfoData;
         //   this.networkList = this.convertStringToObject(dataObj.network);
         //   const output= [];
         //   this.networkList.forEach(function(item) {

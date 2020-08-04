@@ -1,5 +1,6 @@
 
 export class StorageService {
+    public browserInfoValue: Object = {};
     public static $inject: string[] = ['$q']
     constructor(private $q: angular.IQService) {}
 
@@ -9,7 +10,7 @@ export class StorageService {
                 cb(file);
          });
     }
- 
+
 
 
 }

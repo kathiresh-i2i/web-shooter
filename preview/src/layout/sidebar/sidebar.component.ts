@@ -1,7 +1,7 @@
 import * as angular from 'angular';
-import { PreviewController } from '../../preview.controller';
+import { SidebarController } from './sidebar.controller'
  
 export const SidebarComponent: angular.IComponentOptions  = {
   templateUrl: '/layout/sidebar/sidebar.component.html',
-  controller: PreviewController
-  };
+  controller: SidebarController
+};
