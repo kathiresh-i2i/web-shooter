@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/web-shooter",
+            "outputPath": "/Users/kathiresan.thangaraj/Documents/extension/web-shooter/dist/preview",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,7 +30,13 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/require.js",
+              "src/assets/js/jsonTreeApp.js",
+              "src/assets/js/jsonTree.js",
+              "src/assets/js/download.js",
+              "src/assets/js/bundle.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -123,6 +129,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "web-shooter"
 }

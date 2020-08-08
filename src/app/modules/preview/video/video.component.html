@@ -1,0 +1,19 @@
+  <!-- Area Video -->
+  <div class="col-xl-7 col-lg-7">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <!-- <div class="card-header d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">VIDEO</h6>
+    </div> -->
+      <!-- Card Body -->
+      <div class="card-body embed-responsive embed-responsive-16by9">
+        <!-- <video id="vid" controls src="{{mp4}}" class="embed-responsive-item" video-control
+          video-time="$ctrl.playTime" on-time-update="$ctrl.onTimeineSelect({currentTime: $ctrl.playTime})"></video> -->
+        <div class="video">
+          <video controls>
+            <source [src]="domSanitizer.bypassSecurityTrustUrl(videoSrc)" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>

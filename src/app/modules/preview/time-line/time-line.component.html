@@ -1,0 +1,53 @@
+ <!-- Area Timeline -->
+ <div class="col-xl-5 col-lg-5">
+  <div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header d-flex flex-row align-items-center justify-content-between">
+      <!-- <h6 class="m-0 font-weight-bold text-primary">Timeline</h6> -->
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="networklogstab" data-toggle="tab" href="#networklogs" role="tab"
+            aria-controls="networklogs" aria-selected="true">Networks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="consolelogtab" data-toggle="tab" href="#consolelog" role="tab"
+            aria-controls="consolelog" aria-selected="false">Console</a>
+        </li>
+      </ul>
+    </div>
+    <!-- Card Body -->
+    <div class="card-body pt-0 m-h-370">
+      <div class="timeline">
+        <!-- <h4 class="card-title">Bologna</h4>
+        <h6 class="card-subtitle mb-2">Emilia-Romagna Region, Italy</h6>
+         -->
+        <div class="tab-content mt-3">
+          <div class="tab-pane active" id="networklogs" role="tabpanel" aria-labelledby="networklogstab">
+            <!-- <div id="timeline_{{x.requestid}}" class="notice notice-sm notice-{{x.statusCode}}"
+              ng-repeat="x in $ctrl.networkData" ng-click="$ctrl.renderNetworkData(x);"
+              ng-class="$ctrl.highlightTimeline(x);">
+              <div>
+                <strong>
+                  {{x.method}}</strong> {{x.url}} <strong>{{x.statusCode }}</strong>
+              </div>
+            </div> -->
+            <div id="timeline_{{network.requestid}}" class="notice notice-sm notice-{{network.statusCode}}"
+              *ngFor="let network of networkData" (click)="renderNetworkData(network)"
+              [ngClass]="highlightTimeline(network)">
+              <div>
+                <strong>
+                  {{network?.method}}</strong> {{network?.url}} <strong>{{network?.statusCode }}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="consolelog" role="tabpanel" aria-labelledby="consolelogtab">
+            <div ng-repeat="console in $ctrl.consoleData" class="p-10">
+              <!-- {{console.type}}: {{console.message}} -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
