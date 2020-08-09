@@ -108,7 +108,8 @@
     <!-- Nav Item - Alerts -->
     <li class="nav-item dropdown no-arrow mx-1">
       <!-- <auth></auth> -->
-      <button ng-click="$ctrl.getPresignedURL();">Get Presigned URL</button>
+      <button (click)="oAuthLogin()">Login</button>
+      <!-- <button (click)="getPresignedURL()">Get Presigned URL</button> -->
       <!-- <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <span class="badge badge-danger badge-counter">3+</span>
@@ -257,7 +258,12 @@
     </div>
     <div>
       <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-        ng-click="$ctrl.downloadVideo();">
+      (click)="uploadToServer()">
+      <i class="fas fa-download fa-sm text-white-50"></i> Upload To Server
+    </button>
+
+      <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+        (click)="downloadVideo(false)">
         <i class="fas fa-download fa-sm text-white-50"></i> Download
       </button>
       <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">

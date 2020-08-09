@@ -1,4 +1,4 @@
-function passToFFmpegv2(json, consoleMessage, browserInfo, video, nameOfVideo) {
+function passToFFmpegv2(json, consoleMessage, browserInfo, video, nameOfVideo, isUploadToServer) {
   nameOfVideo = decodeURIComponent(nameOfVideo).split(' ').join('_');
   fetch(video)
     .then(function (res) {
@@ -8,7 +8,7 @@ function passToFFmpegv2(json, consoleMessage, browserInfo, video, nameOfVideo) {
       var videoDownloadSuccess = new Promise(
         function (resolve, reject) {
           try {
-            mergeAndDownload(nameOfVideo, buf, json, consoleMessage, browserInfo);
+            mergeAndDownload(nameOfVideo, buf, json, consoleMessage, browserInfo, isUploadToServer);
             return resolve();
           }
           catch (e) {

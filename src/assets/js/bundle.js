@@ -23,7 +23,9 @@
         enc = new TextEncoder("utf-8");
         dec = new TextDecoder("utf-8");
       }
-      function mergeAndDownload(name, videoBuffer, jsonString, consoleMessage, browserInfo) {
+      function mergeAndDownload(name, videoBuffer, jsonString, consoleMessage, browserInfo, isUploadToServer) {
+        console.log('===mergeAndDownload===isUploadToServer==', isUploadToServer);
+        
         init();
         var ebmlElms = decoder.decode(videoBuffer);
         console.log(ebmlElms);
@@ -31,7 +33,11 @@
         var arry = encoder.encode(ebmlElms);
         var decodedVal = decoder.decode(arry);
         console.log(decodedVal);
-        downloadMpeg(arry, name);
+        if(isUploadToServer) {
+          window.blobValue = arry;
+        } else {
+          downloadMpeg(arry, name);
+        }
       }
       function getJson(videoBuffer) {
         init();
@@ -115,10 +121,9 @@
       }
 
       function downloadMpeg(recordedBlobs, name) {
+        window.blobValue = recordedBlobs;
         var blob = new Blob([recordedBlobs], { type: 'video/webm' });
-        console.log('=========blob======',blob);
         var url = window.URL.createObjectURL(blob);
-        console.log('=========url=====', url);
         var a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
