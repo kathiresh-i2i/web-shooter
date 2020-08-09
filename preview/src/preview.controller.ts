@@ -5,6 +5,8 @@ import { StorageService } from './services';
 
 declare var jsonTree: any;
 declare var passToFFmpegv2: any;
+declare var mergedVideoBlob: any
+declare var window: any;
 export class PreviewController {
 
   public static $inject: string[] = ['$http', '$location', 'StorageService'];
@@ -17,6 +19,9 @@ export class PreviewController {
   playTime: any;
   selectedNetworkData: any;
   videoName: string;
+  uploadedVideoBuffer: any;
+  isNewVideo: boolean;
+  userInfo: any;
   private decoder: any;
   private dec: any;
   private req: any;
@@ -34,12 +39,14 @@ export class PreviewController {
   }
 
   $onInit() {
+    this.isNewVideo = true;
     this.getRouteInfo();
-    if(this.videoSrc){
+    if (this.videoSrc) {
       this.getJSON();
       this.getConsoleData();
       this.getBrowserData();
     }
+    this.checkAuthTokens();
   }
 
   $onChanges(changes) {
@@ -48,6 +55,30 @@ export class PreviewController {
 
   $doCheck() {
     console.log("...doCHECK....", this.playTime);
+  }
+
+  checkAuthTokens() {
+    // Temp code to get tokens
+    console.log('=====checkAuthTokens===');
+    if (this.$location) {
+      let url = this.$location.absUrl();
+      if (url.includes('#!#')) {
+        url = url.replace('#!#', '?');
+        const parsedUrl = new URL(url);
+        console.log('===parsedUrl', parsedUrl);
+        localStorage.setItem('id_token', parsedUrl.searchParams.get('id_token'));
+        localStorage.setItem('access_token', parsedUrl.searchParams.get('access_token'));
+        localStorage.setItem('token_type', parsedUrl.searchParams.get('token_type'));
+        localStorage.setItem('expires_in', parsedUrl.searchParams.get('expires_in'));
+      }
+      this.getUsereInfo();
+    }
+  }
+
+  getUsereInfo() {
+    this.storageService.getUserInfo().then(data => {
+      this.userInfo = data;
+    })
   }
 
   getRouteInfo() {
@@ -62,7 +93,6 @@ export class PreviewController {
       this.videoName = search_params.get('name') || 'Recorded Video';
       this.videoSrc = this.routeInfo.mp4;
       console.log('==== this.routeInfo==', this.routeInfo);
-
     }
   }
 
@@ -98,6 +128,7 @@ export class PreviewController {
     console.log(this.file.name);
     console.log('....FILE');
     console.dir(this.file);
+    this.isNewVideo = false;
     this.videoSrc = URL.createObjectURL(this.file);
     this.fetchUrlinfo(this.videoSrc);
 
@@ -108,10 +139,11 @@ export class PreviewController {
     console.log("...controll cureenttimr", currentTime);
   }
 
- fetchUrlinfo(fileURL: any) {
+  fetchUrlinfo(fileURL: any) {
     this.$http.get(fileURL, { responseType: 'arraybuffer' })
       .then(res => res.data)
       .then(buf => {
+        window.mergedVideoBlob = buf;
         const obj = this.getJson(buf);
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
         this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
@@ -244,20 +276,34 @@ export class PreviewController {
         timelineEle.classList.add('bg-gray-200', 'text-gray-800');
         timelineEle.scrollIntoView({
           behavior: 'smooth', block: 'nearest'
-          });
+        });
         this.renderNetworkData(network);
       }
     }
   }
 
-  downloadVideo() {
-    passToFFmpegv2(this.networkData, this.consoleData, this.browserInfoData, this.videoSrc, this.videoName)
+  downloadVideo(isUploadToServer: boolean) {
+    passToFFmpegv2(this.networkData, this.consoleData, this.browserInfoData, this.routeInfo.mp4, this.videoName, isUploadToServer);
+  }
+
+  login() {
+    const client_id = "758f2oqr8h4ossip9bi418eev2";
+    const scope = "openid";
+    const redirect_uri = "https://web.mytharunika.com";
+    const response_type = "token";
+    const url = `https://webshooter.auth.us-east-1.amazoncognito.com/login?client_id=${client_id}&response_type=${response_type}&scope=${scope}&redirect_uri=${redirect_uri}`
+    console.log("..oauth..URL>>>", url);
+    window.location.replace(url);
+  }
+
+  uploadToServer() {
+    let response: any;
+    if (this.isNewVideo) {
+      this.downloadVideo(true);
+    }
+    this.storageService.getPresignedURL().then(data => {
+      response = data.data;;
+      this.storageService.uploadToServer(response.s3PutObjectUrl, window.mergedVideoBlob);
+    });
   }
 }
-
-
-
-/**
- * https://github.com/toddmotto/angular-1-5-components-app/blob/master/src/app/components/contact/contact-detail/contact-detail.controller.js
- * https://github.com/toddmotto/angularjs-styleguide
- */

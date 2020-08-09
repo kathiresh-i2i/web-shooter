@@ -4,7 +4,8 @@
   "description": "",
   "main": "preview.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gulp build && aws s3 sync dist/ s3://web.mytharunika.com --acl public-read"
   },
   "author": "gowthaman@ideas2it.com",
   "license": "ISC",

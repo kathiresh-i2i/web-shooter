@@ -23,7 +23,7 @@
         enc = new TextEncoder("utf-8");
         dec = new TextDecoder("utf-8");
       }
-      function mergeAndDownload(name, videoBuffer, jsonString, consoleMessage, browserInfo) {
+      function mergeAndDownload(name, videoBuffer, jsonString, consoleMessage, browserInfo, isUploadToServer) {
         init();
         var ebmlElms = decoder.decode(videoBuffer);
         console.log(ebmlElms);
@@ -31,7 +31,11 @@
         var arry = encoder.encode(ebmlElms);
         var decodedVal = decoder.decode(arry);
         console.log(decodedVal);
-        downloadMpeg(arry, name);
+        if(isUploadToServer) {
+          mergedVideoBlob = arry;
+        } else {
+          downloadMpeg(arry, name);
+        }
       }
       function getJson(videoBuffer) {
         init();
@@ -116,14 +120,16 @@
 
       function downloadMpeg(recordedBlobs, name) {
         var blob = new Blob([recordedBlobs], { type: 'video/webm' });
+        console.log('=========blob======',blob);
         var url = window.URL.createObjectURL(blob);
+        console.log('=========url=====', url);
         var a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
         a.download = name + '.mkv';
         document.body.appendChild(a);
         a.click();
-        setTimeout(function () {
+        setTimeout(function () { 
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
         }, 100);
