@@ -15,8 +15,6 @@ export class HomeComponent implements OnInit {
   networkData: any;
   consoleData: any;
   browserData: any;
-  private requestBodyNode: any;
-  private responseNode: any;
   private s3StorageInfo: any;
   selectedNetworkData: any;
 
@@ -35,6 +33,10 @@ export class HomeComponent implements OnInit {
       this.getConsoleData();
       this.getBrowserData();
     });
+  }
+
+  SelectedNetworkDataChangeEventHandler($event: any) {
+    this.selectedNetworkData = $event;
   }
 
   getNetworkData() {
@@ -59,44 +61,6 @@ export class HomeComponent implements OnInit {
       console.log('======browser info==', data);
 
     });
-  }
-
-  renderNetworkData(data) {
-    this.selectedNetworkData = data;
-    setTimeout(() => {
-      if (data.responseBody) {
-        this.responseNode = document.getElementById("response");
-        this.responseNode.innerHTML = '';
-        const tree = jsonTree.create(JSON.parse(data.responseBody), this.responseNode);
-        tree.expand();
-        tree.expand(function (node) {
-          return node.childNodes.length < 2;
-        });
-      }
-      if (data.requestBody) {
-        this.requestBodyNode = document.getElementById("requestBody");
-        this.requestBodyNode.innerHTML = '';
-        const tree = jsonTree.create(JSON.parse(data.requestBody), this.requestBodyNode);
-        tree.expand();
-        tree.expand(function (node) {
-          return node.childNodes.length < 2;
-        });
-      }
-    }, 100);
-
-  }
-
-  highlightTimeline(network: any) {
-    // if (network.requesttime <= this.playTime) {
-    //   const timelineEle = document.getElementById('timeline_' + network.requestid);
-    //   if (timelineEle && !timelineEle.classList.contains('bg-gray-200')) {
-    //     timelineEle.classList.add('bg-gray-200', 'text-gray-800');
-    //     timelineEle.scrollIntoView({
-    //       behavior: 'smooth', block: 'nearest'
-    //     });
-    //     this.renderNetworkData(network);
-    //   }
-    // }
   }
 
   downloadVideo(isUploadToServer: boolean) {

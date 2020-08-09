@@ -1,1 +1,30 @@
-<p>response works!</p>
+<div class="col-12 pl-1 d-flex">
+    <div class="card shadow mb-4 width-100">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Response</h6>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+            <div class="content" id="response-headers" ng-if="selectedNetworkData?.responseHeaders">
+                <h6 class="m-0 font-weight-bold text-primary p-t-b-10">Response Headers</h6>
+                <ul class="list-group header-info-view">
+                    <!-- <li class="list-group-item line-height-20"
+              ng-repeat="(header, value) in selectedNetworkData?.responseHeaders">
+              <span class="header-item">{{header}}</span>:
+              <span>{{value}}</span></li> -->
+                    <li class="list-group-item line-height-20"
+                        *ngFor="let header of selectedNetworkData?.responseHeaders | keyvalue">
+                        <span class="header-item">{{header.key}}</span>:
+                        <span>{{header.value}}</span></li>
+                </ul>
+            </div>
+            <div class="content" class="pt-4 pb-2" ng-if="selectedNetworkData?.responseBody">
+                <h6 class="m-0 font-weight-bold text-primary p-t-b-10">Response Body</h6>
+                <div class="body-info-view" id="response">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

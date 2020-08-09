@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "/Users/kathiresan.thangaraj/Documents/extension/web-shooter/dist/preview",
+            "outputPath": "C:/Users/WINDOWS/Documents/IDEAS2IT/ANGULAR/WEB/web-shooter/dist/preview",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

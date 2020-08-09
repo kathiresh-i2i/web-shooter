@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-response',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./response.component.scss']
 })
 export class ResponseComponent implements OnInit {
+  @Input() selectedNetworkData: any;
 
   constructor() { }
 

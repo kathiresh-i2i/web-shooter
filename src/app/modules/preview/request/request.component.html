@@ -1,1 +1,32 @@
-<p>request works!</p>
+<div class="col-12 pr-1 d-flex">
+    <div class="card shadow mb-4 width-100">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Request</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body m-h-370">
+            <div class="p-b-30">
+                {{selectedNetworkData?.method}} {{selectedNetworkData?.url}}
+                {{selectedNetworkData?.statusCode}}
+            </div>
+            <div class="content" id="request-headers" ng-if="selectedNetworkData?.requestHeaders">
+                <h6 class="m-0 font-weight-bold text-primary p-b-10">Request Headers</h6>
+                <ul class="list-group header-info-view">
+                    <!-- <li class="list-group-item line-height-20"
+              ng-repeat="(header, value) in selectedNetworkData?.requestHeaders">
+              <span class="header-item">{{header}}</span>:
+              <span>{{value}}</span></li> -->
+                    <li class="list-group-item line-height-20"
+                        *ngFor="let header of selectedNetworkData?.requestHeaders | keyvalue">
+                        <span class="header-item">{{header.key}}</span>:
+                        <span>{{header.value}}</span></li>
+                </ul>
+            </div>
+            <div class="content" id="response-headers" ng-if="selectedNetworkData?.requestBody">
+                <h6 class="m-0 font-weight-bold text-primary p-t-b-10">Request Body</h6>
+                <div class="body-info-view" id="requestBody"></div>
+            </div>
+        </div>
+    </div>
+</div>
