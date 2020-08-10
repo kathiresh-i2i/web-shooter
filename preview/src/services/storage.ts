@@ -2,6 +2,7 @@
 export class StorageService {
   public static $inject: string[] = ['$http'];
   public browserInfoValue: Object = {};
+  public userInfo: Object = {};
   constructor(private http: angular.IHttpService) { }
 
   getUserInfo() {

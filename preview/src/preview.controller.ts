@@ -71,13 +71,16 @@ export class PreviewController {
         localStorage.setItem('token_type', parsedUrl.searchParams.get('token_type'));
         localStorage.setItem('expires_in', parsedUrl.searchParams.get('expires_in'));
       }
-      this.getUsereInfo();
+      if (localStorage.getItem('access_token')) {
+        this.getUsereInfo();
+      }
     }
   }
 
   getUsereInfo() {
     this.storageService.getUserInfo().then(data => {
       this.userInfo = data;
+      this.storageService.userInfo = data.data;
     })
   }
 
