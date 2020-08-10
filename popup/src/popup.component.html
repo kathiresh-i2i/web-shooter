@@ -21,7 +21,6 @@
         <div class="tab-pane active recordtab" id="record" aria-labelledby="recordtab">
           <record submit-data="$ctrl.formSubmit(recordOptions)" stop-recording="$ctrl.stopScreenRecord()">
           </record>
-
         </div>
         <!-- END RECORD-->
         <div class="tab-pane" id="capture" role="tabpanel" aria-labelledby="capturetab">
@@ -29,8 +28,9 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-muted">
-      2 days ago
+    <div class="card-footer text-muted" ng-if="$ctrl.userInfo">
+      <i class="fas fa-user" aria-hidden="true"></i>
+      {{$ctrl.userInfo.email}}
     </div>
   </div>
 </div>

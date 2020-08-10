@@ -1,57 +1,56 @@
 <div class="card mt-3 tab-card">
-    <div class="card-header tab-card-header">
-        <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
-            <li class="nav-item ">
+  <div class="card-header tab-card-header">
+    <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
+      <li class="nav-item ">
 
-                <a class="nav-link" ng-class="{'active show': $ctrl.recordOptions.type === 'tab' }" id="one-tab"
-                    ng-click="$ctrl.selectRecordtype('tab')" data-toggle="tab" href="#one" role="tab"
-                    aria-controls="One" aria-selected="true">
-                    <i class="fas fa-tablet" aria-hidden="true"></i>
-                    <div>Browser Tab</div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="two-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'desktop' }"
-                    ng-click="$ctrl.selectRecordtype('desktop')" data-toggle="tab" href="#two" role="tab"
-                    aria-controls="Two" aria-selected="false">
-                    <i class="fas fa-desktop" aria-hidden="true"></i>
-                    <div>DeskTop</div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="three-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'webcam' }"
-                      data-toggle="tab" href="#three" role="tab"
-                    aria-controls="Three" aria-selected="false">
-                    <i class="fas fa-camera" aria-hidden="true"></i>
-                    <div>WebCamOnly</div>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-body tab-card-body">
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active p-0" id="one" role="tabpanel" aria-labelledby="one-tab">
+        <a class="nav-link" ng-class="{'active show': $ctrl.recordOptions.type === 'tab' }" id="one-tab"
+          ng-click="$ctrl.selectRecordtype('tab')" data-toggle="tab" href="#one" role="tab" aria-controls="One"
+          aria-selected="true">
+          <i class="fas fa-tablet" aria-hidden="true"></i>
+          <div>Browser Tab</div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="two-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'desktop' }"
+          ng-click="$ctrl.selectRecordtype('desktop')" data-toggle="tab" href="#two" role="tab" aria-controls="Two"
+          aria-selected="false">
+          <i class="fas fa-desktop" aria-hidden="true"></i>
+          <div>DeskTop</div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="three-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'webcam' }"
+          data-toggle="tab" href="#three" role="tab" aria-controls="Three" aria-selected="false">
+          <i class="fas fa-camera" aria-hidden="true"></i>
+          <div>WebCamOnly</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body tab-card-body">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active p-0" id="one" role="tabpanel" aria-labelledby="one-tab">
 
-                <div class="form-group">
-                    <label for="recName">Name </label>
-                    <input type="text" class="form-control" id="recName" value="Capture_Network"
-                        ng-model="$ctrl.recordOptions.fileName">
-                </div>
-                <div class="form-group">
-                    <label for="recName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
-                    <input type="range" min="15" max="180" class="form-control" value="120" id="myRange"
-                        ng-model="$ctrl.recordOptions.duration">
-                </div>
-                <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="isEnableDataMask"
-                            ng-model="$ctrl.recordOptions.isEnableDataMask">
-                        <label class="form-check-label" for="isEnableDataMask">Enable Mask Data</label>
-                    </div>
+        <div class="form-group">
+          <label for="recName">Name </label>
+          <input type="text" class="form-control" id="recName" value="Capture_Network"
+            ng-model="$ctrl.recordOptions.fileName">
+        </div>
+        <div class="form-group">
+          <label for="recName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
+          <input type="range" min="15" max="180" class="form-control" value="120" id="myRange"
+            ng-model="$ctrl.recordOptions.duration">
+        </div>
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="isEnableDataMask"
+              ng-model="$ctrl.recordOptions.isEnableDataMask">
+            <label class="form-check-label" for="isEnableDataMask">Enable Mask Data</label>
+          </div>
 
 
-                </div>
-                <!-- <form style="display: none">
+        </div>
+        <!-- <form style="display: none">
                     <div class="form-row">
                         <div class="col">
                             <div class="form-check form-check-inline">
@@ -76,31 +75,27 @@
                     </div> 
                  
                 </form> -->
-              asasa  {{$ctrl.isRecording}}
-                <div class="row mt-3 justify-content-center">
-                    <a href="#" class="btn btn-primary bt-sm btn-block col-6" ng-hide="$ctrl.isRecording"
-                        ng-click="$ctrl.startRecord()">Start Record</a>
-                    <a href="#" class="btn btn-danger bt-sm btn-block col-6" ng-show="$ctrl.isRecording"
-                        ng-click="$ctrl.stopRecord()">Stop Record</a>
-
-                </div>
-
-
-            </div>
-            <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-                <h5 class="card-title">Tab Card Two</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-            <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
-                <h5 class="card-title">Tab Card Three</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-
+        <div class="row mt-3 justify-content-center">
+          <a href="#" class="btn btn-primary bt-sm btn-block col-6" ng-hide="$ctrl.isRecording"
+            ng-click="$ctrl.startRecord()">Start Record</a>
+          <a href="#" class="btn btn-danger bt-sm btn-block col-6" ng-show="$ctrl.isRecording"
+            ng-click="$ctrl.stopRecord()">Stop Record</a>
         </div>
+      </div>
+      <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+        <h5 class="card-title">Tab Card Two</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+          card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+      <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+        <h5 class="card-title">Tab Card Three</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+          card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+
     </div>
+  </div>
 
 </div>

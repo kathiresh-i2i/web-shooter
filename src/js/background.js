@@ -278,7 +278,16 @@ async function stopRecording(userClickStop = false) {
     var browserDetailsStr = JSON.stringify(browserDetails);
 
     var browserDetailsBlob = new Blob([browserDetailsStr], { type: 'application/json' });
+
     browserDetailsURL = window.URL.createObjectURL(browserDetailsBlob);
+    //  var allData = {
+    //    network: obj,
+    //    console: consoleStr,
+    //    browser: browserDetails
+    //  };
+    //  var allString = JSON.stringify(allData);
+    //  var allblob = new Blob([allString], { type: 'application/json' });
+    //  var allUrl = window.URL.createObjectURL(allblob)
 
     req.clear();
     launchPreview(recordedobjectURL, recordedJsonURL, recordedConsoleURL, browserDetailsURL);

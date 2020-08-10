@@ -81,9 +81,18 @@ export class PreviewController {
     this.storageService.getUserInfo().then(data => {
       this.userInfo = data;
       this.storageService.userInfo = data.data;
+      this.saveUserInfo(data.data);
     })
   }
 
+  saveUserInfo(info) {
+     // this.storageService.add('users', {
+  //   name: 'test',
+  //   email: 'emailTest',
+  //   id: '1111'
+  // });
+  this.storageService.put('users', info)
+  }
   getRouteInfo() {
     if (this.$location) {
       const url = new URL(this.$location.absUrl());
