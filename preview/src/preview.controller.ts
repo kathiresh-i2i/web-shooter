@@ -7,6 +7,7 @@ declare var jsonTree: any;
 declare var passToFFmpegv2: any;
 declare var mergedVideoBlob: any
 declare var window: any;
+declare var $: any;
 export class PreviewController {
 
   public static $inject: string[] = ['$http', '$location', 'StorageService'];
@@ -22,12 +23,15 @@ export class PreviewController {
   uploadedVideoBuffer: any;
   isNewVideo: boolean;
   userInfo: any;
+  uploadedVideoHistory: any;
   private decoder: any;
   private dec: any;
   private req: any;
   private requestBodyNode: any;
   private responseNode: any;
   private routeInfo: any = {};
+  s3Video: any;
+  alertMessage: any;
 
   constructor(
     private $http: angular.IHttpService,
@@ -46,7 +50,7 @@ export class PreviewController {
       this.getConsoleData();
       this.getBrowserData();
     }
-    this.checkAuthTokens();
+    this.getAllVideoByToken();
   }
 
   $onChanges(changes) {
@@ -55,23 +59,6 @@ export class PreviewController {
 
   $doCheck() {
     console.log("...doCHECK....", this.playTime);
-  }
-
-  checkAuthTokens() {
-    // Temp code to get tokens
-    console.log('=====checkAuthTokens===');
-    if (this.$location) {
-      let url = this.$location.absUrl();
-      if (url.includes('#!#')) {
-        url = url.replace('#!#', '?');
-        const parsedUrl = new URL(url);
-        console.log('===parsedUrl', parsedUrl);
-        localStorage.setItem('id_token', parsedUrl.searchParams.get('id_token'));
-        localStorage.setItem('access_token', parsedUrl.searchParams.get('access_token'));
-        localStorage.setItem('token_type', parsedUrl.searchParams.get('token_type'));
-        localStorage.setItem('expires_in', parsedUrl.searchParams.get('expires_in'));
-      }
-    }
   }
 
   getRouteInfo() {
@@ -133,11 +120,17 @@ export class PreviewController {
   }
 
   fetchUrlinfo(fileURL: any) {
+    console.log('======fetchUrlinfo======', fileURL);
+
     this.$http.get(fileURL, { responseType: 'arraybuffer' })
       .then(res => res.data)
       .then(buf => {
+        console.log('======buf======', buf);
+
         window.mergedVideoBlob = buf;
         const obj = this.getJson(buf);
+        console.log('======obj', obj);
+
         const dataObj = typeof obj.data === 'object' ? obj.data : JSON.parse(obj.data);
         this.networkData = typeof dataObj.network === 'object' ? dataObj.network : JSON.parse(dataObj.network);
         this.consoleData = typeof dataObj.console === 'object' ? dataObj.console : JSON.parse(dataObj.console);
@@ -294,9 +287,40 @@ export class PreviewController {
     if (this.isNewVideo) {
       this.downloadVideo(true);
     }
-    this.storageService.getPresignedURL().then(data => {
+    this.storageService.getPresignedURL(this.videoName).then(data => {
       response = data.data;;
-      this.storageService.uploadToServer(response.s3PutObjectUrl, window.mergedVideoBlob);
+      this.storageService.uploadToServer(response.s3PutObjectUrl, window.mergedVideoBlob, this.videoName).then(data => {
+        this.alertMessage = {
+          title: 'Success',
+          message: 'Video uploaded successfully.'
+        }
+        $('#alertModal').modal('show');
+      });
     });
   }
+
+  getAllVideoByToken() {
+    this.storageService.getAllVideos().then(data => {
+      this.uploadedVideoHistory = data.data;
+    })
+  }
+
+  loadSelectedVideo(video) {
+    $('#logoutModal').modal('hide');
+    this.resetExistingData();
+    let res: any;
+    const videoId = video.VideoId + '.' + video.FileFormat;
+    this.storageService.getVideoStorageUrlById(videoId).then(data => {
+      res = data.data;
+      this.videoSrc = res.url;
+      this.fetchUrlinfo(res.url);
+    })
+  }
+
+  resetExistingData() {
+    this.networkData = [];
+    this.consoleData = [];
+    this.selectedNetworkData = {};
+  }
+
 }

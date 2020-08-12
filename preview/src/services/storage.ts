@@ -17,14 +17,14 @@ export class StorageService {
     return this.http.get(url, { responseType: 'json' });
   }
 
-  getPresignedURL() {
+  getPresignedURL(videoName) {
     const headers = { 'Authorization': localStorage.getItem("access_token"), 'Content-Type': 'application/json' }
 
     return this.http.post(
       'https://api.mytharunika.com/service/videos',
       {
-        "title": "kathir",
-        "description": "Steve walking out on stage",
+        "title": videoName || 'Record_Network',
+        "description": "Web shooter recording",
         "contentType": "video/x-matroska"
       },
       {
@@ -33,10 +33,10 @@ export class StorageService {
     );
   }
 
-  uploadToServer(s3URL, blobObject) {
+  uploadToServer(s3URL, blobObject, videoName) {
     var blob = new Blob([blobObject], { type: 'video/x-matroska' })
     const headers = { 'Content-Type': 'video/x-matroska' }
-    const file = new File([blob], 'kathir.mkv');
+    const file = new File([blob], videoName + '.mkv');
     return this.http.put(
       s3URL,
       file, {
@@ -177,6 +177,20 @@ export class StorageService {
     this.init().then(remove);
 
     return deferred.promise;
+  }
+
+  getAllVideos() {
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem("access_token") }
+    const url = 'https://api.mytharunika.com/service/videos?type=history&limit=3';
+    return this.http.get(url, {
+      headers
+    });
+  }
+
+  getVideoStorageUrlById(videoId) {
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem("access_token") }
+    const url = 'https://api.mytharunika.com/service/videos?key=' + videoId;
+    return this.http.get(url, { headers });
   }
 
 }

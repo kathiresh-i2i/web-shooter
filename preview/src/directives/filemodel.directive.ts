@@ -4,8 +4,8 @@ export const FileOnChangeDirective = ($parse) => (<angular.IDirective>{
     restrict: 'A',
     require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {        
-        element.bind('change', function(event) {
-           ngModel.$setViewValue( (<HTMLInputElement>event.target).files[0])
+        element.bind('change', function(event: any) {
+           ngModel.$setViewValue( (event.target).files[0])
            scope.$apply();
         });
 

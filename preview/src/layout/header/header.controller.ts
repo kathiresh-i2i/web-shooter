@@ -68,8 +68,8 @@ export class HeaderController {
   }
 
   logout() {
-    this.storageService.remove('users', this.userInfo.email);
-    localStorage.clear();
-    this.userInfo = null;
+    // this.storageService.remove('users', this.userInfo.email);
+    // localStorage.clear();
+    // this.userInfo = null;
   }
 }
