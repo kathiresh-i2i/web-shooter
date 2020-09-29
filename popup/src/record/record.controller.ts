@@ -2,19 +2,32 @@ import * as angular from 'angular';
 
  export class RecordController {
 
-  public static $inject: string[] = ['$http'];
+  public static $inject: string[] = ['$http', '$window'];
   recordOptions:any;
   submitData:any;
   stopRecording:any;
   isRecording: boolean;
 
-  constructor(private $http: angular.IHttpService) {
+  constructor(private $http: angular.IHttpService, private $window: angular.IWindowService) {
     'ngInject';
   }
-
+  
   $onInit() {
-    console.log('......RECORD CONTROLLER')
-    this.isRecording= false;
+    console.log('......RECORD CONTROLLER');
+
+    chrome.storage.local.get("isRecording", (obj)=>{
+      this.isRecording = obj.isRecording;
+      console.log(obj)
+
+      if(obj.isRecording){      
+        chrome.storage.local.get("name", (obj)=>{
+          this.recordOptions.fileName = obj.name;
+        })
+        chrome.storage.local.get("duration", (obj)=>{
+          this.recordOptions.duration = obj.duration;
+        })
+      }
+    });  
     this.recordOptions = {
       type : 'tab',
       fileName: 'Record Network'
@@ -43,13 +56,22 @@ import * as angular from 'angular';
 
   stopRecord(){
    this.isRecording=false;
+   chrome.storage.local.set({ isRecording: false });   
+   chrome.storage.local.set({ name: 'Record Network'});
+   chrome.storage.local.set({ duration: 98});
    this.stopRecording();
   }
 
   startRecord(){
       this.isRecording=true;
+      chrome.storage.local.set({ isRecording: true});
+      chrome.storage.local.set({ name: this.recordOptions.fileName});
+      chrome.storage.local.set({ duration: this.recordOptions.duration});
       this.submitData({recordOptions : this.recordOptions});
-
+  }
+  moveToUpload(){
+    let url = './../preview/index.html'
+    this.$window.open(url, '_blank');
   }
 
 }

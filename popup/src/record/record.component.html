@@ -1,5 +1,5 @@
 <div class="card mt-3 tab-card">
-  <div class="card-header tab-card-header">
+  <!--<div class="card-header tab-card-header">
     <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
       <li class="nav-item ">
 
@@ -10,7 +10,7 @@
           <div>Browser Tab</div>
         </a>
       </li>
-      <li class="nav-item">
+       <li class="nav-item">
         <a class="nav-link" id="two-tab" ng-class="{'active show': $ctrl.recordOptions.type === 'desktop' }"
           ng-click="$ctrl.selectRecordtype('desktop')" data-toggle="tab" href="#two" role="tab" aria-controls="Two"
           aria-selected="false">
@@ -24,9 +24,9 @@
           <i class="fas fa-camera" aria-hidden="true"></i>
           <div>WebCamOnly</div>
         </a>
-      </li>
+      </li> 
     </ul>
-  </div>
+  </div>-->
   <div class="card-body tab-card-body">
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active p-0" id="one" role="tabpanel" aria-labelledby="one-tab">
@@ -37,7 +37,7 @@
             ng-model="$ctrl.recordOptions.fileName">
         </div>
         <div class="form-group">
-          <label for="recName">Record Duration (15 - 180 seconds)</label><span id="result"><b></b></span>
+          <label for="recName">Record Duration (15 - 180 seconds): </label><span id="result"><b> {{$ctrl.recordOptions.duration}}</b></span>
           <input type="range" min="15" max="180" class="form-control" value="120" id="myRange"
             ng-model="$ctrl.recordOptions.duration">
         </div>
@@ -75,11 +75,14 @@
                     </div> 
                  
                 </form> -->
-        <div class="row mt-3 justify-content-center">
+        <div class="row mt-3 justify-content-center column-dir">
+          <!-- {{$ctrl.isRecording}} -->
           <a href="#" class="btn btn-primary bt-sm btn-block col-6" ng-hide="$ctrl.isRecording"
-            ng-click="$ctrl.startRecord()">Start Record</a>
+          ng-click="$ctrl.startRecord()">Start Record</a>
           <a href="#" class="btn btn-danger bt-sm btn-block col-6" ng-show="$ctrl.isRecording"
             ng-click="$ctrl.stopRecord()">Stop Record</a>
+          <a href="#" class="href-text-link mt-1" 
+            ng-click="$ctrl.moveToUpload()">Preview link</a>
         </div>
       </div>
       <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
