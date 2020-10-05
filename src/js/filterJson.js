@@ -1,6 +1,6 @@
 const keys = ['responseBody', 'requestBody'];
 const blacklist = ['email', 'password', 'job']
-const maskData = maskJson(blacklist);
+const maskDataConversion = maskJson(blacklist);
 
 function filterJson(requests, isEnableMask) {
     //fetch XHR Request 
@@ -11,12 +11,12 @@ function filterJson(requests, isEnableMask) {
                 if (_.includes(keys, key)) {
                     if (key === "requestBody") {
                          const obj = JSON.parse(requests[key]);
-                        requests[key] = maskData(obj);
+                        requests[key] = maskDataConversion(obj);
                     }
                     if (key === "responseBody") {
                         let obj = requests[key];
                         obj = obj !== "" ? JSON.parse(obj) : "";
-                        requests[key] = maskData(obj);
+                        requests[key] = maskDataConversion(obj);
                     }
                 }
                 // req[key] = value
