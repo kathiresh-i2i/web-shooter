@@ -6,7 +6,7 @@ const defaultEmailMaskOptions = {
 };
 
 function maskJson(collection, {
-  ignoreCase = false,
+  ignoreCase = false, 
   replacement = '--REDACTED--'
 } = {}) {
   return function (values) {
@@ -18,7 +18,7 @@ function maskJson(collection, {
       if (_.includes(collection, key)) {
         if (value && value.length > 5) {
           if(key === 'email'){
-            maskedValue = maskEmail(value);
+            maskedValue = maskData.default(key,value);
           }else {
              maskedValue = "***" + maskedValue.substring(value.length - 2, value.length);
           }

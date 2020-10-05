@@ -32,6 +32,7 @@ export class PreviewController {
   private routeInfo: any = {};
   s3Video: any;
   alertMessage: any;
+  disableDownloadBtn = false;
 
   constructor(
     private $http: angular.IHttpService,
@@ -49,6 +50,8 @@ export class PreviewController {
       this.getJSON();
       this.getConsoleData();
       this.getBrowserData();
+    }else{
+      this.disableDownloadBtn = true;
     }
     this.getAllVideoByToken();
   }

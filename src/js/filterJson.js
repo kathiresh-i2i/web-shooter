@@ -15,7 +15,7 @@ function filterJson(requests, isEnableMask) {
                     }
                     if (key === "responseBody") {
                         let obj = requests[key];
-                        obj = JSON.parse(obj);
+                        obj = obj !== "" ? JSON.parse(obj) : "";
                         requests[key] = maskData(obj);
                     }
                 }

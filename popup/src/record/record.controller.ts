@@ -17,7 +17,6 @@ import * as angular from 'angular';
 
     chrome.storage.local.get("isRecording", (obj)=>{
       this.isRecording = obj.isRecording;
-      console.log(obj)
 
       if(obj.isRecording){      
         chrome.storage.local.get("name", (obj)=>{
@@ -25,6 +24,9 @@ import * as angular from 'angular';
         })
         chrome.storage.local.get("duration", (obj)=>{
           this.recordOptions.duration = obj.duration;
+        })
+        chrome.storage.local.get("isEnableDataMask", (obj)=>{
+          this.recordOptions.isEnableDataMask = obj.isEnableDataMask;
         })
       }
     });  
@@ -36,8 +38,8 @@ import * as angular from 'angular';
 
   $onChanges(changes) {      
     console.log('..RECORD CONTROLLER..onChanges>...', changes);
-   }
-
+  }
+  
   $doCheck() {
     console.log(this.isRecording,"..RECORD CONTROLLER.doCHECK....");
     chrome.storage.local.get('isRecording', function (obj) {
@@ -58,7 +60,8 @@ import * as angular from 'angular';
    this.isRecording=false;
    chrome.storage.local.set({ isRecording: false });   
    chrome.storage.local.set({ name: 'Record Network'});
-   chrome.storage.local.set({ duration: 98});
+   chrome.storage.local.set({ duration: 90});
+   chrome.storage.local.set({ isEnableDataMask: false });
    this.stopRecording();
   }
 
@@ -67,6 +70,7 @@ import * as angular from 'angular';
       chrome.storage.local.set({ isRecording: true});
       chrome.storage.local.set({ name: this.recordOptions.fileName});
       chrome.storage.local.set({ duration: this.recordOptions.duration});
+      chrome.storage.local.set({ isEnableDataMask: this.recordOptions.isEnableDataMask});
       this.submitData({recordOptions : this.recordOptions});
   }
   moveToUpload(){

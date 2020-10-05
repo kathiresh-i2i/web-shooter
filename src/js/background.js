@@ -20,7 +20,7 @@ let tabId = null;
 let recordingStartedTime = null;
 let isEnableMask = false;
 var req = new Map();
-var startTime = 0;
+var startTime = 0; 
 
 var requests = [];
 var requestsMap = {};
@@ -134,6 +134,7 @@ const onVideoStreamSuccess = (stream) => {
   };
   mediaRecorder.ondataavailable = (event) => {
     if (event.data && event.data.size > 0) {
+      recordedVideoBlobs = [];
       recordedVideoBlobs.push(event.data);
     }
   };
@@ -315,7 +316,7 @@ async function stopRecording(userClickStop = false) {
     // xmlHttp.open("POST", ' http://ec2-3-95-132-124.compute-1.amazonaws.com:3000/upload'); // false for synchronous request
     // xmlHttp.setRequestHeader("Content-type", "application/json");
     // xmlHttp.send(JSON.stringify(obj));
-  }, 1000);
+  }, 1000); 
 }
 
 function getRequestByTypes() {
@@ -413,7 +414,10 @@ async function stopNetworkRecording() {
   //     }
   //   }, 100);
   // });
-  chrome.debugger.detach({ tabId: tabId });
+  chrome.debugger.detach({tabId }, ()=>{
+    let consoleMsg = (chrome.runtime.lastError) ? "Detaching debugger Fail" : "Detaching Debugger success";
+    console.log(consoleMsg);
+  });
   requestsMap = {};
   var body = {
     entries: filterJson(requests, isEnableMask),
@@ -471,7 +475,7 @@ function onAttach(tabId) {
     'Network.enable'
   );
   chrome.debugger.sendCommand(
-    {
+    { 
       tabId: tabId,
     },
     'Network.clearBrowserCache'
